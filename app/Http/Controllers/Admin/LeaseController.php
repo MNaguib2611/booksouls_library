@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
-use App\Book;
+use App\Lease;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class LeaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Book  $book
+     * @param  \App\Lease  $lease
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show(Lease $lease)
     {
         //
     }
@@ -52,10 +53,10 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Book  $book
+     * @param  \App\Lease  $lease
      * @return \Illuminate\Http\Response
      */
-    public function edit(Book $book)
+    public function edit(Lease $lease)
     {
         //
     }
@@ -64,10 +65,10 @@ class BookController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Book  $book
+     * @param  \App\Lease  $lease
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, Lease $lease)
     {
         //
     }
@@ -75,10 +76,10 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Book  $book
+     * @param  \App\Lease  $lease
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy(Lease $lease)
     {
         //
     }

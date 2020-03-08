@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
+use App\Http\Controllers\Controller;
 
-use App\Profit;
+use App\Favourite;
 use Illuminate\Http\Request;
 
-class ProfitController extends Controller
+class FavouriteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class ProfitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Profit  $profit
+     * @param  \App\Favourite  $favourite
      * @return \Illuminate\Http\Response
      */
-    public function show(Profit $profit)
+    public function show(Favourite $favourite)
     {
         //
     }
@@ -52,10 +53,10 @@ class ProfitController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Profit  $profit
+     * @param  \App\Favourite  $favourite
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profit $profit)
+    public function edit(Favourite $favourite)
     {
         //
     }
@@ -64,10 +65,10 @@ class ProfitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Profit  $profit
+     * @param  \App\Favourite  $favourite
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profit $profit)
+    public function update(Request $request, Favourite $favourite)
     {
         //
     }
@@ -75,10 +76,10 @@ class ProfitController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Profit  $profit
+     * @param  \App\Favourite  $favourite
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profit $profit)
+    public function destroy(Favourite $favourite)
     {
         //
     }

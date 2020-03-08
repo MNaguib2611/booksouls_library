@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class FavouriteSeeder extends Seeder
+class BooksSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class FavouriteSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Book::class, 100)->create();
     }
 }

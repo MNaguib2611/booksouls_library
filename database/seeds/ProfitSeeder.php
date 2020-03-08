@@ -11,6 +11,6 @@ class ProfitSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Profit::class, 15)->create();
     }
 }

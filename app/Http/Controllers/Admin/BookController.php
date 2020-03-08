@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Category;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
+use App\Book;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Book $book)
     {
         //
     }
@@ -52,10 +52,10 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Book $book)
     {
         //
     }
@@ -64,10 +64,10 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Book $book)
     {
         //
     }
@@ -75,10 +75,10 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Book $book)
     {
         //
     }

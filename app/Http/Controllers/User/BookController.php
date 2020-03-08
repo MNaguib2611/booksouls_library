@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Favourite;
+namespace App\Http\Controllers\User;
+use App\Http\Controllers\Controller;
+use App\Book;
 use Illuminate\Http\Request;
 
-class FavouriteController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class FavouriteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Favourite  $favourite
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Favourite $favourite)
+    public function show(Book $book)
     {
         //
     }
@@ -52,10 +52,10 @@ class FavouriteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Favourite  $favourite
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit(Favourite $favourite)
+    public function edit(Book $book)
     {
         //
     }
@@ -64,10 +64,10 @@ class FavouriteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Favourite  $favourite
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Favourite $favourite)
+    public function update(Request $request, Book $book)
     {
         //
     }
@@ -75,10 +75,10 @@ class FavouriteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Favourite  $favourite
+     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Favourite $favourite)
+    public function destroy(Book $book)
     {
         //
     }
