@@ -31,7 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
         'middleware' => 'admin'
         ],
         function () {
-            Route::Resource('/admin', 'Admin\AdminController');
+            Route::Resource('/admins', 'Admin\AdminController');
+            Route::get('/dashboard', 'Admin\AdminController@dashboard')->name('admin.dashboard');
+            Route::Resource('/users', 'Admin\AdminController');
             Route::Resource('/books', 'Admin\BookController');
             Route::Resource('/categories', 'Admin\CategoryController');
             Route::Resource('/leases', 'Admin\LeaseController');

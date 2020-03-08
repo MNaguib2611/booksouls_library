@@ -39,10 +39,10 @@ class LoginController extends Controller
     }
 
 
-    //make login with username
-    // public function username(){
-    //     return 'username';
-    // }
+   // make login with username
+    public function username(){
+        return 'username';
+    }
 
 
 
