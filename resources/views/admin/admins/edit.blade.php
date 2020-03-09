@@ -22,8 +22,8 @@
                             </ul>
                         </div>
                     @endif
+                        
                     <div class="row">
-
                         <div class='col-lg-8 form-group'>
                             {!! Form::open(['route' => ['admins.update',$admin->id],'method' => "put",'enctype'=>"multipart/form-data" ]) !!}
                             {!! Form::token(); !!}
@@ -57,6 +57,12 @@
                         </div>
                         <div class="col-lg-4">
                             <img src="{{$admin->avatar}}" alt="Avatar" width="100%">
+                            <div class="col-lg-12 mt-3 text-center">
+                                {!! Form::open(['route' => ['admin.downgrade', $admin->id],'method' => "put"]) !!}
+                                {!! Form::text('isAdmin', 0, array_merge(['hidden' => 'hidden']))  !!}
+                                {!! Form::submit('Downgrade!',['class' => 'btn btn-warning']); !!}
+                                {!! Form::close() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

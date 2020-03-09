@@ -23,7 +23,7 @@ class AdminController extends Controller
     public function index()
     {
 
-        $admins = User::where('isAdmin',1)->get();
+        $admins = User::where('isAdmin',1)->paginate(5);
         return view('admin.admins.index',["admins"=>$admins]);
 
     }
@@ -74,7 +74,7 @@ class AdminController extends Controller
      */
     public function show(User $admin)
     {
-        return view('admin.admins.show',["admin"=>$admin]);   
+        return view('admin.admins.edit',["admin"=>$admin]);   
     }
 
     /**
@@ -124,5 +124,15 @@ class AdminController extends Controller
         } 
         $admin->delete();
         return redirect()->route('admins.index')->with('status','Admin deleted successfully');
+    }
+
+//downgrade admin to a normal user    
+    public function downgrade(Request $request, User $admin)
+    {
+        if (Auth::id() == $admin->id) {
+            return back()->withErrors("You can't downgrade yourself");
+        } 
+        $admin->update($request->all());
+        return redirect()->route('admins.index')->with('status',"Admin was downgraded to a normal user successfully");
     }
 }
