@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Book;
+use App\Category;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -14,7 +15,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        // $allBooks = Book::latest()->paginate(3);
+        $allBooks = Book::all();
+        
+        //return view('admin.books.index',compact('allBooks'))->with('i',(request()->input('page',1)-1)*5);
+        return view('admin.books.index',compact('allBooks'));
+       
     }
 
     /**
@@ -25,6 +31,8 @@ class BookController extends Controller
     public function create()
     {
         //
+        $allCategories = Category::all();
+        return view('admin.books.create',compact('allCategories'));
     }
 
     /**
@@ -35,7 +43,35 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //  return $request->all();
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'author' => 'required',
+            'quantity' => 'required',
+            'price' => 'required',
+            'categories' => 'required',
+            'cover' => 'required'
+          ]);
+        
+          //Book::create($request->all());
+        $book =new Book;
+        $book->title=request('title'); 
+        $book->description=request('description'); 
+        $book->author=request('author'); 
+        $book->quantity=request('quantity'); 
+        $book->price=request('price');         
+        $book->category_id=(Category::where('name',request('categories'))->pluck('id')->first()); 
+        $book->cover=request('cover');      
+        $book->save();   
+
+        return redirect('admin/books')
+                         ->with('success', 'new Book add successfully');
+                         
+
+        // return $request->all();
+       
     }
 
     /**
@@ -46,7 +82,14 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        $myBook = Book::find($book->id);
+        $myCategory=Category::find($book->category_id);
+
+        //return $myBook;
+         return view('admin.books.show')->with(['myBook'=> $myBook,'myCategory'=>$myCategory]);
+
+       //return "show";
+
     }
 
     /**
@@ -57,7 +100,14 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+  
+        $myBook = Book::find($book)->first();
+        $allCategories=Category::get();
+
+        return view('admin.books.edit')->with(['myBook'=> $myBook,'allCategories'=>$allCategories]);
+
+
+        //return "hi";
     }
 
     /**
@@ -70,6 +120,32 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         //
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'author' => 'required',
+            'quantity' => 'required',
+            'price' => 'required',
+            'categories' => 'required',
+            'cover' => 'required'
+          ]);
+    
+          $book = Book::find($book)->first();
+          $book->title=request('title'); 
+          $book->description=request('description'); 
+          $book->author=request('author'); 
+          $book->quantity=request('quantity'); 
+          $book->price=request('price');         
+          $book->category_id=(Category::where('name',request('categories'))->pluck('id')->first()); 
+          $book->cover=request('cover');      
+          $book->save();   
+  
+          return redirect('admin/books')
+                           ->with('success', ' Book updated successfully');
+                           
+  
+        //return $request->all();
     }
 
     /**
@@ -81,5 +157,13 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         //
+
+       
+        $myBook = Book::find($book)->first();
+        // $myBook = Book::findOrFail($book);
+        $myBook->delete();
+        return redirect('admin/books')->with('success', 'Book deleted successfully');
+          //return "hi";
+   
     }
 }

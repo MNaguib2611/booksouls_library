@@ -14,7 +14,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        dd('dashboard',asset('/'));
+       // dd('dashboard',asset('/'));
     }
 
     /**
