@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Admins</div>
+                <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,40 +13,52 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="row">
 
-                        <table class="table table-hover">
-                           <thead>
-                            <tr>
-                               <th>Name</th>
-                               <th>Username</th>
-                               <th>Email</th>
-                               <th>Phone</th>
-                               <th>Address</th>
-                               <th width="20%">Avatar</th>
-                               <th width="20%">Actions</th>
-                            </tr>
-                           </thead>
-                            <tbody>
-                                <tr>
-                               
-                                    <td>  <a href="{{route('admins.show', $admin->id) }}">{{$admin->name}}</a></td>
-                                    <td>{{$admin->username}}</td>
-                                    <td>{{$admin->email}}</td>
-                                    <td>{{$admin->phone}}</td>
-                                    <td>{{$admin->address}}</td>
-                                    <td width="20%"><img width="80%" src="{{$admin->avatar}}" alt=""></td>
-                                    <td>
-                                        <a class="btn btn-sm btn-primary" href="{{route('admins.edit', $admin->id) }}">Edit</a>
-                                        {!! Form::open(['route' => ['admins.destroy', $admin->id],'method' => "delete"]) !!}
-                                        {!! Form::token(); !!}
-                                        {!! Form::submit('Delete',['class' => 'btn btn-sm btn-danger']); !!}
-                                        {!! Form::close() !!}
-                                    </td>
-                                </tr>
-                               
-                            </tbody>
-
-                        </table>
+                        <div class='col-lg-8 form-group'>
+                            {!! Form::open(['route' => ['admins.update',$admin->id],'method' => "put" ]) !!}
+                            {!! Form::token(); !!}
+                            {!! Form::label('name', 'Name'); !!}
+                            {!! Form::text('name', $admin->name, array_merge(['class' => 'form-control']))  !!}
+                            <br>
+                            {!! Form::label('username', 'Username'); !!}
+                            {!! Form::text('username', $admin->username, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('email', 'Email'); !!}
+                            {!! Form::text('email', $admin->email, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('phone', 'Phone'); !!}
+                            {!! Form::text('phone', $admin->phone, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('address', 'Address'); !!}
+                            {!! Form::text('address', $admin->address, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('avatar', 'Avatar'); !!}
+                            {!! Form::file('avatar',['class' => 'form-control']); !!}
+                            <br>
+                            {!! Form::label('password', 'Password'); !!}
+                            {!! Form::text('password', '', array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('password_confirmation', 'Password Confirm'); !!}
+                            {!! Form::text('password_confirmation', '', array_merge(['class' => 'form-control'])); !!}
+                            
+                            
+                            {!! Form::submit('Update',['class' => 'btn btn-info m-3 float-right']); !!}
+                            {!! Form::close() !!} 
+                        </div>
+                        <div class="col-lg-4">
+                            <img src="{{$admin->avatar}}" alt="Avatar" width="100%">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

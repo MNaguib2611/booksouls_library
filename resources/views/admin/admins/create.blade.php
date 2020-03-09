@@ -13,36 +13,46 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class='col-lg-10 form-group m-auto'>
+                        {!! Form::open(['route' => 'admins.store' ,'enctype'=>"multipart/form-data"]) !!}
+                        {!! Form::token(); !!}
+                        {!! Form::label('name', 'Name'); !!}
+                        {!! Form::text('name', '', array_merge(['class' => 'form-control']))  !!}
+                        <br>
+                        {!! Form::label('username', 'Username'); !!}
+                        {!! Form::text('username', '', array_merge(['class' => 'form-control'])); !!}
+                        <br>
+                        {!! Form::label('email', 'email'); !!}
+                        {!! Form::text('email', '', array_merge(['class' => 'form-control'])); !!}
+                        <br>
+                        {!! Form::label('phone', 'phone'); !!}
+                        {!! Form::text('phone', '', array_merge(['class' => 'form-control'])); !!}
+                        <br>
+                        {!! Form::label('address', 'address'); !!}
+                        {!! Form::text('address', '', array_merge(['class' => 'form-control'])); !!}
+                        <br>
+                        {!! Form::label('avatar', 'avatar'); !!}
+                        {!! Form::file('avatar',['class' => 'form-control']); !!}
+                        <br>
+                        {!! Form::label('password', 'password'); !!}
+                        {!! Form::text('password', '', array_merge(['class' => 'form-control'])); !!}
+                        <br>
+                        {!! Form::label('password_confirmation', 'password_confirmation'); !!}
+                        {!! Form::text('password_confirmation', '', array_merge(['class' => 'form-control'])); !!}
                         
-                    {!! Form::open(['route' => 'admins.store']) !!}
-                    {!! Form::token(); !!}
-                    {!! Form::label('name', 'Name'); !!}
-                    {!! Form::text('name'); !!}
-                    <br>
-                    {!! Form::label('username', 'username'); !!}
-                    {!! Form::text('username'); !!}
-                    <br>
-                    {!! Form::label('email', 'email'); !!}
-                    {!! Form::text('email'); !!}
-                    <br>
-                    {!! Form::label('phone', 'phone'); !!}
-                    {!! Form::text('phone'); !!}
-                    <br>
-                     {!! Form::label('address', 'address'); !!}
-                    {!! Form::text('address'); !!}
-                    <br>
-                     {!! Form::label('avatar', 'avatar'); !!}
-                    {!! Form::file('avatar'); !!}
-                    <br>
-                     {!! Form::label('password', 'password'); !!}
-                    {!! Form::text('password'); !!}
-                    <br>
-                     {!! Form::label('password_confirmation', 'password_confirmation'); !!}
-                    {!! Form::text('password_confirmation'); !!}
-
-
-                    {!! Form::submit('Add',['class' => 'btn btn-success']); !!}
-                    {!! Form::close() !!} 
+                        
+                        {!! Form::submit('Add',['class' => 'btn btn-success btn-lg m-3 float-right']); !!}
+                        {!! Form::close() !!} 
+                    </div>
                 </div>
             </div>
         </div>

@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\AdminRequest;
 use App\User;
+use Hash;
+use Auth;
 class AdminController extends Controller
 {
     public function dashboard()
@@ -42,9 +45,25 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminRequest $request)
     {
-        //
+        //upload the image to the the server
+        $imageName = time().'.'.$request->avatar->extension();  
+        $request->avatar->move(public_path('imgs/admins'), $imageName);
+
+        //add isAdmin to the request
+        $request->request->add(['isAdmin' => 1]);
+
+        //change the value of avatar to the new random image.name
+        $requestData = $request->all();
+        $requestData['avatar'] = asset('/imgs/admins').'/'.$imageName;
+
+        //hash the password
+        $requestData['password']=Hash::make($requestData['password']);
+        //create the user ;)
+        User::create($requestData);
+
+        return redirect()->route('admins.index')->with('status',"Admin added successfully");
     }
 
     /**
@@ -55,7 +74,6 @@ class AdminController extends Controller
      */
     public function show(User $admin)
     {
-        // dd($admin);
         return view('admin.admins.show',["admin"=>$admin]);   
     }
 
@@ -77,9 +95,20 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminRequest $request, User $admin)
     {
-        //
+        $requestData=array_filter($request->all());
+        if ($request->hasFile('avatar')) {
+            $imageName = time().'.'.$request->avatar->extension();  
+            $request->avatar->move(public_path('imgs/admins'), $imageName);
+            $requestData['avatar'] = asset('/imgs/admins').'/'.$imageName;
+        }
+        if($request->password !=""){
+            //hash the password
+            $requestData['password']=Hash::make($requestData['password']);
+        }
+        $admin->update($requestData);
+        return back()->with('status',"Admin updated successfully");
     }
 
     /**
@@ -90,7 +119,10 @@ class AdminController extends Controller
      */
     public function destroy(User $admin)
     {
+        if (Auth::id() == $admin->id) {
+            return back()->withErrors("You can't delete yourself");
+        } 
         $admin->delete();
-        return redirect()->route('admins.index');
+        return redirect()->route('admins.index')->with('status','Admin deleted successfully');
     }
 }

@@ -57,7 +57,8 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'username' => ['required','max:191', 'unique:users'],
             'address' => ['required','max:191'],
-            'phone' => ['required','digits:11','starts_with:010,011,012']
+            'phone' => ['unique:users','required','digits_between:10,15'],
+            'avatar'  =>  ["required","image"]
         ]);
     }
 
@@ -69,13 +70,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $imageName = time().'.'.$data['avatar']->extension();  
+        $data['avatar']->move(public_path('imgs/users'), $imageName);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'username' => $data['username'],
             'address' => $data['address'],
-            'phone' => $data['phone']
+            'phone' => $data['phone'],
+            'avatar'=> asset('/imgs/users').'/'.$imageName
         ]);
     }
 }
