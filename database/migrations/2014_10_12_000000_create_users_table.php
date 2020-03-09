@@ -21,9 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('phone', 14)->nullable();
             $table->string('address')->nullable();
             $table->string('password');
-            $table->boolean('isAdmin');
-            $table->boolean('isActive');
-            $table->string('avatar')->nullable();
+            $table->boolean('isAdmin')->default(0);
+            $table->boolean('isActive')->default(1);
+            $table->string('avatar')->default('https://picsum.photos/500/500');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

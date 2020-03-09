@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\User;
-class AdminController extends Controller
+
+class UserController extends Controller
 {
     public function dashboard()
     {
-        
         return view('admin.dashboard');
     }
     /**
@@ -19,10 +18,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-
-        $admins = User::where('isAdmin',1)->get();
-        return view('admin.admins.index',["admins"=>$admins]);
-
+        // return view('admin.dashboard');
     }
 
     /**
@@ -33,7 +29,7 @@ class AdminController extends Controller
     
     public function create()
     {
-        return view('admin.admins.create');  
+        //
     }
 
     /**
@@ -53,10 +49,9 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $admin)
+    public function show($id)
     {
-        // dd($admin);
-        return view('admin.admins.show',["admin"=>$admin]);   
+        //
     }
 
     /**
@@ -65,9 +60,9 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $admin)
+    public function edit($id)
     {
-        return view('admin.admins.edit',["admin"=>$admin]);  
+        //
     }
 
     /**
@@ -88,9 +83,8 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $admin)
+    public function destroy($id)
     {
-        $admin->delete();
-        return redirect()->route('admins.index');
+        //
     }
 }

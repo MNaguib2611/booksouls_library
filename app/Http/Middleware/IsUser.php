@@ -19,6 +19,6 @@ class IsUser
             return $next($request);
         }
 
-        return redirect('/admin');
+        return redirect()->route('admin.dashboard');
     }
 }
