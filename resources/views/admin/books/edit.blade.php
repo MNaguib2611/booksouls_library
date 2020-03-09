@@ -1,3 +1,5 @@
+@extends('layouts.app')
+
 <html>
 <body>
 <h1> edit  book </h1>

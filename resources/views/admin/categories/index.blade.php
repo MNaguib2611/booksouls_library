@@ -1,1 +1,4 @@
-shoow all categories
+@extends('layouts.app')
+
+
+All Categories should be here
