@@ -15,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $Categories = Category::all();
+
+        return view('admin.categories.index', compact('Categories'));
     }
 
     /**
@@ -25,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -36,7 +38,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            $request->validate([
+                'category_name'=>'required'
+            ]);
+    
+            $Category = new Category([
+                'name' => $request->get('category_name')
+            ]);
+            $Category->save();
+            return redirect('/admin/categories')->with('success', 'Category saved!');
     }
 
     /**
@@ -58,7 +68,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -70,7 +80,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'category_name'=>'required'
+        ]);
+
+        $category->name =  $request->get('category_name');
+        $category->save();
+
+        return redirect('/admin/categories')->with('success', 'Category updated!');
     }
 
     /**
@@ -81,6 +98,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect('/admin/categories')->with('success', 'Category deleted!');
     }
 }
