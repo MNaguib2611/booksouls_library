@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Book;
+use App\Category;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -15,6 +16,9 @@ class BookController extends Controller
     public function index()
     {
         //
+        $allBooks = Book::all();
+        return view('user.books.index',compact('allBooks'));
+       
     }
 
     /**
@@ -47,6 +51,11 @@ class BookController extends Controller
     public function show(Book $book)
     {
         //
+        $myBook = Book::find($book->id);
+        $myCategory=Category::find($book->category_id);
+
+        return view('user.books.show')->with(['myBook'=> $myBook,'myCategory'=>$myCategory]);
+
     }
 
     /**
