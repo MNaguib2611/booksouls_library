@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Book;
 use App\Category;
 use Illuminate\Http\Request;
+use Auth;
 
 class BookController extends Controller
 {
@@ -15,10 +16,10 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
         $allBooks = Book::all();
-        return view('user.books.index',compact('allBooks'));
-       
+        $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
+        $leases = Auth::user()->leases->pluck("book_id")->toArray();
+        return view('user.books.index',compact('allBooks', 'favourites', 'leases'));       
     }
 
     /**
