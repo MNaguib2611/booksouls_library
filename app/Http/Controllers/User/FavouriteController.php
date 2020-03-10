@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use App\Favourite;
 use Illuminate\Http\Request;
+use Auth;
+
 
 class FavouriteController extends Controller
 {
@@ -36,7 +38,11 @@ class FavouriteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $favourite = new Favourite;
+        $favourite->user_id = Auth::id();
+        $favourite->book_id = $request->book;
+        $favourite->save();
+        return redirect('books')->with('success','The book has been Added to your favourites!');;
     }
 
     /**
@@ -82,5 +88,14 @@ class FavouriteController extends Controller
     public function destroy(Favourite $favourite)
     {
         //
+    }
+
+    public function removeFavourite(Request $request){
+        Favourite::where([
+                    ["user_id", Auth::id()],
+                    ["book_id", $request->book],
+                ])->delete();
+        return redirect('books')->with('success', 'The book has been removed from your favourites!');;
+    
     }
 }

@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use App\Lease;
 use Illuminate\Http\Request;
+use Auth;
+
 
 class LeaseController extends Controller
 {
@@ -36,7 +38,12 @@ class LeaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lease = new Lease;
+        $lease->user_id = Auth::id();
+        $lease->book_id = $request->book;
+        $lease->duration = 10;
+        $lease->save();
+        return redirect('books')->with('success','You have booked this book successfully, Now you can come to our place to get it!');;
     }
 
     /**
@@ -82,5 +89,14 @@ class LeaseController extends Controller
     public function destroy(Lease $lease)
     {
         //
+    }
+
+    public function removeLease(Request $request){
+        Lease::where([
+                    ["user_id", Auth::id()],
+                    ["book_id", $request->book],
+                ])->delete();
+        return redirect('books')->with('success', 'We hope that you had fun with the book, please take a moment of your time to review the book!');;
+    
     }
 }
