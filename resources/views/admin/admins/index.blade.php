@@ -13,6 +13,15 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                         <h2><a href="{{route('admins.create') }}">Add Admin</a></h2>
                         <table class="table table-hover">
                            <thead>
@@ -37,8 +46,8 @@
                                     <td>{{$admin->address}}</td>
                                     <td width="20%"><img width="80%" src="{{$admin->avatar}}" alt=""></td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary" href="{{route('admins.edit', $admin->id) }}">Edit</a>
-                                        {!! Form::open(['route' => ['admins.destroy', $admin->id],'method' => "delete"]) !!}
+                                        <a class="btn btn-sm btn-primary d-inline" href="{{route('admins.edit', $admin->id) }}">Edit</a>
+                                        {!! Form::open(['route' => ['admins.destroy', $admin->id],'class'=>'d-inline','method' => "delete"]) !!}
                                         {!! Form::token(); !!}
                                         {!! Form::submit('Delete',['class' => 'btn btn-sm btn-danger']); !!}
                                         {!! Form::close() !!}
@@ -49,6 +58,9 @@
                             </tbody>
 
                         </table>
+                        <div class="col-lg-6 m-auto">
+                            {{$admins->links()}}
+                        </div>
                 </div>
             </div>
         </div>

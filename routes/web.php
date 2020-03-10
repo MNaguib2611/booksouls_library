@@ -32,8 +32,12 @@ Route::group(['middleware' => 'auth'], function () {
         ],
         function () {
             Route::Resource('/admins', 'Admin\AdminController');
+            Route::put('/downgrade/{admin}', 'Admin\AdminController@downgrade')->name('admin.downgrade');
             Route::get('/dashboard', 'Admin\AdminController@dashboard')->name('admin.dashboard');
-            Route::Resource('/users', 'Admin\AdminController');
+            Route::Resource('/users', 'Admin\UserController')->only(['index','show','destroy']);
+            Route::put('users/downgrade/{user}', 'Admin\UserController@upgrade')->name('user.upgrade');
+            Route::put('users/activate/{user}', 'Admin\UserController@activate')->name('user.activate');
+            Route::put('users/deactivate/{user}', 'Admin\UserController@deactivate')->name('user.deactivate');
             Route::Resource('/books', 'Admin\BookController');
             Route::Resource('/categories', 'Admin\CategoryController');
             Route::Resource('/leases', 'Admin\LeaseController');
