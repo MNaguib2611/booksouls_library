@@ -47,6 +47,7 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
+
         //upload the image to the the server
         $imageName = time().'.'.$request->avatar->extension();  
         $request->avatar->move(public_path('imgs/admins'), $imageName);
