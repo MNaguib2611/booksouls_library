@@ -11,6 +11,6 @@ class LeaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Lease::class, 30)->create();
+        factory(App\Lease::class, 300)->create();
     }
 }

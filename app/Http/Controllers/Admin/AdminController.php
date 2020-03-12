@@ -6,15 +6,68 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminRequest;
 use App\User;
+use App\Book;
+use App\Lease;
 use Hash;
 use Auth;
+use App\Profit;
 class AdminController extends Controller
 {
     public function dashboard()
     {
+        //get all dates in MY format in an array
+        $profitDates=[];
+        $profitvalues=[];
+        $modelProfits=Profit::oldest()->get();
+        foreach ($modelProfits as $modelProfit) {
+           $profitDates[]  =($modelProfit->created_at->format('My'));
+           $profitvalues[] =$modelProfit->profit;
+        }
+
+        $booksCategory=[];
+        $booksCountBCategory=[];
+        $books=Book::with('category')->get()->groupBy('category.name');
+        foreach ($books as $category =>$bookCategories) {
+            $booksCategory[]  =$category;
+            $booksCountBCategory[] =count($bookCategories);
+        }
         
-        return view('admin.dashboard');
+
+        $leasesCategory=[];
+        $leaseCountBCategory=[];
+        $Leases=Lease::with('book.category')->get()->groupBy('book.category.name');
+        foreach ($Leases as $category =>$LeaseCategories) {
+            $leasesCategory[]  =$category;
+            $leaseCountBCategory[] =count($LeaseCategories);
+        }
+
+        $users = User::where('isAdmin',0)->count();
+        $Admins = User::where('isAdmin',1)->count();
+        $Books = Book::count();
+        $leases = Lease::count();
+
+
+
+        return view('admin.dashboard',[
+                'profitDates'=>json_encode($profitDates),
+                'profitvalues'=>json_encode($profitvalues),
+                'booksCategory'=>json_encode($booksCategory),
+                'booksCountBCategory'=>json_encode($booksCountBCategory),
+                'leasesCategory'  =>json_encode($leasesCategory),
+                'leaseCountBCategory' =>json_encode($leaseCountBCategory),
+                'users' => $users,
+                'Admins' => $Admins ,
+                'Books' => $Books,
+                'leases' => $leases,
+            ]);
     }
+
+
+
+
+
+
+
     /**
      * Display a listing of the resource.
      *
