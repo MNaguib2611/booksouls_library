@@ -53,6 +53,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::Resource('/leases', 'User\LeaseController');
             Route::Resource('/favourites', 'User\FavouriteController');
             Route::Resource('/reviews', 'User\ReviewController');
+            Route::get('profile',  ['as' => 'users.edit', 'uses' => 'User\ProfileController@edit']);
+            Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'User\ProfileController@update']);
+            Route::delete('/remove-favourite', 'User\FavouriteController@removeFavourite')->name('removeFavourite');
+            Route::delete('/remove-lease', 'User\LeaseController@removeLease')->name('removeLease');
 
     });//end of endUser middleware
 
