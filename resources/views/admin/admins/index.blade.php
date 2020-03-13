@@ -46,7 +46,7 @@
                                     <td>{{$admin->address}}</td>
                                     <td width="20%"><img width="80%" src="{{$admin->avatar}}" alt=""></td>
                                     <td>
-                                        {{-- <a class="btn btn-sm btn-primary d-inline" href="{{route('admins.edit', $admin->id) }}">Edit</a> --}}
+                                        <a class="btn btn-sm btn-primary d-inline" href="{{route('admins.edit', $admin->id) }}">Edit</a>
                                         {!! Form::open(['route' => ['admins.destroy', $admin->id],'class'=>'d-inline','method' => "delete"]) !!}
                                         {!! Form::token(); !!}
                                         {!! Form::submit('Delete',['class' => 'btn btn-sm btn-danger']); !!}

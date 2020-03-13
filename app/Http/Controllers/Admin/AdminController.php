@@ -76,7 +76,7 @@ class AdminController extends Controller
     public function index()
     {
 
-        $admins = User::where('isAdmin',1)->paginate(5);
+        $admins = User::where('isAdmin',1)->where('isActive',1)->paginate(5);
         return view('admin.admins.index',["admins"=>$admins]);
 
     }
@@ -174,15 +174,14 @@ class AdminController extends Controller
     public function destroy(User $admin)
     {
         $adminsCount=User::where('isAdmin',1)->where("isActive",1)->count();
-        dd($adminsCount);
-        // if () {
-        //     # code...
-        // }
-        if (Auth::id() == $admin->id) {
-            return back()->withErrors("You can't delete yourself");
-        } 
-        $admin->delete();
-        return redirect()->route('admins.index')->with('status','Admin deleted successfully');
+            if ($adminsCount < 2) {  //admin cant delete themselves but still;
+                return back()->withErrors("At least one Admin should exist at all times ");
+            }elseif (Auth::id() == $admin->id) {
+                return back()->withErrors("You can't delete yourself");
+            } 
+            $admin->delete();
+            return redirect()->route('admins.index')->with('status','Admin deleted successfully');
+       
     }
 
 //downgrade admin to a normal user    

@@ -36,15 +36,18 @@
                 label: 'Rents',
                 data: leaseCountBCategory,
                 backgroundColor: [
+                    '#003f5c',
+                    '#2f4b7c',
+                    '#665191',
+                    '#a05195',
+                    '#d45087',
+                    '#f95d6a',
+                    '#ff7c43',
+                    '#ffa600',
                     '#6dcff6',
                     '#8dc63f',
                     '#ce1126',
-                    "rgba(255, 0, 0, 0.57)",
-                    'rgba(255, 196, 62, 0.57)',
-                    'rgba(255, 0, 238, 0.57)',
-                    'rgba(0, 34, 255, 0.57)' ,
-                    'rgba(0, 255, 119, 0.57)' ,
-                    'rgba(0, 255, 229, 0.57)'
+
                 ],
                 borderWidth: 1
             }]

@@ -47,10 +47,12 @@
                         <div class="col-lg-4">
                             <img src="{{$user->avatar}}" alt="Avatar" width="100%">
                             <div class="col-lg-12 mt-3 text-center">
-                                {!! Form::open(['route' => ['user.upgrade', $user->id],'method' => "put"]) !!}
-                                {!! Form::text('isAdmin', 1, array_merge(['hidden' => 'hidden']))  !!}
-                                {!! Form::submit('Upgrade!',['class' => 'btn btn-success']); !!}
-                                {!! Form::close() !!}
+                                @if ($user->isActive==1)
+                                    {!! Form::open(['route' => ['user.upgrade', $user->id],'method' => "put"]) !!}
+                                    {!! Form::text('isAdmin', 1, array_merge(['hidden' => 'hidden']))  !!}
+                                    {!! Form::submit('Upgrade!',['class' => 'btn btn-success']); !!}
+                                    {!! Form::close() !!}
+                                @endif
                             </div>
                         </div>
                     </div>
