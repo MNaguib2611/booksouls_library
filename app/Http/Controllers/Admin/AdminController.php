@@ -6,15 +6,68 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminRequest;
 use App\User;
+use App\Book;
+use App\Lease;
 use Hash;
 use Auth;
+use App\Profit;
 class AdminController extends Controller
 {
     public function dashboard()
     {
+        //get all dates in MY format in an array
+        $profitDates=[];
+        $profitvalues=[];
+        $modelProfits=Profit::oldest()->get();
+        foreach ($modelProfits as $modelProfit) {
+           $profitDates[]  =($modelProfit->created_at->format('My'));
+           $profitvalues[] =$modelProfit->profit;
+        }
+
+        $booksCategory=[];
+        $booksCountBCategory=[];
+        $books=Book::with('category')->get()->groupBy('category.name');
+        foreach ($books as $category =>$bookCategories) {
+            $booksCategory[]  =$category;
+            $booksCountBCategory[] =count($bookCategories);
+        }
         
-        return view('admin.dashboard');
+
+        $leasesCategory=[];
+        $leaseCountBCategory=[];
+        $Leases=Lease::with('book.category')->get()->groupBy('book.category.name');
+        foreach ($Leases as $category =>$LeaseCategories) {
+            $leasesCategory[]  =$category;
+            $leaseCountBCategory[] =count($LeaseCategories);
+        }
+
+        $users = User::where('isAdmin',0)->where('isActive',1)->count();
+        $Admins = User::where('isAdmin',1)->where('isActive',1)->count();
+        $Books = Book::count();
+        $leases = Lease::count();
+
+
+
+        return view('admin.dashboard',[
+                'profitDates'=>json_encode($profitDates),
+                'profitvalues'=>json_encode($profitvalues),
+                'booksCategory'=>json_encode($booksCategory),
+                'booksCountBCategory'=>json_encode($booksCountBCategory),
+                'leasesCategory'  =>json_encode($leasesCategory),
+                'leaseCountBCategory' =>json_encode($leaseCountBCategory),
+                'users' => $users,
+                'Admins' => $Admins ,
+                'Books' => $Books,
+                'leases' => $leases,
+            ]);
     }
+
+
+
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +76,7 @@ class AdminController extends Controller
     public function index()
     {
 
-        $admins = User::where('isAdmin',1)->paginate(5);
+        $admins = User::where('isAdmin',1)->where('isActive',1)->paginate(5);
         return view('admin.admins.index',["admins"=>$admins]);
 
     }
@@ -47,6 +100,7 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
+
         //upload the image to the the server
         $imageName = time().'.'.$request->avatar->extension();  
         $request->avatar->move(public_path('imgs/admins'), $imageName);
@@ -119,16 +173,21 @@ class AdminController extends Controller
      */
     public function destroy(User $admin)
     {
-        if (Auth::id() == $admin->id) {
-            return back()->withErrors("You can't delete yourself");
-        } 
-        $admin->delete();
-        return redirect()->route('admins.index')->with('status','Admin deleted successfully');
+        $adminsCount=User::where('isAdmin',1)->where("isActive",1)->count();
+            if ($adminsCount < 2) {  //admin cant delete themselves but still;
+                return back()->withErrors("At least one Admin should exist at all times ");
+            }elseif (Auth::id() == $admin->id) {
+                return back()->withErrors("You can't delete yourself");
+            } 
+            $admin->delete();
+            return redirect()->route('admins.index')->with('status','Admin deleted successfully');
+       
     }
 
 //downgrade admin to a normal user    
     public function downgrade(Request $request, User $admin)
     {
+       
         if (Auth::id() == $admin->id) {
             return back()->withErrors("You can't downgrade yourself");
         } 
