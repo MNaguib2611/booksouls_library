@@ -41,8 +41,8 @@ class AdminController extends Controller
             $leaseCountBCategory[] =count($LeaseCategories);
         }
 
-        $users = User::where('isAdmin',0)->count();
-        $Admins = User::where('isAdmin',1)->count();
+        $users = User::where('isAdmin',0)->where('isActive',1)->count();
+        $Admins = User::where('isAdmin',1)->where('isActive',1)->count();
         $Books = Book::count();
         $leases = Lease::count();
 
@@ -173,6 +173,11 @@ class AdminController extends Controller
      */
     public function destroy(User $admin)
     {
+        $adminsCount=User::where('isAdmin',1)->where("isActive",1)->count();
+        dd($adminsCount);
+        // if () {
+        //     # code...
+        // }
         if (Auth::id() == $admin->id) {
             return back()->withErrors("You can't delete yourself");
         } 
@@ -183,6 +188,7 @@ class AdminController extends Controller
 //downgrade admin to a normal user    
     public function downgrade(Request $request, User $admin)
     {
+       
         if (Auth::id() == $admin->id) {
             return back()->withErrors("You can't downgrade yourself");
         } 
