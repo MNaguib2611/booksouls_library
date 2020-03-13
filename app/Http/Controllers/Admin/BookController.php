@@ -295,11 +295,11 @@ class BookController extends Controller
             
         
 
-            <form action=".route('books.destroy',[$row->myID])." method=\"POST\">".
-            @method('DELETE')
-            .@csrf
-            ."<button type=\"submit\">Delete</button>               
-            </form>
+            <form action=".route('books.destroy',[$row->myID])." method=\"POST\">
+ @method('DELETE')
+ @csrf
+ <button type=\"submit\">Delete</button>               
+</form>
 
             </td>
         
