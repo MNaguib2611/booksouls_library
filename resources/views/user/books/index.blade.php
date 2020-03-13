@@ -10,7 +10,6 @@
         </div>
 @endif
 
-
 <table class="table table-bordered justify-content-center text-center ">
       <tr class="thead-dark">
         <th><b>Title</b></th>

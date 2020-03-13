@@ -42,7 +42,14 @@ Route::group(['middleware' => 'auth'], function () {
             Route::Resource('/categories', 'Admin\CategoryController');
             Route::Resource('/leases', 'Admin\LeaseController');
             Route::Resource('/profits', 'Admin\ProfitController')->only(['index','store']);
-    });//end of admin middleware
+            Route::get('admin/books/findBook', 'Admin\BookController@findBook')->name('books.findBook');
+            Route::get('/book/search', 'Admin\BookController@search')->name('book.search');
+            Route::get('/book/categories', 'Admin\BookController@getCategories')->name('book.categories');
+            Route::get('/book/getAvrage', 'Admin\BookController@getAvrage')->name('book.getAvrage');
+            Route::get('/book/selectedData', 'Admin\BookController@selectedData')->name('book.selectedData');
+
+        });//end of admin middleware
+
 
 
     //user routes  ->only viewed by users
