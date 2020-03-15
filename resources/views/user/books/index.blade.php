@@ -24,7 +24,7 @@
           <td class='align-middle'>{{$b->title}}</td>
           <td class='align-middle'>{{$b->cover}}</td>
 
-          <td class='align-middle'> <a href="{{ URL::to('books/' . $b->id) }}"> <button class="btn btn-primary">Show</button></a> </td>
+          <td class='align-middle'> <a href="{{route('books.show', $b->id) }}"> <button class="btn btn-primary">Show</button></a> </td>
           <td class='align-middle'> 
             @if (in_array($b->id, $favourites))
                     <form action="{{ route('removeFavourite') }}" method="POST">
@@ -37,7 +37,7 @@
                 <form action="{{ route('favourites.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="book" value="{{ $b->id}}">
-                    <button class="btn btn-warning">Add to my Favourites</button></a>
+                    <button class="btn btn-warning">Add to my Favourites</button>
                 </form>
             @endif
           </td>
@@ -53,7 +53,7 @@
                 <form action="{{ route('leases.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="book" value="{{ $b->id}}">
-                    <button class="btn btn-success">Lease</button></a>
+                    <button class="btn btn-success">Lease</button>
                 </form>
             @endif
           </td>
