@@ -35,7 +35,7 @@ class AdminController extends Controller
 
         $leasesCategory=[];
         $leaseCountBCategory=[];
-        $Leases=Lease::with('book.category')->get()->groupBy('book.category.name');
+        $Leases=Lease::with('book.category')->withTrashed()->get()->groupBy('book.category.name');
         foreach ($Leases as $category =>$LeaseCategories) {
             $leasesCategory[]  =$category;
             $leaseCountBCategory[] =count($LeaseCategories);
@@ -44,10 +44,13 @@ class AdminController extends Controller
         $users = User::where('isAdmin',0)->where('isActive',1)->count();
         $Admins = User::where('isAdmin',1)->where('isActive',1)->count();
         $Books = Book::count();
-        $leases = Lease::count();
-
-
-
+        $leases = Lease::withTrashed()->count();
+        $mostRentedBook=Lease::select('book_id')
+        ->groupBy('book_id')
+        ->orderByRaw('COUNT(*) DESC')
+        ->limit(1)
+        ->with('book')->first();
+        $latestLeases=Lease::latest()->take(5)->get();
         return view('admin.dashboard',[
                 'profitDates'=>json_encode($profitDates),
                 'profitvalues'=>json_encode($profitvalues),
@@ -59,6 +62,8 @@ class AdminController extends Controller
                 'Admins' => $Admins ,
                 'Books' => $Books,
                 'leases' => $leases,
+                'mostRentedBook'=>$mostRentedBook,
+                'latestLeases' =>$latestLeases
             ]);
     }
 

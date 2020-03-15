@@ -1,5 +1,11 @@
-<html>
-<body>
+@extends('admin.layouts.main')
+
+@section('content')
+<div class="container">
+  <div class="container justify-content-center">
+      <div class="col-md-12">
+          <div class="card">
+            <div class="card-body h-100">
 <h1> show book </h1>
 
 <a href="{{ URL::to('admin/books/') }}"> <button>Back</button></a>
@@ -35,6 +41,9 @@
           @endforeach
         </ul>    
 @endif
-</body>
-</html>
-
+</div>
+</div>
+</div>
+</div>
+</div>
+@endsection

@@ -1,6 +1,11 @@
-@extends('layouts.app')
+@extends('admin.layouts.main')
 
 @section('content')
+<div class="container">
+  <div class="container justify-content-center">
+      <div class="col-md-12">
+          <div class="card">
+            <div class="card-body h-100">
 <h1 class="ml-2"> list all books </h1>
 
 <button class="btn btn-primary ml-2 mb-2" onclick="location.href='{{ url('admin/books/create') }}'"> Create New Book </button>
@@ -37,16 +42,22 @@
         <th><b>Update</b></th>
         <th><b>Delete</b></th>
       </tr>
-   </thead>
+    </thead>
    <tbody>
+  </tbody>
+  
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+@endsection
 
-    </tbody>
-              
-    </table>
 
-
+@section('js')
 <script>
-let orderBy="title";
+  let orderBy="title";
 let category=0;
 let text="";
 
@@ -57,41 +68,41 @@ fetch_book_data(orderBy,category,text);
 function fetch_book_data(orderBy,category,text)
 {
   $.ajax({
-  url:"{{ route('book.selectedData') }}",
-  method:'GET',
-  data:{orderBy:orderBy,category:category,text:text},
-  dataType:'json',
-  success:function(data)
-  {
-  $('tbody').html(data.table_data);
-  }
+    url:"{{ route('book.selectedData') }}",
+    method:'GET',
+    data:{orderBy:orderBy,category:category,text:text},
+    dataType:'json',
+    success:function(data)
+    {
+      $('tbody').html(data.table_data);
+    }
   })
 }
 function fetch_book_category(query = '')
 {
   $.ajax({
-  url:"{{ route('book.categories') }}",
-  method:'GET',
-  data:{query:query},
-  dataType:'json',
-  success:function(data)
-  {
-  $('#category').html(data.cat);
-  }
+    url:"{{ route('book.categories') }}",
+    method:'GET',
+    data:{query:query},
+    dataType:'json',
+    success:function(data)
+    {
+      $('#category').html(data.cat);
+    }
   })
 }
 
 function fetch_avrage_reviews(orderBy,category,text)
 {
   $.ajax({
-  url:"{{ route('book.getAvrage') }}",
-  method:'GET',
-  data:{orderBy:orderBy,category:category,text:text},
-  dataType:'json',
-  success:function(data)
-  {
-    $('tbody').html(data.table_data);
-  }
+    url:"{{ route('book.getAvrage') }}",
+    method:'GET',
+    data:{orderBy:orderBy,category:category,text:text},
+    dataType:'json',
+    success:function(data)
+    {
+      $('tbody').html(data.table_data);
+    }
   })
 }
 
@@ -101,18 +112,18 @@ $(document).on('keyup', '#search', function(){
 });
 
 $(document).ready(function(){
-    $('input:radio[name="order"]').change(
+  $('input:radio[name="order"]').change(
     function(){
       orderBy=this.value;
       fetch_book_data(orderBy,category,text);
     });
-});
-
+  });
+  
 $(document).ready(function(){
   $('#category').on('change', function() {
-        category=this.value;
-        fetch_book_data(orderBy,category,text);
-      });
+    category=this.value;
+    fetch_book_data(orderBy,category,text);
+  });
 });
 
 function clicked()

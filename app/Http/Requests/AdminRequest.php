@@ -36,7 +36,7 @@ class AdminRequest extends FormRequest
             Rule::unique('users')->ignore($this->route('admin')),
             ),
             'phone' => array('required',
-            'digits_between:10,15',
+            'digits_between:10,14',
             Rule::unique('users')->ignore($this->route('admin')),
             ),
             'avatar'  => ($this -> isMethod("put") ? "nullable" : "required") . "|image"

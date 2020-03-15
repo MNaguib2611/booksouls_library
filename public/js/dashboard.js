@@ -17,6 +17,9 @@
             animation: {
                 duration : 4000
             },
+            legend: {
+                display: false
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -49,7 +52,7 @@
                     '#ce1126',
 
                 ],
-                borderWidth: 1
+                scaleLineColor: 'transparent',
             }]
         },
        
@@ -59,9 +62,8 @@
                 duration : 2000
             },
             legend: {
-        display: false
-        },
-      
+                display: false
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -69,6 +71,7 @@
                     },
                     gridLines: {
                         color: "rgba(0, 0, 0, 0)",
+                        drawBorder: false,
                     }
                 }],
                 

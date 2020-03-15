@@ -1,8 +1,9 @@
-@extends('layouts.app')
+@extends('admin.layouts.main')
+
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="container justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">users</div>
@@ -49,7 +50,7 @@
                                         {!! Form::token(); !!}
                                         {!! Form::submit('Delete',['class' => 'btn btn-sm btn-danger']); !!}
                                         {!! Form::close() !!}
-                                        {{---- Upgrade to addmin----}}
+                                        {{---- Upgrade to admin----}}
                                         @if ($user->isActive==1)
                                         {!! Form::open(['route' => ['user.deactivate', $user->id],'class'=>'d-inline','method' => "put"]) !!}
                                         {!! Form::text('isActive', 0, array_merge(['hidden' => 'hidden']))  !!}

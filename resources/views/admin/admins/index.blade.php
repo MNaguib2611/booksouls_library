@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('admin.layouts.main')
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="container justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Admins</div>
+                <div class="card-header"><h1>Admins</h1></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -22,7 +22,7 @@
                             </ul>
                         </div>
                     @endif
-                        <h2><a href="{{route('admins.create') }}">Add Admin</a></h2>
+                        <h2><a class="btn btn-success btn-lg" href="{{route('admins.create') }}">Add Admin</a></h2>
                         <table class="table table-hover">
                            <thead>
                             <tr>

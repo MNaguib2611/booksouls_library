@@ -1,10 +1,15 @@
-@extends('layouts.app')
+@extends('admin.layouts.main')
 
-<html>
-<body>
+@section('content')
+<div class="container">
+  <div class="container justify-content-center">
+      <div class="col-md-12">
+          <div class="card">
+            <div class="card-body h-100">
 <h1> create new book </h1>
+
 <table>
-  
+
 
 <form method="post"  action="/admin/books" enctype="multipart/form-data">
 
@@ -35,6 +40,7 @@
 </form>
 
 </table>
+
 @if ($errors->any())
         <strong>Whoops! </strong> there where some problems with your input.<br>
         <ul>
@@ -43,6 +49,11 @@
           @endforeach
         </ul>    
 @endif
-</body>
-</html>
+</div>
+</div>
+</div>
+</div>
+</div>
+@endsection
+
 
