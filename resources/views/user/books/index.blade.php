@@ -31,118 +31,60 @@
             </div>
 
             <div class="book-card-footer">
-                <div class="heart-btn">
-                    @if (in_array($book->id, $favourites))
-                    <form action="{{ route('removeFavourite') }}" method="POST">
-                        @csrf
-                        {{ method_field('DELETE') }}
-                        <input type="hidden" name="book" value="{{ $book->id}}">
-                        <div class="liked-button">
-                            <input type="checkbox" class="love-checkbox" id="{{$book->id}}" checked/>
-                            <label for="{{$book->id}}">
-                                <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
-                                    <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
-                                        <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
-                                        <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
+                <div class="heart-btn">  
+                    <div class="liked-button">
+                        <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
+                        <label for="{{$book->id}}">
+                            <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
+                                <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
+                                    <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
+                                    <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
 
-                                        <g class="grp7" opacity="0" transform="translate(7 6)">
-                                            <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
-                                            <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
-                                        </g>
-
-                                        <g class="grp6" opacity="0" transform="translate(0 28)">
-                                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
-                                            <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
-                                        </g>
-
-                                        <g class="grp3" opacity="0" transform="translate(52 28)">
-                                            <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
-                                            <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
-                                        </g>
-
-                                        <g class="grp2" opacity="0" transform="translate(44 6)">
-                                            <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
-                                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
-                                        </g>
-
-                                        <g class="grp5" opacity="0" transform="translate(14 50)">
-                                            <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
-                                            <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
-                                        </g>
-
-                                        <g class="grp4" opacity="0" transform="translate(35 50)">
-                                            <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
-                                            <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
-                                        </g>
-
-                                        <g class="grp1" opacity="0" transform="translate(24)">
-                                            <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
-                                            <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
-                                        </g>
+                                    <g class="grp7" opacity="0" transform="translate(7 6)">
+                                        <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
+                                        <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
                                     </g>
-                                </svg>
-                            </label>
-                        </div>
-                    </form>
-                    @else
-                    <form action="{{ route('favourites.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="book" value="{{ $book->id}}">
-                        <div class="like-button">
-                                <input type="checkbox" class="love-checkbox" id="{{$book->id}}"/>
-                                <label for="{{$book->id}}">
-                                    <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
-                                        <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
-                                            <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
-                                            <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
 
-                                            <g class="grp7" opacity="0" transform="translate(7 6)">
-                                                <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
-                                                <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
-                                            </g>
+                                    <g class="grp6" opacity="0" transform="translate(0 28)">
+                                        <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
+                                        <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
+                                    </g>
 
-                                            <g class="grp6" opacity="0" transform="translate(0 28)">
-                                                <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
-                                                <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
-                                            </g>
+                                    <g class="grp3" opacity="0" transform="translate(52 28)">
+                                        <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
+                                        <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
+                                    </g>
 
-                                            <g class="grp3" opacity="0" transform="translate(52 28)">
-                                                <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
-                                                <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
-                                            </g>
+                                    <g class="grp2" opacity="0" transform="translate(44 6)">
+                                        <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
+                                        <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
+                                    </g>
 
-                                            <g class="grp2" opacity="0" transform="translate(44 6)">
-                                                <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
-                                                <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
-                                            </g>
+                                    <g class="grp5" opacity="0" transform="translate(14 50)">
+                                        <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
+                                        <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
+                                    </g>
 
-                                            <g class="grp5" opacity="0" transform="translate(14 50)">
-                                                <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
-                                                <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
-                                            </g>
+                                    <g class="grp4" opacity="0" transform="translate(35 50)">
+                                        <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
+                                        <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
+                                    </g>
 
-                                            <g class="grp4" opacity="0" transform="translate(35 50)">
-                                                <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
-                                                <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
-                                            </g>
-
-                                            <g class="grp1" opacity="0" transform="translate(24)">
-                                                <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
-                                                <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </label>
-                            </div>
-                    </form>
-                    @endif
+                                    <g class="grp1" opacity="0" transform="translate(24)">
+                                        <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
+                                        <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
+                                    </g>
+                                </g>
+                            </svg>
+                        </label>
+                    </div>
                 </div>
                 <div class="rating rating-card mb-2"> 
-                    <span class="fa fa-star<?php if($book->rate > 4 ){if($book->rate == 4.5){echo "-half-o";} echo " checked";}else{ echo " fa-star-o"; } ?>"></span>
-                    <span class="fa fa-star<?php if($book->rate > 3 ){if($book->rate == 3.5){echo "-half-o";} echo " checked";}else{ echo " fa-star-o"; } ?>"></span>
-                    <span class="fa fa-star<?php if($book->rate > 2 ){if($book->rate == 2.5){echo "-half-o";} echo " checked";}else{ echo " fa-star-o"; } ?>"></span>
-                    <span class="fa fa-star<?php if($book->rate > 1 ){if($book->rate == 1.5){echo "-half-o";} echo " checked";}else{ echo " fa-star-o"; } ?>"></span>
-                    <span class="fa fa-star<?php if($book->rate > 0 ){if($book->rate == 0.5){echo "-half-o";} echo " checked";}else{ echo " fa-star-o"; } ?>"></span>
+                    <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                    <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                    <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                    <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                    <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
                 </div>
                 <div class="price">
                     <span class="currency">$</span>
@@ -155,8 +97,50 @@
             </div>
         </div>
         @endforeach
+        <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" ></div>
         <div class="m-auto">
             {{$allBooks->links()}}
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            function handlingFav(book_id, event){
+                if(event.target.checked){                
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        url: "/favourites",
+                        data: { book: book_id },
+                        success: function(result) {
+                            $('#success_message').fadeIn().html(result);
+                            setTimeout(function() {
+                                $('#success_message').fadeOut("slow");
+                            }, 2000 );
+                        },
+                        error: function() {
+                        }
+                    })
+                }
+                else{
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'DELETE',
+                        url: "{{ route('removeFavourite') }}",
+                        data: { book: book_id },
+                        success: function(result) {
+                            $('#success_message').fadeIn().html(result);
+                            setTimeout(function() {
+                                $('#success_message').fadeOut("slow");
+                            }, 2000 );
+                        },
+                        error: function() {
+                        }
+                    })
+                }
+            }
+        </script>
     </div>
 @endsection

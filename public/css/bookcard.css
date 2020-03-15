@@ -194,3 +194,10 @@ a.disabled {
   margin-top: -.4rem !important;
   padding: .4rem .5rem !important;
 }
+
+.ajax_response{
+  /* position: absolute !important; */
+  z-index: 9;
+  width: 30rem !important;
+  display: none;
+}

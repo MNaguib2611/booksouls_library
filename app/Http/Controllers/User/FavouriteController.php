@@ -42,7 +42,7 @@ class FavouriteController extends Controller
         $favourite->user_id = Auth::id();
         $favourite->book_id = $request->book;
         $favourite->save();
-        return redirect('books')->with('success','The book has been Added to your favourites!');;
+        return ('The book has been Added to your favourites!');
     }
 
     /**
@@ -95,7 +95,7 @@ class FavouriteController extends Controller
                     ["user_id", Auth::id()],
                     ["book_id", $request->book],
                 ])->delete();
-        return redirect('books')->with('success', 'The book has been removed from your favourites!');;
+        return ('The book has been removed from your favourites!');
     
     }
 }
