@@ -4,6 +4,11 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Carbon\Carbon;
+use App\Lease;
+use App\Profit;
+use App\Book;
+use DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,9 +29,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+        # to calculate the profits of the past day
         $schedule->call(function () {
             $profits = 0;
-            $leasesOfTheMonth = Lease::onlyTrashed()->whereDate('created_at', '>', Carbon::now()->subDays(1))->get();
+            $leasesOfTheMonth = Lease::onlyTrashed()->whereDate('deleted_at', '>=', Carbon::now()->subDays(1))->get();
             foreach ($leasesOfTheMonth as $lease) {
                 $date1 = strtotime($lease->created_at); 
                 $date2 = strtotime($lease->deleted_at);
@@ -40,14 +47,35 @@ class Kernel extends ConsoleKernel
             $monthlyProfit = new Profit;
             $monthlyProfit->profit = $profits;
             $monthlyProfit->save();
-        })->dailyAt('00:00');
-
-        #####  ->monthlyOn(1, '00:00'); #to run on day 1 of each month at 12 am
+        })->dailyAt('22:00');   ## 12 AM in our timezone
+        
+        ##### ->monthlyOn(1, '22:00'); #to run on day 1 of each month at 12 AM
         ##### this would be the case for production but since where are still in the development we will make it daily
         ##### same as for subDays() in line 33:99, it would take 30 in production to get the results of the last month
         ##### but to make our tests and imagine the whole picture we made it daily
-        ##### { crontab -e } is the command that you need to run to open the file to edit 
-        ##### the server settings and make the check for tasks periodic
+
+
+        # to return the leased books when the period is over
+        $schedule->call(function () {
+            Lease::where('duration', '<', DB::raw('DATEDIFF(now(), created_at)'))->delete();
+        })->dailyAt('22:00');
+
+
+        ##### now our tasks have been scheduled successfully all we need is just run ```php artisan schedule:run```
+        ##### everyday at the morning or the midnight and it will do the job
+        ##### but of course we won't do that because there is something called AUTOMATION
+        ##### so now let do this, we need to edit the crobjob file so it can do it on our behalf
+
+        ##### { crontab -e } is the command that you need to run to open the cronjob file
+        ##### and then you just need to add the below line at the end of the file
+        ##        00 00 * * * cd [the-path-to-the-project-directory] && php artisan schedule:run >> /dev/null 2>&1         ##
+        ##### and make sure to replace "[the-path-to-the-project-directory]" with your own path
+        
+        ##### this will make it automatically run the command ```php artisan schedule:run``` periodically
+        ##### and the (00 00 * * *) at the start of the line represents the period, 5 places for (minute hour day[month] week day[week])
+        ##### for more details about cron jobs you can check out this website https://crontab.guru
+        
+
     }
 
     /**
