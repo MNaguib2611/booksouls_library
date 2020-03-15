@@ -21,7 +21,7 @@
                     <h2>{{$book->title}}</h2>
                     <div class="card__buttons">
                         <a href="{{ route('books.show', $book->id) }}">More Details</a>
-                        <a href="{{ route('books.show', $book->id) }}">Lease</a>
+                        <a href="{{ route('books.show', $book->id) }}" class="@if ($book->quantity == 0) disabled @endif">Lease</a>
                     </div>
                 </div>
                 <div class="card-bdy">
@@ -29,6 +29,7 @@
                     <h3 class="card-text m-3">{{$book->description}}</h3>
                 </div>
             </div>
+
             <div class="book-card-footer">
                 <div class="heart-btn">
                     @if (in_array($book->id, $favourites))
@@ -148,8 +149,14 @@
                     <span class="value">{{$book->price}}</span>
                     <span class="duration">day</span>
                 </div>
+                <div class="copies text-muted">
+                    <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
+                </div>
             </div>
         </div>
         @endforeach
+        <div class="m-auto">
+            {{$allBooks->links()}}
+        </div>
     </div>
 @endsection

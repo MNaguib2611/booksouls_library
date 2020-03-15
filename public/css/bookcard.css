@@ -131,18 +131,6 @@ body {
   text-align: left;
 }
 
-.book-price{
-  position:relative;
-  display:inline-block;
-  padding-bottom:5rem;
-  text-align:center;
-  font-family: 'Exo', sans-serif;
-  font-weight:800;
-  font-size:4rem;
-  color:#529e0e;
-  background:transparent;
-  border:none;
-}
 
 .currency {
   display: inline-block;
@@ -185,4 +173,24 @@ body {
 
 .book-card-body{
   flex-grow: 1;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  background: rgb(149, 169, 177) !important;
+}
+
+.price{
+  margin-top: 0;
+}
+
+.copies{
+  margin-bottom: 1rem;
+  margin-top: -1rem;
+}
+.nocopies{
+  margin-bottom: -.5rem !important;
+  margin-top: -.4rem !important;
+  padding: .4rem .5rem !important;
 }

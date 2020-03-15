@@ -16,7 +16,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $allBooks = Book::all();
+        $allBooks = Book::paginate(15);
         $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
         $leases = Auth::user()->leases->pluck("book_id")->toArray();
         return view('user.books.index',compact('allBooks', 'favourites', 'leases'));       
