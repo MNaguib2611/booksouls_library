@@ -129,7 +129,7 @@
                                             <div class="widget-content-wrapper">
                                                 <div class="widget-content-left col-lg-10">
                                                     <div class="widget-heading"><h3>{{$mostRentedBook->book->title}}</h3></div>
-                                                    <div class="widget-subheading">Most Leased</div>
+                                                    <div class="widget-subheading">Most Leased Book</div>
                                                 </div>
                                                 <div class="widget-content-right">
                                                     <div class="widget-numbers text-success"><img src="{{$mostRentedBook->book->cover}}" width="100%" height="50%"></div>
@@ -150,12 +150,7 @@
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">Recent Leases
-                    <div class="btn-actions-pane-right">
-                        <div role="group" class="btn-group-sm btn-group">
-                            <button class="active btn btn-focus">Last Week</button>
-                            <button class="btn btn-focus">All Month</button>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="table-responsive">
                     <table class="align-middle mb-0 table table-borderless table-striped table-hover">

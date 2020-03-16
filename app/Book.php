@@ -29,5 +29,11 @@ class Book extends Model
         return $this->hasMany('App\Lease');
     }
 
+    protected static function boot() {
+        parent::boot();
     
+        static::deleting(function($user) {
+            $user->leases()->delete();
+        });
+    }
 }
