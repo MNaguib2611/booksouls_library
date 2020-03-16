@@ -159,6 +159,7 @@
                                 <th class="text-center">#</th>
                                 <th>Guest</th>
                                 <th class="text-center">Book Name</th>
+                                <th class="text-center">Start Date</th>
                                 <th class="text-center">Duration</th>
                             </tr>
                         </thead>
@@ -184,6 +185,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">{{$lease->book->title}}</td>
+                                <td class="text-center">{{$lease->created_at->format('d M Y')}}</td>
                                 <td class="text-center">{{$lease->duration}} <strong>days</strong> </td>
                             </tr>
                             @endforeach

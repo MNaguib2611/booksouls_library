@@ -23,7 +23,7 @@
                               <td class='align-middle'>{{$lease->user->name}}</td>
                               <td class='align-middle'>{{$lease->book->title}}</td>
                               <td class='align-middle'>{{$lease->created_at->format('d M Y')}}</td>
-                              <td class='align-middle'>{{$lease->duration}}</td>
+                              <td class='align-middle'>{{$lease->duration}} <strong>days</strong></td>
                           </tr>
                           @endforeach
                       </tbody>
