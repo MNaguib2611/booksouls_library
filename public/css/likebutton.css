@@ -209,3 +209,7 @@ svg .main-circ {
         transform: scale(1);
    }
 }
+
+.liked-button{
+    margin-left: -1rem !important;
+}
