@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BooksSeeder::class);
         $this->call(FavouritesSeeder::class);
         $this->call(LeaseSeeder::class);
-        $this->call(ProfitSeeder::class);
         $this->call(ReviewsSeeder::class);
     }
 }
