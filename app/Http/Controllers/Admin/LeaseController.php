@@ -15,7 +15,8 @@ class LeaseController extends Controller
      */
     public function index()
     {
-        dd('hi');
+        $Leases = Lease::paginate(18);
+        return view('admin.leases.index', compact('Leases'));
     }
 
   
