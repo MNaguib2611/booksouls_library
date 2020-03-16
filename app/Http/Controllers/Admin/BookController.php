@@ -21,7 +21,6 @@ class BookController extends Controller
         
         //return view('admin.books.index',compact('allBooks'))->with('i',(request()->input('page',1)-1)*5);
         return view('admin.books.index',compact('allBooks'));
-       
     }
 
     /**
@@ -31,7 +30,6 @@ class BookController extends Controller
      */
     public function getCategories(Request $request)
     {
-    
         if($request->ajax())
         {
          $output = '';
@@ -72,10 +70,6 @@ class BookController extends Controller
         {
          $output = '';
          $query = $request->get('query');
-         
-         
-
-
         $getavrage = DB::table('books')->leftJoin('reviews','books.id' , '=', 'reviews.book_id')
         ->select('books.*','books.id as myID','reviews.*', DB::raw('avg(rate) as rate '))
         ->groupBy('books.title')->get()->sortByDESC('rate'); 
@@ -215,111 +209,45 @@ class BookController extends Controller
      if($request->ajax())
      {
       $output = '';
-      $myOrder = $request->get('orderBy');
-      $myCategoryID = $request->get('category');
+      $filter=$request->get('filt');
+      $myOrder= explode("/",$filter)[0];
+      $myCategoryID= (int) explode("/",$filter)[1];
+      // $myOrder = $request->get('orderBy');
+      // $myCategoryID = $request->get('category');
       $text = $request->get('text');
-      if($text != '')
+      $selectedRows=[];
+    
+      if($myCategoryID == 0)
       {
-        if($myCategoryID == 0)
-        {
-          $data = DB::table('books')->leftJoin('reviews','books.id' , '=', 'reviews.book_id')
-          ->select('books.*','books.id as myID','books.created_at as creation','reviews.*', DB::raw('avg(rate) as rate '))
-          ->where('title', 'like', '%'.$text.'%')
-          ->orWhere('author', 'like', '%'.$text.'%')
-          ->groupBy('books.title')->get()->sortBy($myOrder);
-        }  
-        else
-        {
-          $data = DB::table('books')->leftJoin('reviews','books.id' , '=', 'reviews.book_id')
-          ->select('books.*','books.id as myID','books.created_at as creation','reviews.*', DB::raw('avg(rate) as rate '))
-          ->where('category_id', '=', $myCategoryID)
-          ->where(function ($query) {
-            $query->where('title', 'like', '%'.$text.'%')
-            ->orWhere('author', 'like', '%'.$text.'%');
-           })
-          ->groupBy('books.title')->get()->sortBy($myOrder);
+        $selectedRows = DB::table('books')
+        ->leftjoin('reviews', 'books.id', '=','reviews.book_id' )
+        ->select('books.*','books.id as myID','books.created_at as creation',
+        'books.title as title',
+        'reviews.*', DB::raw('avg(reviews.rate) as rate '))
+        ->groupBy('reviews.book_id')
+        ->get()->sortBy($myOrder);
         
-        
-        }     
-      }
+      }  
       else
       {
-        if($myCategoryID == 0)
-        {        
-          $data = DB::table('books')->leftJoin('reviews','books.id' , '=', 'reviews.book_id')
-          ->select('books.*','books.id as myID','books.created_at as creation','reviews.*', DB::raw('avg(rate) as rate '))
-          ->groupBy('books.title')->get()->sortBy($myOrder);
+        $selectedRows = DB::table('books')
+        ->leftjoin('reviews', 'books.id', '=','reviews.book_id' )
+        ->select('books.*','books.id as myID','books.created_at as creation',
+        'books.title as title',
+        'reviews.*', DB::raw('avg(reviews.rate) as rate '))
+        ->where('books.category_id', '=', $myCategoryID)                 
+        ->groupBy('reviews.book_id')
+        ->get()->sortBy($myOrder);
+      }     
         
-        }  
-        else
-        {
-          $data = DB::table('books')->leftJoin('reviews','books.id' , '=', 'reviews.book_id')
-          ->select('books.*','books.id as myID','books.created_at as creation','reviews.*', DB::raw('avg(rate) as rate '))
-          ->where('category_id', '=', $myCategoryID)
-          ->groupBy('books.title')->get()->sortBy($myOrder);
-        
-        } 
-     }
-      $total_row=0;
-      try{
-          $total_row = $data->count();
-      }
-      catch (Exception $e) {
-          $total_row=0;    
-      }
-
-      if($total_row > 0)
-      {
-        $output .= "<tr> <td> $total_row </td> <td> ".$myOrder.$myCategoryID .$text  ."</td> </tr>";
-       foreach($data as $row)
-       {
-         if($row->rate==null)
-         {
-           $rate=0;
-         }
-         else
-         {
-          $rate=$row->rate;
-         }
-            $output .= "<tr>
-            <td class='align-middle'>$row->title</td>
-            <td class='align-middle'>$row->author</td>
-            <td class='align-middle'>$rate</td>
-            <td class='align-middle'>$row->creation</td>
-            <td class='align-middle'>$row->category_id</td>
-            <td class='align-middle'>$row->cover</td>
-            <td class='align-middle'> <a href=\"books/{$row->myID}\"> <button class=\"btn btn-primary\">Show</button></a></td>
-            <td class='align-middle'> <a href=\"books/{$row->myID}/edit\"> <button class=\"btn btn-success\">Update</button></a> </td>
-            <td class='align-middle'>
-           
-            
-        
-
-            <form action=".route('books.destroy',[$row->myID])." method=\"POST\">
- @method('DELETE')
- @csrf
- <button type=\"submit\">Delete</button>               
-</form>
-
-            </td>
-        
-            </tr>";
-
-            
-       }
-      }
-      else
-      {
-       $output = '
-       <tr>
-        <td align="center" colspan="5">No Data Found</td>
-       </tr>
-       ';
-      }
+      $total_rows = $selectedRows->count();
+    
+      $selectedRows = DB::table('books')->get();
       
       $data = array(
-      // 'table_data'  => "<td> ".$myOrder.$myCategoryID .$text  ."</td>"
-      'table_data'  => $output,
+       //'table_data'  => "<td> ".$myOrder.$myCategoryID.$text  ."</td>"
+      'total_rows'  => $total_rows,
+      'selectedRows' =>$selectedRows
     );
 
       echo json_encode($data);
@@ -374,7 +302,6 @@ class BookController extends Controller
                          ->with('success', 'new Book add successfully');
                          
 
-        // return $request->all();
        
     }
 
@@ -452,6 +379,7 @@ class BookController extends Controller
         //return $request->all();
     }
 
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -464,8 +392,7 @@ class BookController extends Controller
         $myBook = Book::find($book)->first();
         // $myBook = Book::findOrFail($book);
         $myBook->delete();
-        return redirect('admin/books')->with('success', 'Book deleted successfully');
-          //return "hi";
-   
+        //return response()->json(['success' => 'Record deleted successfully!']);
+        return redirect('admin/books')->with('success', 'Book deleted successfully');   
     }
 }

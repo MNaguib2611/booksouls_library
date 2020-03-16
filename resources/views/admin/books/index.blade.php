@@ -57,7 +57,8 @@
 
 @section('js')
 <script>
-  let orderBy="title";
+
+let orderBy="title";
 let category=0;
 let text="";
 
@@ -67,14 +68,17 @@ fetch_book_data(orderBy,category,text);
 
 function fetch_book_data(orderBy,category,text)
 {
+  console.log(orderBy,category,text);
+  var filt =""+orderBy +"/"+category+"";
+
   $.ajax({
     url:"{{ route('book.selectedData') }}",
     method:'GET',
-    data:{orderBy:orderBy,category:category,text:text},
+    data:{filt:filt,text:text},
     dataType:'json',
     success:function(data)
     {
-      $('tbody').html(data.table_data);
+      print_data(data)
     }
   })
 }
@@ -126,10 +130,49 @@ $(document).ready(function(){
   });
 });
 
-function clicked()
+
+function print_data(data)
 {
-  console.log("hi");
+  $(".table > tr").remove();
+  
+  var output="";
+  //$('tbody').html(data.table_data);
+  if(data.total_rows > 1)
+  {
+    for(var row in data.selectedRows) 
+    {
+      // if(data.selectedRows[row].rate==null)
+      //   rate=0;
+      // else
+      //   rate=row[rate];
+                  
+      var output = " <tr> <td class='align-middle'>"+data.selectedRows[row].title+"</td>"+
+      "<td class='align-middle'>" + data.selectedRows[row].author+ "</td>"+
+      "<td class='align-middle'>" + data.selectedRows[row].creation+ "</td>"+
+      "<td class='align-middle'>" + data.selectedRows[row].category_id+ "</td>"+
+      "<td class='align-middle'>" + data.selectedRows[row].cover+ "</td>"+
+
+      "<td class='align-middle'> <a href=\"books/"+data.selectedRows[row].id+"\"> <button class=\"btn btn-primary\">Show</button></a></td>"+
+
+      "<td class='align-middle'> <a href=\"books/"+data.selectedRows[row].id+"/edit\"> <button class=\"btn btn-success\">Update</button></a> </td>"+
+
+
+      "<td class='align-middle'>  <button  class=\"btn btn-danger\" class=\"deleteRecord\" data-id="+data.selectedRows[row].id+"\"  >Delete</button></td>"+
+      "</tr>";
+        $('table').append(output);
+      
+    }
+
+  }
+  else
+  {
+    
+    $('tbody').html('<tr> <td align="center" colspan="5">No Data Found</td> </tr>');
+  }
+
 }
+
+
 </script>
 
 @endsection
