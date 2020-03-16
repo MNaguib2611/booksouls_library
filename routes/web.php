@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::Resource('/profits', 'Admin\ProfitController')->only(['index','store']);
             Route::get('admin/books/findBook', 'Admin\BookController@findBook')->name('books.findBook');
             Route::get('/book/search', 'Admin\BookController@search')->name('book.search');
-            Route::get('/book/categories', 'Admin\BookController@getCategories')->name('book.categories');
+            Route::get('/book/getCategories', 'Admin\BookController@getCategories')->name('book.getCategories');
             Route::get('/book/getAvrage', 'Admin\BookController@getAvrage')->name('book.getAvrage');
             Route::get('/book/selectedData', 'Admin\BookController@selectedData')->name('book.selectedData');
 

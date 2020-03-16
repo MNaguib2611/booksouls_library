@@ -6,56 +6,70 @@
       <div class="col-md-12">
           <div class="card">
             <div class="card-body h-100">
-<h1 class="ml-2"> list all books </h1>
+            <h1 class="ml-2"> list all books </h1>
+            <button class="btn btn-primary ml-2 mb-2" onclick="location.href='{{ url('admin/books/create') }}'"> Create New Book </button>
+            @if ($message = Session::get('success'))
+                    <div class="alert alert-success alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>	
+                            <strong>{{ $message }}</strong>
+                    </div>
+            @endif
 
-<button class="btn btn-primary ml-2 mb-2" onclick="location.href='{{ url('admin/books/create') }}'"> Create New Book </button>
-@if ($message = Session::get('success'))
-        <div class="alert alert-success alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button>	
-                <strong>{{ $message }}</strong>
+        
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search" style="width:25%" />
+            <br/>
+
+            <input type="radio" name="order" value="rate" class="form-check-label" ></input>
+              <label class="form-check-label" for="gridRadios1">
+              Rate
+              </label>
+            <input type="radio" name="order" value="creation" class="form-check-label" ></input>
+              <label class="form-check-label" for="gridRadios2">
+                Latest
+              </label>
+
+            <input type="radio" name="order" value="title" class="form-check-label" ></input>
+              <label class="form-check-label" for="gridRadios2">
+                Title
+              </label>
+            
+              
+            <select id="category"class="form-control" style="width:25%">
+            </select>
+
+              <br/>
+
+            <div class="bookcontainer">
+            </div>
+
+
+          </div>
         </div>
-@endif
-
-<input type="text" name="search" id="search" class="form-control" placeholder="Search" style="width:40%" />
-<input type="radio" name="order" value="rate">Rate</input>
-<input type="radio" name="order" value="creation">Latest</input>
-<br/>
-<select id="category">
-  
-  
-
-
-</select>
-
-<br/>
-
-<table class="table table-bordered justify-content-center text-center ">
-    <thead>
-      <tr class="thead-dark">
-        <th><b>Title</b></th>
-        <th><b>Author</b></th>
-        <th><b>Rate</b></th>
-        <th><b>Created_at</b></th>
-        <th><b>Category_id</b></th>
-        <th><b>Cover</b></th>
-        <th><b>Details</b></th>
-        <th><b>Update</b></th>
-        <th><b>Delete</b></th>
-      </tr>
-    </thead>
-   <tbody>
-  </tbody>
-  
-</table>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
+ <!-- svg Data -->
+ <svg xmlns="http://www.w3.org/2000/svg" class="icons">
+<symbol id="download" viewBox="0 0 24 24"><path d="M21 14c-0.6 0-1 0.4-1 1v4c0 0.6-0.4 1-1 1h-14c-0.6 0-1-0.4-1-1v-4c0-0.6-0.4-1-1-1s-1 0.4-1 1v4c0 1.7 1.3 3 3 3h14c1.7 0 3-1.3 3-3v-4c0-0.6-0.4-1-1-1z"></path>
+<path d="M11.3 15.7c0.1 0.1 0.2 0.2 0.3 0.2 0.1 0.1 0.3 0.1 0.4 0.1s0.3 0 0.4-0.1c0.1-0.1 0.2-0.1 0.3-0.2l5-5c0.4-0.4 0.4-1 0-1.4s-1-0.4-1.4 0l-3.3 3.3v-9.6c0-0.6-0.4-1-1-1s-1 0.4-1 1v9.6l-3.3-3.3c-0.4-0.4-1-0.4-1.4 0s-0.4 1 0 1.4l5 5z"></path></symbol>
+<symbol id="delete" viewBox="0 0 24 24"><path d="M21 5h-4v-1c0-1.7-1.3-3-3-3h-4c-1.7 0-3 1.3-3 3v1h-4c-0.6 0-1 0.4-1 1s0.4 1 1 1h1v13c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-13h1c0.6 0 1-0.4 1-1s-0.4-1-1-1zM9 4c0-0.6 0.4-1 1-1h4c0.6 0 1 0.4 1 1v1h-6v-1zM18 20c0 0.6-0.4 1-1 1h-10c-0.6 0-1-0.4-1-1v-13h12v13z"></path>
+<path d="M10 10c-0.6 0-1 0.4-1 1v6c0 0.6 0.4 1 1 1s1-0.4 1-1v-6c0-0.6-0.4-1-1-1z"></path>
+<path d="M14 10c-0.6 0-1 0.4-1 1v6c0 0.6 0.4 1 1 1s1-0.4 1-1v-6c0-0.6-0.4-1-1-1z"></path></symbol>
+<symbol id="edit" viewBox="0 0 24 24"><path d="M20 13.7c-0.6 0-1 0.4-1 1v5.3c0 0.6-0.4 1-1 1h-14c-0.6 0-1-0.4-1-1v-14c0-0.6 0.4-1 1-1h5.3c0.6 0 1-0.4 1-1s-0.4-1-1-1h-5.3c-1.7 0-3 1.3-3 3v14c0 1.7 1.3 3 3 3h14c1.7 0 3-1.3 3-3v-5.3c0-0.6-0.4-1-1-1z"></path>
+<path d="M22.7 5.3l-4-4c-0.4-0.4-1-0.4-1.4 0l-10 10c-0.2 0.2-0.3 0.4-0.3 0.7v4c0 0.6 0.4 1 1 1h4c0.3 0 0.5-0.1 0.7-0.3l10-10c0.4-0.4 0.4-1 0-1.4zM11.6 15h-2.6v-2.6l9-9 2.6 2.6-9 9z"></path></symbol>
+</svg>
 @endsection
 
 
+
+
+
+
+
 @section('js')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="{{asset('js/listBooks.js')}}"></script>
 <script>
 
 let orderBy="title";
@@ -64,13 +78,11 @@ let text="";
 
 fetch_book_category();
 fetch_book_data(orderBy,category,text);
-//fetch_avrage_reviews();
 
 function fetch_book_data(orderBy,category,text)
 {
   console.log(orderBy,category,text);
   var filt =""+orderBy +"/"+category+"";
-
   $.ajax({
     url:"{{ route('book.selectedData') }}",
     method:'GET',
@@ -85,7 +97,7 @@ function fetch_book_data(orderBy,category,text)
 function fetch_book_category(query = '')
 {
   $.ajax({
-    url:"{{ route('book.categories') }}",
+    url:"{{ route('book.getCategories') }}",
     method:'GET',
     data:{query:query},
     dataType:'json',
@@ -133,6 +145,7 @@ $(document).ready(function(){
 
 function print_data(data)
 {
+  console.log(data);
   $(".table > tr").remove();
   
   var output="";
@@ -140,26 +153,31 @@ function print_data(data)
   if(data.total_rows > 1)
   {
     for(var row in data.selectedRows) 
-    {
-      // if(data.selectedRows[row].rate==null)
-      //   rate=0;
-      // else
-      //   rate=row[rate];
-                  
-      var output = " <tr> <td class='align-middle'>"+data.selectedRows[row].title+"</td>"+
-      "<td class='align-middle'>" + data.selectedRows[row].author+ "</td>"+
-      "<td class='align-middle'>" + data.selectedRows[row].creation+ "</td>"+
-      "<td class='align-middle'>" + data.selectedRows[row].category_id+ "</td>"+
-      "<td class='align-middle'>" + data.selectedRows[row].cover+ "</td>"+
+    {         
+      var output =  '<div class="book">'+
+            '<div class="bookpic" style="background-image: url(\'https://raw.githubusercontent.com/Poojavpatel/BookStoreApp/master/img/jungle.jpg\');"></div>'+
+            '<div class="bookinfo">'+
+             '   <div class="title">'+data.selectedRows[row].title+'</div>'+
+              '  <div class="author">'+data.selectedRows[row].author+'</div>'+
+               ' <div class="stars">'+data.selectedRows[row].rate+'</div>'+
+                '<ul class="controls">'+
+                    '<li class="control">'+
+                     '   <a href="/admin/books/'+data.selectedRows[row].id+'/edit">'+
+                            '<svg class="icon icon--2x"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#edit"></use></svg>'+
+                           ' <span class="invisible">Update</span>'+
+                        '</a>'+
+                    '</li>'+
+                   ' <li class="control deletebutton">'+
+                        '<a href="#">'+
+                         '   <svg class="icon icon--2x deletesvg"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#delete"></use></svg>'+
+                          '  <span class="invisible">Delete</span>'+
+                       ' </a>'+
+                    '</li>'+
+                '</ul>'+
+            '</div>'+
+        '</div>';
 
-      "<td class='align-middle'> <a href=\"books/"+data.selectedRows[row].id+"\"> <button class=\"btn btn-primary\">Show</button></a></td>"+
-
-      "<td class='align-middle'> <a href=\"books/"+data.selectedRows[row].id+"/edit\"> <button class=\"btn btn-success\">Update</button></a> </td>"+
-
-
-      "<td class='align-middle'>  <button  class=\"btn btn-danger\" class=\"deleteRecord\" data-id="+data.selectedRows[row].id+"\"  >Delete</button></td>"+
-      "</tr>";
-        $('table').append(output);
+        $( ".bookcontainer" ).append( output );
       
     }
 
@@ -167,12 +185,13 @@ function print_data(data)
   else
   {
     
-    $('tbody').html('<tr> <td align="center" colspan="5">No Data Found</td> </tr>');
+    $( ".bookcontainer" ).append( "<h1>No Data Found</h1>" );
+
   }
 
 }
 
-
 </script>
+
 
 @endsection
