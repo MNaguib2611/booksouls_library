@@ -53,4 +53,15 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Lease');
     }
+
+    protected static function boot() {
+        parent::boot();
+    
+        static::deleting(function($user) {
+            $user->leases()->delete();
+            $user->reviews()->delete();
+            $user->favourites()->delete();
+
+        });
+    }
 }

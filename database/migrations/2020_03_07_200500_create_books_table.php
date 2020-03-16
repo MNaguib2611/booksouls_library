@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->unsignedMediumInteger('quantity'); # max value is 16,777,215
             $table->unsignedSmallInteger('price'); # max value is 65,535
             $table->float('rate', 2, 1)->default(0);
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('cover')->nullable();
             $table->timestamps();
         });
