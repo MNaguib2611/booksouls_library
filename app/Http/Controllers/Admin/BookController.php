@@ -16,12 +16,10 @@ class BookController extends Controller
      */
     public function index()
     {
-        // $allBooks = Book::latest()->paginate(3);
         $allBooks = Book::all();
-        
-        //return view('admin.books.index',compact('allBooks'))->with('i',(request()->input('page',1)-1)*5);
         return view('admin.books.index',compact('allBooks'));
     }
+
 
     /**
      * get all categories
@@ -59,144 +57,6 @@ class BookController extends Controller
     }
 
 
-    /**
-     * get avrage rate
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getAvrage(Request $request)
-    {
-        if($request->ajax())
-        {
-         $output = '';
-         $query = $request->get('query');
-        $getavrage = DB::table('books')->leftJoin('reviews','books.id' , '=', 'reviews.book_id')
-        ->select('books.*','books.id as myID','reviews.*', DB::raw('avg(rate) as rate '))
-        ->groupBy('books.title')->get()->sortByDESC('rate'); 
-         
-        $total_row = $getavrage->count();
-         
-         if($total_row > 0)
-         {
-          foreach($getavrage as $row)
-          {
-              $rate;
-              if($row->rate)
-              {
-                $rate=$row->rate;
-              }
-              else
-              {
-                $rate=0;
-              }
-               $output .= "<tr>
-               <td class='align-middle'>$row->myID </td>
-               <td class='align-middle'>$row->title</td>
-               <td class='align-middle'>$rate</td>
-               
-               <td class='align-middle'>$row->author</td>
-               <td class='align-middle'>$row->cover</td>
-               <td class='align-middle'> <a href=\"books/{$row->myID}\"> <button class=\"btn btn-primary\">Show</button></a></td>
-               <td class='align-middle'> <a href=\"books/{$row->myID}/edit\"> <button class=\"btn btn-success\">Update</button></a> </td>
-               <td class='align-middle'>
-              
-           
-               <form action=\"/admin/books/{$row->book_id}\" method='POST'>
-               <input type='hidden' name='_method' value='DELETE'>
-               <input type='hidden' name='_token' value='".  csrf_token() ."'>
-               <button class=\"btn btn-danger\" type=\"submit\" >Delete</button>
-               </form>
-   
-               </td>
-           
-               </tr>";
-   
-               
-          }
-         }
-         else
-         {
-          $output = '
-          <tr>
-           <td align="center" colspan="5">No Data Found</td>
-          </tr>
-          ';
-         }
-         $data = array(
-          'table_data'  => $output,
-         );
-   
-         echo json_encode($data);
-        }
-    
-
-    }
-
-    /**
-     * Search
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-     if($request->ajax())
-     {
-      $output = '';
-      $query = $request->get('query');
-      if($query != '')
-      {
-        $data = Book::where('title', 'like', '%'.$query.'%')->orWhere('author', 'like', '%'.$query.'%')->orderBy('title')->get();       
-      }
-      else
-      {
-        $data=Book::all()->sortBy('title');
-      }
-      $total_row = $data->count();
-      if($total_row > 0)
-      {
-       foreach($data as $row)
-       {
-            $output .= "<tr>
-            <td class='align-middle'>$row->title</td>
-            <td class='align-middle'>$row->author</td>
-            <td class='align-middle'>$row->cover</td>
-            <td class='align-middle'> <a href=\"books/{$row->id}\"> <button class=\"btn btn-primary\">Show</button></a></td>
-            <td class='align-middle'> <a href=\"books/{$row->id}/edit\"> <button class=\"btn btn-success\">Update</button></a> </td>
-            <td class='align-middle'>
-           
-        
-            <form action=\"/admin/books/{$row->id}\" method='POST'>
-            <input type='hidden' name='_method' value='DELETE'>
-            <input type='hidden' name='_token' value='".  csrf_token() ."'>
-            <button class=\"btn btn-danger\" type=\"submit\" >Delete</button>
-            </form>
-
-            </td>
-        
-            </tr>";
-
-            
-       }
-      }
-      else
-      {
-       $output = '
-       <tr>
-        <td align="center" colspan="5">No Data Found</td>
-       </tr>
-       ';
-      }
-      $data = array(
-       'table_data'  => $output,
-       'total_data'  => $total_row
-      );
-
-      echo json_encode($data);
-     }
- 
-    }
-
-
 
     /**
      * Search
@@ -212,43 +72,40 @@ class BookController extends Controller
       $filter=$request->get('filt');
       $myOrder= explode("/",$filter)[0];
       $myCategoryID= (int) explode("/",$filter)[1];
-      // $myOrder = $request->get('orderBy');
-      // $myCategoryID = $request->get('category');
       $text = $request->get('text');
-      $selectedRows=[];
     
       if($myCategoryID == 0)
       {
-        $selectedRows = DB::table('books')
-        ->leftjoin('reviews', 'books.id', '=','reviews.book_id' )
-        ->select('books.*','books.id as myID','books.created_at as creation',
-        'books.title as title',
-        'reviews.*', DB::raw('avg(reviews.rate) as rate '))
-        ->groupBy('reviews.book_id')
-        ->get()->sortBy($myOrder);
+        // $selectedRows = DB::table('books')
+        // ->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
+        // ->select('books.*','books.id as myID','books.created_at as creation',
+        // 'books.title as title',
+        // 'reviews.*', DB::raw('avg(reviews.rate) as avgRate '))
+        // ->groupBy('books.title')
+        // ->get()->sortBy($myOrder);
+
+        $selectedRows = DB::table('books')->get();
+
         
       }  
       else
       {
-        $selectedRows = DB::table('books')
-        ->leftjoin('reviews', 'books.id', '=','reviews.book_id' )
-        ->select('books.*','books.id as myID','books.created_at as creation',
-        'books.title as title',
-        'reviews.*', DB::raw('avg(reviews.rate) as rate '))
-        ->where('books.category_id', '=', $myCategoryID)                 
-        ->groupBy('reviews.book_id')
-        ->get()->sortBy($myOrder);
+        // $selectedRows = DB::table('books')
+        // ->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
+        // ->select('books.*','books.id as myID','books.created_at as creation',
+        // 'books.title as title',
+        // 'reviews.*', DB::raw('avg(reviews.rate) as avgRate '))
+        // ->where('books.category_id', '=', $myCategoryID)                 
+        // ->groupBy('books.title')
+       // ->get()->sortBy($myOrder);    
+
+        $selectedRows = DB::table('books')->where('books.category_id', '=', 4)->get();
       }     
-        
-      $total_rows = $selectedRows->count();
-    
-      $selectedRows = DB::table('books')->get();
-      
+      $total_rows = $selectedRows->count();          
       $data = array(
-       //'table_data'  => "<td> ".$myOrder.$myCategoryID.$text  ."</td>"
-      'total_rows'  => $total_rows,
-      'selectedRows' =>$selectedRows
-    );
+        'total_rows'  => $total_rows,
+        'selectedRows' =>$selectedRows
+      );
 
       echo json_encode($data);
      }
@@ -262,9 +119,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
-        $allCategories = Category::all();
-        return view('admin.books.create',compact('allCategories'));
+      $allCategories = Category::all();
+      return view('admin.books.create',compact('allCategories'));
     }
 
     /**
@@ -275,8 +131,6 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //  return $request->all();
-
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -286,8 +140,7 @@ class BookController extends Controller
             'categories' => 'required',
             'cover' => 'required'
           ]);
-        
-          //Book::create($request->all());
+      
         $book =new Book;
         $book->title=request('title'); 
         $book->description=request('description'); 
@@ -298,11 +151,7 @@ class BookController extends Controller
         $book->cover=request('cover');      
         $book->save();   
 
-        return redirect('admin/books')
-                         ->with('success', 'new Book add successfully');
-                         
-
-       
+        return redirect('admin/books')->with('success', 'new Book add successfully');
     }
 
     /**
@@ -331,14 +180,9 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-  
-        $myBook = Book::find($book)->first();
-        $allCategories=Category::get();
-
-        return view('admin.books.edit')->with(['myBook'=> $myBook,'allCategories'=>$allCategories]);
-
-
-        //return "hi";
+      $myBook = Book::find($book)->first();
+      $allCategories=Category::get();
+      return view('admin.books.edit')->with(['myBook'=> $myBook,'allCategories'=>$allCategories]);
     }
 
     /**
@@ -350,8 +194,6 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
-
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -372,11 +214,7 @@ class BookController extends Controller
           $book->cover=request('cover');      
           $book->save();   
   
-          return redirect('admin/books')
-                           ->with('success', ' Book updated successfully');
-                           
-  
-        //return $request->all();
+          return redirect('admin/books')->with('success', ' Book updated successfully');                           
     }
 
     
@@ -388,9 +226,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
         $myBook = Book::find($book)->first();
-        // $myBook = Book::findOrFail($book);
         $myBook->delete();
         //return response()->json(['success' => 'Record deleted successfully!']);
         return redirect('admin/books')->with('success', 'Book deleted successfully');   
