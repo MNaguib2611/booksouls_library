@@ -68,7 +68,6 @@
 @section('js')
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-<script src="{{asset('js/listBooks.js')}}"></script>
 
 <script>
 
@@ -132,7 +131,6 @@ $(document).ready(function(){
 
 function print_data(data,text)
 {
-  console.log(data);
   jQuery('.bookcontainer').html('');
 
   var output="";
@@ -178,7 +176,12 @@ function print_data(data,text)
     $( ".bookcontainer" ).append( "<h1>No Data Found</h1>" );
 
   }
-
+  $(document).ready(function(){
+    $('.deletebutton').click(function(e){
+      e.preventDefault();
+      $(this).parent().parent().parent().addClass("deleteme");
+    });
+  });
 }
 
 </script>
