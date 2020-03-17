@@ -116,3 +116,64 @@
     height: 30px;
     bottom: inherit !important;
 }
+
+.review-card{
+    width:80%;
+    font-family: 'Poppins', sans-serif;
+    font-size:16px;
+    margin-bottom: 2rem;
+}
+.review-photo{
+    height:80px;
+    max-width:80px !important;
+    display:inline-block;
+    float:left;
+    margin-right:3em;
+}
+.review-photo img{
+    height:80px;
+    max-width:80px !important;
+    display:inline-block;
+    float:left;
+    margin-right:3em;
+}
+.review-box{
+    display:inline-block;
+    width:80%;
+    background:rgb(241, 239, 239);
+    border-radius: 1rem;
+    padding:1.5em;
+    position: relative;
+}
+.review-box:after, .review-box:before {
+      right: 100%;
+      top: 10%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+}
+.review-box:after {
+      border-right-color: rgb(241, 239, 239);
+      border-width: 25px;
+}
+.review-comment{
+    color:#9A9999;
+}
+.review-date{
+    color:#C7C7C7;
+}
+.review-author{
+    color:#C7C7C7;
+    margin-top: -.5rem;
+}
+.review-author strong{
+    color:black;
+}
+
+.reviews{
+    margin-left: 8rem;
+    margin-top: 8rem;
+}

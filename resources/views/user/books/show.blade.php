@@ -83,6 +83,34 @@
       </div>
     </div>
   </div>
+    <div class="reviews">
+      @foreach($reviews as $review)
+        <div class="review-card">
+          <div class="review-photo">
+              <img src="{{$review->avatar}}">
+          </div>
+          <div class="review-box">
+              <div class="review-author">
+              <p><strong>{{$review->name}}</strong>&nbsp;&nbsp;- 
+                <span class="fa fa-star @if($review->rate > 0 ) checked @else fa-star-o @endif"></span>
+                <span class="fa fa-star @if($review->rate > 1 ) checked @else fa-star-o @endif"></span>
+                <span class="fa fa-star @if($review->rate > 2 ) checked @else fa-star-o @endif"></span>
+                <span class="fa fa-star @if($review->rate > 3 ) checked @else fa-star-o @endif"></span>
+                <span class="fa fa-star @if($review->rate > 4 ) checked @else fa-star-o @endif"></span>
+              </p>
+              </div>
+              <div class="review-comment">
+                  <p> {{$review->comment}}
+                  </p>
+              </div>
+              
+              <div class="review-date">
+                  <time>{{$review->created_at}}</time>
+              </div>
+          </div>
+        </div>
+        @endforeach
+    </div>
     <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" ></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>

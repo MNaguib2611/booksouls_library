@@ -52,10 +52,23 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
+        $reviews = Review::leftJoin('users', 'reviews.user_id', '=', 'users.id')
+            ->select('reviews.*', 'users.name', 'users.avatar')
+            ->where('book_id', $book->id)->orderBy('reviews.rate', 'desc')->get();
+
+        $userReview = Review::leftJoin('users', 'reviews.user_id', '=', 'users.id')
+            ->select('reviews.*', 'users.name', 'users.avatar')
+            ->where([['book_id', $book->id], ['user_id', Auth::id()]])->get();
+        
+        $reviewedFlag = 0;
+        if($userReview->count() > 0){
+            $reviewedFlag = 1;
+        }
+
         $book = Book::find($book->id);
         $category=Category::find($book->category_id);
         $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
-        return view('user.books.show', compact('book', 'favourites', 'category'));
+        return view('user.books.show', compact('book', 'favourites', 'category', 'reviews','userReview', 'reviewedFlag'));
 
     }
 
