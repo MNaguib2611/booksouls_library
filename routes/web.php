@@ -47,23 +47,25 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/book/getCategories', 'Admin\BookController@getCategories')->name('book.getCategories');
             Route::get('/book/getAvrage', 'Admin\BookController@getAvrage')->name('book.getAvrage');
             Route::get('/book/selectedData', 'Admin\BookController@selectedData')->name('book.selectedData');
-
+            
         });//end of admin middleware
-
-
-
-    //user routes  ->only viewed by users
-    Route::group([
-        'middleware' => 'endUser'],
-        function () {
-            Route::Resource('/books', 'User\BookController');
-            Route::Resource('/leases', 'User\LeaseController');
-            Route::Resource('/favourites', 'User\FavouriteController');
-            Route::Resource('/reviews', 'User\ReviewController');
-            Route::get('profile',  ['as' => 'users.edit', 'uses' => 'User\ProfileController@edit']);
-            Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'User\ProfileController@update']);
-            Route::delete('/remove-favourite', 'User\FavouriteController@removeFavourite')->name('removeFavourite');
-            Route::delete('/remove-lease', 'User\LeaseController@removeLease')->name('removeLease');
+        
+        
+        
+        //user routes  ->only viewed by users
+        Route::group([
+            'middleware' => 'endUser'],
+            function () {
+                Route::Resource('/books', 'User\BookController');
+                Route::Resource('/leases', 'User\LeaseController');
+                Route::Resource('/favourites', 'User\FavouriteController');
+                Route::Resource('/reviews', 'User\ReviewController');
+                Route::get('/categories', 'User\CategoryController@index')->name('getCategories');
+                Route::get('/categories/{category}', 'User\CategoryController@show')->name('getCategory');
+                Route::get('profile',  ['as' => 'users.edit', 'uses' => 'User\ProfileController@edit']);
+                Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'User\ProfileController@update']);
+                Route::delete('/remove-favourite', 'User\FavouriteController@removeFavourite')->name('removeFavourite');
+                Route::delete('/remove-lease', 'User\LeaseController@removeLease')->name('removeLease');
 
     });//end of endUser middleware
 
