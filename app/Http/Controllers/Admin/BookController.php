@@ -73,34 +73,38 @@ class BookController extends Controller
       $myOrder= explode("/",$filter)[0];
       $myCategoryID= (int) explode("/",$filter)[1];
       $text = $request->get('text');
+      
+      if($myOrder=="title")
+         $order="asc";
+      else
+         $order="desc";
+
+         
     
       if($myCategoryID == 0)
       {
-        // $selectedRows = DB::table('books')
-        // ->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
-        // ->select('books.*','books.id as myID','books.created_at as creation',
-        // 'books.title as title',
-        // 'reviews.*', DB::raw('avg(reviews.rate) as avgRate '))
-        // ->groupBy('books.title')
-        // ->get()->sortBy($myOrder);
+        $selectedRows = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id')
+        ->select('books.*','books.id as myID',
+        'books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
+        ->where('title', 'like', '%'.$text.'%')
+        ->orwhere('author', 'like','%'.$text.'%')
+        ->groupBy('books.id')->orderBy($myOrder,$order)->get();
 
-        $selectedRows = DB::table('books')->get();
-
-        
+        //$selectedRows = DB::table('books')->get();
       }  
       else
-      {
-        // $selectedRows = DB::table('books')
-        // ->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
-        // ->select('books.*','books.id as myID','books.created_at as creation',
-        // 'books.title as title',
-        // 'reviews.*', DB::raw('avg(reviews.rate) as avgRate '))
-        // ->where('books.category_id', '=', $myCategoryID)                 
-        // ->groupBy('books.title')
-       // ->get()->sortBy($myOrder);    
+      {   
+        $selectedRows = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
+        ->select('books.*','books.id as myID',
+        'books.title as title', DB::raw('avg(reviews.rate) as avgRate ')) 
+        ->where('title', 'like', '%'.$text.'%')
+        ->orwhere('author', 'like','%'.$text.'%')
+        ->where('books.category_id', '=',$myCategoryID)
+        ->groupBy('books.id')->orderBy($myOrder,'asc')->get();
 
-        $selectedRows = DB::table('books')->where('books.category_id', '=', 4)->get();
+       // $selectedRows = DB::table('books')->where('books.category_id', '=', 4)->get();
       }     
+
       $total_rows = $selectedRows->count();          
       $data = array(
         'total_rows'  => $total_rows,
@@ -167,9 +171,6 @@ class BookController extends Controller
 
         //return $myBook;
          return view('admin.books.show')->with(['myBook'=> $myBook,'myCategory'=>$myCategory]);
-
-       //return "show";
-
     }
 
     /**

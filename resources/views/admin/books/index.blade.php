@@ -5,7 +5,7 @@
   <div class="container justify-content-center">
       <div class="col-md-12">
           <div class="card">
-            <div class="card-body h-100">
+            <div class="card-body">
             <h1 class="ml-2"> list all books </h1>
             <button class="btn btn-primary ml-2 mb-2" onclick="location.href='{{ url('admin/books/create') }}'"> Create New Book </button>
             @if ($message = Session::get('success'))
@@ -19,11 +19,11 @@
             <input type="text" name="search" id="search" class="form-control" placeholder="Search" style="width:25%" />
             <br/>
 
-            <input type="radio" name="order" value="rate" class="form-check-label" ></input>
+            <input type="radio" name="order" value="avgRate" class="form-check-label" ></input>
               <label class="form-check-label" for="gridRadios1">
               Rate
               </label>
-            <input type="radio" name="order" value="creation" class="form-check-label" ></input>
+            <input type="radio" name="order" value="created_at" class="form-check-label" ></input>
               <label class="form-check-label" for="gridRadios2">
                 Latest
               </label>
@@ -146,23 +146,23 @@ $(document).ready(function(){
 function print_data(data)
 {
   console.log(data);
-  $(".table > tr").remove();
-  
+  jQuery('.bookcontainer').html('');
+
   var output="";
-  //$('tbody').html(data.table_data);
-  if(data.total_rows > 1)
+  if(data.total_rows > 0)
   {
     for(var row in data.selectedRows) 
     {         
       var output =  '<div class="book">'+
-            '<div class="bookpic" style="background-image: url(\'https://raw.githubusercontent.com/Poojavpatel/BookStoreApp/master/img/jungle.jpg\');"></div>'+
+            '<div class="bookpic" style="background-image: url(\''+"   "+'\');"></div>'+
             '<div class="bookinfo">'+
              '   <div class="title">'+data.selectedRows[row].title+'</div>'+
               '  <div class="author">'+data.selectedRows[row].author+'</div>'+
-               ' <div class="stars">'+data.selectedRows[row].rate+'</div>'+
+              ' <div class="stars">'+ Math.ceil(data.selectedRows[row].avgRate)+'</div>'+
+               ' <div class="created_at">'+data.selectedRows[row].created_at+'</div>'+
                 '<ul class="controls">'+
                     '<li class="control">'+
-                     '   <a href="/admin/books/'+data.selectedRows[row].id+'/edit">'+
+                     '   <a href="/admin/books/'+data.selectedRows[row].myID+'/edit">'+
                             '<svg class="icon icon--2x"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#edit"></use></svg>'+
                            ' <span class="invisible">Update</span>'+
                         '</a>'+
@@ -178,6 +178,8 @@ function print_data(data)
         '</div>';
 
         $( ".bookcontainer" ).append( output );
+       // console.log(output);
+
       
     }
 

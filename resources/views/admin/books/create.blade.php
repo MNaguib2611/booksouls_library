@@ -5,39 +5,71 @@
   <div class="container justify-content-center">
       <div class="col-md-12">
           <div class="card">
-            <div class="card-body h-100">
+            <div class="card-body ">
 <h1> create new book </h1>
 
 <table>
 
 
-<form method="post"  action="/admin/books" enctype="multipart/form-data">
-
-@csrf
-
-
-<label>  Title </label> <input type="text" name="title"> <br>
-<label>  Description </label> <input type="text" name="description"> <br>
-<label>  Author </label> <input type="text" name="author"> <br>
-<label>  Quantity </label> <input type="number" name="quantity" min="0"> <br>
-<label>  price </label> <input type="number" name="price" min="0"> <br>
-
-<label>  category </label> 
-<select id="categories" name="categories">
-@foreach ($allCategories as $all)
-<option value={{$all->name}}> {{$all->name}} </option>
-@endforeach
-</select>
- 
-<br>
-
-<label>  Cover </label> <input type="text" name="cover"> <br>
-
-
-<a href="{{url()->previous() }}" >Back</a>
-
-<button  type="submit"> Submit </buttton>
-</form>
+<form class="form-horizontal" role="form" method="POST" action="/admin/books/"  enctype="multipart/form-data">
+    @csrf
+    <div class="form-group">
+        <label class="col-lg-3 control-label">Cover:</label>
+        <div class="col-lg-8">
+        <input type="file" class="form-control" name="cover" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Title:</label>
+        <div class="col-lg-8">
+          <input class="form-control" type="text" name="title"  >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Description:</label>
+        <div class="col-lg-8">
+          <input class="form-control"  type="text" name="description" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Author:</label>
+        <div class="col-lg-8">
+          <input class="form-control"  type="text" name="author" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Quantity:</label>
+        <div class="col-lg-8">
+          <input class="form-control"  type="number" name="quantity" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Price:</label>
+        <div class="col-lg-8">
+          <input class="form-control" type="number" name="price" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Category:</label>
+        <div class="col-lg-8">
+          <div class="ui-select">
+            <select id="categories" name="categories" class="form-control">
+            @foreach ($allCategories as $all)
+            <option value={{$all->name}}> {{$all->name}} </option>
+            @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8">
+          <input type="button" class="btn btn-primary" value="Save Changes">
+          <span></span>
+          <input type="reset" class="btn btn-default" value="Cancel">
+        </div>
+      </div>
+    </form>
 
 </table>
 
