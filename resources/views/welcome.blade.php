@@ -56,6 +56,9 @@
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="#team">Our Team</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#about">About Us</a>
+                </li>
                 </ul>
             </div>
             </div>
@@ -144,6 +147,98 @@
             </div>
         </section>
 
+        <!-- About -->
+        <section class="page-section" id="about">
+            <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">About Us</h2>:
+                <h3 class="section-subheading text-muted">We inspire and enable independent minds, providing resources, spaces and technologies.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                <ul class="timeline">
+                    <li>
+                    <div class="timeline-image">
+                    <h4>Who
+                    <br>We
+                    <br>Are</h4>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                        <h4>ITIANS Student</h4>
+                        <!-- <h4 class="subheading">An Agency is Born</h4> -->
+                        </div>
+                        <div class="timeline-body">
+                        <p class="text-muted">Information Technology Institution (ITI)</p>
+                        <p class="text-muted">Intake 40 - 2019:2020 </p>
+                        <p class="text-muted">Web Application Development </p>
+                        </div>
+                    </div>
+                    </li>
+                    <li class="timeline-inverted">
+                    <div class="timeline-image">
+                    <h4><br/>Tools</h4>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                        <h4>Laravel / MySQL</h4>
+                        <!-- <h4 class="subheading">An Agency is Born</h4> -->
+                        </div>
+                        <div class="timeline-body">
+                        <p class="text-muted">
+                        <img src="https://qph.fs.quoracdn.net/main-qimg-f08bb4707cd8c12929d77a1ba09a85d5" width=30% height=40%>
+                        <img src="data:image/png;base64,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" width=30% height=40%>
+                        </p>
+                        </div>
+                    </div>
+                    </li>
+                    <li>
+                    <div class="timeline-image">
+                    <h4>Share
+                    <br>healthy
+                    <br>Environment</h4>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                        <h4>Research and learning environments</h4>
+                        <!-- <h4 class="subheading">Transition to Full Service</h4> -->
+                        </div>
+                        <div class="timeline-body">
+                        <p class="text-muted">Today’s scholars demand libraries that meet changing styles, which is why we design our libraries to inspire you to achieve your goals</p>
+                        </div>
+                    </div>
+                    </li>
+                    <li class="timeline-inverted">
+                    <div class="timeline-image">
+                    <h4>We
+                    <br>are
+                    <br>Super!</h4>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                        <h4>Who</h4>
+                        <h4 class="subheading">We Are ?</h4>
+                        </div>
+                        <div class="timeline-body">
+                        <p class="text-muted">We are dedicated Developers with high skills & great potentials always at your service</p>
+                        </div>
+                    </div>
+                    </li>
+                    <li class="timeline-inverted">
+                    <div class="timeline-image">
+                        <h4>Be Part
+                        <br>Of Our
+                        <br>Story!</h4>
+                    </div>
+                    </li>
+                </ul>
+                </div>
+            </div>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
@@ -157,7 +252,7 @@
                 <div class="col-md-4">
                 <ul class="list-inline quicklinks">
                     <li class="list-inline-item">
-                    <a href="#">Privacy Policy</a>
+                    <a href="#about">About US</a>
                     </li>
                     <li class="list-inline-item">
                     <a href="#">Terms of Use</a>

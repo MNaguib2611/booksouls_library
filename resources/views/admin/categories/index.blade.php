@@ -4,7 +4,7 @@
 <div class="container justify-content-center">
     <div class="col-md-12">
         <div class="card">
-          <div class="card-body h-100">
+          <div class="card-body">
     <h1 class="display-3" style="text-align:center;">Categories</h1>
     <div class="col-sm-12" style="text-align:center;">
         @if(session()->get('success'))

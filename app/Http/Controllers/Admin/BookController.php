@@ -69,6 +69,8 @@ class BookController extends Controller
      if($request->ajax())
      {
       $output = '';
+      $myCategoryID = 0;
+      $order="";
       $filter=$request->get('filt');
       $myOrder= explode("/",$filter)[0];
       $myCategoryID= (int) explode("/",$filter)[1];
@@ -77,38 +79,42 @@ class BookController extends Controller
       if($myOrder=="title")
          $order="asc";
       else
-         $order="desc";
+         $order="DESC";
 
          
     
-      if($myCategoryID == 0)
+      if($myCategoryID > 0)
       {
-        $selectedRows = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id')
-        ->select('books.*','books.id as myID',
-        'books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
-        ->where('title', 'like', '%'.$text.'%')
-        ->orwhere('author', 'like','%'.$text.'%')
-        ->groupBy('books.id')->orderBy($myOrder,$order)->get();
 
-        //$selectedRows = DB::table('books')->get();
-      }  
-      else
-      {   
         $selectedRows = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
-        ->select('books.*','books.id as myID',
-        'books.title as title', DB::raw('avg(reviews.rate) as avgRate ')) 
-        ->where('title', 'like', '%'.$text.'%')
-        ->orwhere('author', 'like','%'.$text.'%')
-        ->where('books.category_id', '=',$myCategoryID)
-        ->groupBy('books.id')->orderBy($myOrder,'asc')->get();
+        ->select('books.*','books.id as myID','books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
+        ->where('books.category_id', '=', $myCategoryID)
+        // ->where(function ($query)
+        //  { 
+        //    $query-> where('title', 'like', '%'.$text.'%')
+        //    ->orwhere('author', 'like','%'.$text.'%');
+        //   })
+        ->groupBy('books.id')->orderBy('title','asc')->get();
 
        // $selectedRows = DB::table('books')->where('books.category_id', '=', 4)->get();
-      }     
+      }  
+      else
+      {  
+        $selectedRows = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id')
+          ->select('books.*','books.id as myID',
+          'books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
+          ->where('title', 'like', '%'.$text.'%')
+          ->orwhere('author', 'like','%'.$text.'%')
+          ->groupBy('books.id')->orderBy($myOrder,$order)->get();
+
+          //$selectedRows = DB::table('books')->get();
+      }  
+     
 
       $total_rows = $selectedRows->count();          
       $data = array(
         'total_rows'  => $total_rows,
-        'selectedRows' =>$selectedRows
+        'selectedRows' => $selectedRows,
       );
 
       echo json_encode($data);

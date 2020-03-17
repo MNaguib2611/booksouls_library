@@ -7,7 +7,6 @@
           <div class="card">
             <div class="card-body">
             <h1 class="ml-2"> list all books </h1>
-            <button class="btn btn-primary ml-2 mb-2" onclick="location.href='{{ url('admin/books/create') }}'"> Create New Book </button>
             @if ($message = Session::get('success'))
                     <div class="alert alert-success alert-block">
                         <button type="button" class="close" data-dismiss="alert">×</button>	
@@ -16,7 +15,7 @@
             @endif
 
         
-            <input type="text" name="search" id="search" class="form-control" placeholder="Search" style="width:25%" />
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search" style="width:80%" />
             <br/>
 
             <input type="radio" name="order" value="avgRate" class="form-check-label" ></input>
@@ -70,6 +69,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script src="{{asset('js/listBooks.js')}}"></script>
+
 <script>
 
 let orderBy="title";
@@ -90,7 +90,7 @@ function fetch_book_data(orderBy,category,text)
     dataType:'json',
     success:function(data)
     {
-      print_data(data)
+      print_data(data,text)
     }
   })
 }
@@ -108,19 +108,6 @@ function fetch_book_category(query = '')
   })
 }
 
-function fetch_avrage_reviews(orderBy,category,text)
-{
-  $.ajax({
-    url:"{{ route('book.getAvrage') }}",
-    method:'GET',
-    data:{orderBy:orderBy,category:category,text:text},
-    dataType:'json',
-    success:function(data)
-    {
-      $('tbody').html(data.table_data);
-    }
-  })
-}
 
 $(document).on('keyup', '#search', function(){
   text = $(this).val();
@@ -143,7 +130,7 @@ $(document).ready(function(){
 });
 
 
-function print_data(data)
+function print_data(data,text)
 {
   console.log(data);
   jQuery('.bookcontainer').html('');
@@ -152,37 +139,38 @@ function print_data(data)
   if(data.total_rows > 0)
   {
     for(var row in data.selectedRows) 
-    {         
-      var output =  '<div class="book">'+
-            '<div class="bookpic" style="background-image: url(\''+"   "+'\');"></div>'+
-            '<div class="bookinfo">'+
-             '   <div class="title">'+data.selectedRows[row].title+'</div>'+
-              '  <div class="author">'+data.selectedRows[row].author+'</div>'+
-              ' <div class="stars">'+ Math.ceil(data.selectedRows[row].avgRate)+'</div>'+
-               ' <div class="created_at">'+data.selectedRows[row].created_at+'</div>'+
-                '<ul class="controls">'+
-                    '<li class="control">'+
-                     '   <a href="/admin/books/'+data.selectedRows[row].myID+'/edit">'+
-                            '<svg class="icon icon--2x"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#edit"></use></svg>'+
-                           ' <span class="invisible">Update</span>'+
-                        '</a>'+
-                    '</li>'+
-                   ' <li class="control deletebutton">'+
-                        '<a href="#">'+
-                         '   <svg class="icon icon--2x deletesvg"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#delete"></use></svg>'+
-                          '  <span class="invisible">Delete</span>'+
-                       ' </a>'+
-                    '</li>'+
-                '</ul>'+
-            '</div>'+
-        '</div>';
+    {  
+      if(data.selectedRows[row].title.toLowerCase().indexOf(text.toLowerCase()) >= 0 ||data.selectedRows[row].author.toLowerCase().indexOf(text.toLowerCase()) >= 0 )       
+        {
+          var output =  '<div class="book">'+
+                '<div class="bookpic" style="background-image: url(\''+" "+'\');"></div>'+
+                '<div class="bookinfo">'+
+                '   <div class="title">'+data.selectedRows[row].title+'</div>'+
+                  '  <div class="author">'+data.selectedRows[row].author+'</div>'+
+                  ' <div class="stars">'+ Math.ceil(data.selectedRows[row].avgRate)+'</div>'+
+                  ' <div class="created_at">'+data.selectedRows[row].created_at+'</div>'+
+                    '<ul class="controls">'+
+                        '<li class="control">'+
+                        '   <a href="/admin/books/'+data.selectedRows[row].myID+'/edit">'+
+                                '<svg class="icon icon--2x"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#edit"></use></svg>'+
+                              ' <span class="invisible">Update</span>'+
+                            '</a>'+
+                        '</li>'+
+                      ' <li class="control deletebutton">'+
+                            '<a href="#">'+
+                            '   <svg class="icon icon--2x deletesvg"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#delete"></use></svg>'+
+                              '  <span class="invisible">Delete</span>'+
+                          ' </a>'+
+                        '</li>'+
+                    '</ul>'+
+                '</div>'+
+            '</div>';
 
-        $( ".bookcontainer" ).append( output );
-       // console.log(output);
+            $( ".bookcontainer" ).append( output );
+          // console.log(output);
 
-      
+        }
     }
-
   }
   else
   {

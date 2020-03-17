@@ -67,6 +67,7 @@
             scales: {
                 yAxes: [{
                     ticks: {
+                        display: false,
                         beginAtZero: true
                     },
                     gridLines: {
