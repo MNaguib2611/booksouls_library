@@ -24,7 +24,7 @@
                     @endif
                         <h2><a class="btn btn-success btn-lg" href="{{route('admins.create') }}">Add Admin</a></h2>
                         <table class="table table-hover">
-                           <thead>
+                           <thead class="thead-dark">
                             <tr>
                                <th>Name</th>
                                <th>Username</th>

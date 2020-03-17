@@ -18,4 +18,8 @@ class Lease extends Model
     {
         return $this->belongsTo('App\Book');
     }
+
+
+
+    protected $dates = ['end_date'];
 }

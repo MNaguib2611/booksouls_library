@@ -18,6 +18,7 @@ class CreateLeasesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
             $table->unsignedSmallInteger('duration'); # max value is 32,768
+            $table->dateTime('end_date')->nullable();
             $table->timestamps();
         });
     }

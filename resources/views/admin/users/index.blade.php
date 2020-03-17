@@ -24,7 +24,7 @@
                         </div>
                     @endif
                         <table class="table table-hover">
-                           <thead>
+                           <thead class="thead-dark">
                             <tr>
                                <th>Name</th>
                                <th>Username</th>

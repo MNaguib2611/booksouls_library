@@ -19,7 +19,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/listBooks.css') }}" rel="stylesheet">
     <link href="{{asset('css/mainAdmin.css')}}" rel="stylesheet">
-
+    @yield('css')
 </head>
 
 <body>

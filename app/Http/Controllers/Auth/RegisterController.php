@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'username' => ['required','max:191', 'unique:users'],
             'address' => ['required','max:191'],
             'phone' => ['unique:users','required','digits_between:10,15'],
-            'avatar'  =>  ["required","image"]
+            'avatar'  =>  ["nullable","image"]
         ]);
     }
 

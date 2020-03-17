@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::put('users/deactivate/{user}', 'Admin\UserController@deactivate')->name('user.deactivate');
             Route::Resource('/books', 'Admin\BookController');
             Route::Resource('/categories', 'Admin\CategoryController');
-            Route::get('/leases', 'Admin\LeaseController@index');
+            Route::get('/leases', 'Admin\LeaseController@index')->name('admin.leases.index');
             Route::Resource('/profits', 'Admin\ProfitController')->only(['index','store']);
             Route::get('admin/books/findBook', 'Admin\BookController@findBook')->name('books.findBook');
             Route::get('/book/search', 'Admin\BookController@search')->name('book.search');

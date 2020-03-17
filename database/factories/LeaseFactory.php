@@ -11,6 +11,7 @@ $factory->define(Lease::class, function (Faker $faker) {
     return [
         'user_id'  =>User::inRandomOrder() -> first() -> id,
         'book_id'  =>Book::inRandomOrder() -> first() -> id,
-        'duration' =>mt_rand(1, 10)
+        'duration' =>mt_rand(1, 10),
+        'end_date' =>now()->addDays(mt_rand(1, 10))
     ];
 });
