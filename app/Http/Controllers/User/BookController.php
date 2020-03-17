@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Book;
+use App\Review;
 use App\Category;
 use Illuminate\Http\Request;
 use Auth;
@@ -51,11 +52,10 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
-        $myBook = Book::find($book->id);
-        $myCategory=Category::find($book->category_id);
-
-        return view('user.books.show')->with(['myBook'=> $myBook,'myCategory'=>$myCategory]);
+        $book = Book::find($book->id);
+        $category=Category::find($book->category_id);
+        $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
+        return view('user.books.show', compact('book', 'favourites', 'category'));
 
     }
 

@@ -1,0 +1,36 @@
+.container-fluid{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.book-cover{
+    box-shadow: 0px 3px .7rem .2rem rgba(153, 153, 153, 0.6);
+    border-radius: 0.5rem !important;
+    max-width: 400px;
+    padding-bottom: 0;
+    max-height: 600px;
+}
+
+.book-title{
+    font-size: 2rem;
+}
+
+.book-rating{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rating-card{
+    margin-top: 2rem;
+    margin-left: -.5rem;
+}
+.copies{
+    margin-top: 2.6rem;
+}
+
+.book-details{
+    max-width: 28rem;
+}

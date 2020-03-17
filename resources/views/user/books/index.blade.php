@@ -12,7 +12,7 @@
                     <strong>{{ $message }}</strong>
             </div>
     @endif
-
+<div class="cont">
     <div class="cards">
         @foreach ($allBooks as $book)
         <div class="book-card">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="card-bdy">
                     <h3 class="card-text ml-3"> <strong>by</strong> <strong class="text-primary">{{$book->author}}</strong></h3>
-                    <h3 class="card-text m-3">{{$book->description}}</h3>
+                    <h3 class="card-text m-3">{!! Str::words($book->description, 20,'...') !!}</h3>
                 </div>
             </div>
 
@@ -98,9 +98,6 @@
         </div>
         @endforeach
         <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" ></div>
-        <div class="m-auto">
-            {{$allBooks->links()}}
-        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
             function handlingFav(book_id, event){
@@ -143,4 +140,8 @@
             }
         </script>
     </div>
+    <div class="paginate">
+        {{$allBooks->links()}}
+    </div>
+</div>
 @endsection
