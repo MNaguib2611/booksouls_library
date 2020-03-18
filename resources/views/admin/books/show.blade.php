@@ -19,9 +19,9 @@
         </ul>    
         </div>
 @endif
-<a href="{{ URL::to('admin/books/') }}"> <button class="btn btn-primary mr-5">Go Back</button></a>
+<a href="{{ URL::to('admin/books/') }}"> <button class="btn btn-primary ml-5">Go Back</button></a>
 
-  <div class="container-fluid">
+  <div class="container-fluid" style="margin-left:5rem; width:80%;">
 
     <!-- 3D book -->
     <div class="thecover"> 
@@ -36,7 +36,11 @@
 
     <div class="ml-4 book-details">  
       <h1 >{{$myBook->title}}</h1><br>
-      <a href="#" class="alert alert-primary">{{ $myCategory->name }}</a></label>
+      @if($myCategory)
+        <a href="{{ route('getCategory', $myCategory->id)}}" class="alert alert-primary">{{ $myCategory->name }}</a>
+      @else
+        <div class="alert alert-secondary text-center col-6" style="margin-top:-.8rem !important;">No Category for this book</div>
+      @endif
       <h3 class="card-text mt-4"> <strong>by</strong> <strong class="text-primary">{{$myBook->author}}</strong></h3>
       <h3 class="card-text mt-4" style="width:30rem;">{{$myBook->description}}</h3>
       <div  class="book-rating">
