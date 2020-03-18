@@ -18,11 +18,10 @@
         </div>
 @endif
 
-  <div class="container-fluid">
-    <a href="{{ URL::to('books/') }}"> <button class="btn btn-primary mr-5">Go Back</button></a>
+  <div class="container-fluid" style="width:100% !important;">
 
     <!-- 3D book -->
-    <div class="thecover"> 
+    <div class="thecover" style="margin-left: 8rem;"> 
       <div class="book3D">
         <div class="book3D-cover">
           <img class="book-cover" src="{{$book->cover}}" />
@@ -34,15 +33,72 @@
 
     <div class="ml-4 book-details">  
       <h1 >{{$book->title}}</h1><br>
-      @if($category)
-        <a href="{{ route('getCategory', $category->id)}}" class="alert alert-primary">{{ $category->name }}</a>
-      @else
-        <div class="alert alert-secondary text-center col-6" style="margin-top:-.8rem !important;">No Category for this book</div>
-      @endif
-      <h3 class="card-text mt-4"> <strong>by</strong> <strong class="text-primary">{{$book->author}}</strong></h3>
-      <h3 class="card-text mt-4" style="width:30rem;">{{$book->description}}</h3>
+      <div class="book-rating float-right " style="margin-top:-4.5rem;">
+        <div class="heart-btn">  
+          <div class="liked-button">
+              <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
+              <label for="{{$book->id}}">
+                  <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
+                      <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
+                          <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
+                          <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
+
+                          <g class="grp7" opacity="0" transform="translate(7 6)">
+                              <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
+                              <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp6" opacity="0" transform="translate(0 28)">
+                              <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
+                              <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp3" opacity="0" transform="translate(52 28)">
+                              <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
+                              <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp2" opacity="0" transform="translate(44 6)">
+                              <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
+                              <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp5" opacity="0" transform="translate(14 50)">
+                              <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
+                              <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp4" opacity="0" transform="translate(35 50)">
+                              <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
+                              <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp1" opacity="0" transform="translate(24)">
+                              <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
+                              <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
+                          </g>
+                      </g>
+                  </svg>
+              </label>
+          </div>
+        </div>
+    </div>
+    <h3 class="card-text" style="margin:-1.5rem 0 2.5rem 1rem; font-size:1.3rem !important;"> <strong>by</strong> <strong class="text-primary ">{{$book->author}}</strong></h3>
+    @if($category)
+      <a href="{{ route('getCategory', $category->id)}}" class="alert alert-primary">{{ $category->name }}</a>
+    @else
+      <div class="alert alert-secondary text-center col-6" style="margin-top:-.8rem !important;">No Category for this book</div>
+    @endif
+      <div class="rating rating-card float-right" style="margin-top:0; margin-right:-2rem;"> 
+            <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+      </div>
+      <h3 class="card-text mt-5 mb-5" style="width:30rem;">{{$book->description}}</h3>
       <div  class="book-rating">
-        <div class="copies text-muted">
+        <div class="copies text-muted ml-1" id="book-quantity">
             <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies text-center col-12">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
         </div>
         <div class="price">
@@ -50,66 +106,24 @@
             <span class="value">{{$book->price}}</span>
             <span class="duration">day</span>
         </div>
+        
       </div>
-      <div class="book-rating">
-      <div class="rating rating-card"> 
-            <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-      </div>
-      <div class="heart-btn">  
-        <div class="liked-button">
-            <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
-            <label for="{{$book->id}}">
-                <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
-                    <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
-                        <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
-                        <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
-
-                        <g class="grp7" opacity="0" transform="translate(7 6)">
-                            <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
-                            <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp6" opacity="0" transform="translate(0 28)">
-                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
-                            <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp3" opacity="0" transform="translate(52 28)">
-                            <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
-                            <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp2" opacity="0" transform="translate(44 6)">
-                            <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
-                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp5" opacity="0" transform="translate(14 50)">
-                            <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
-                            <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp4" opacity="0" transform="translate(35 50)">
-                            <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
-                            <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp1" opacity="0" transform="translate(24)">
-                            <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
-                            <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
-                        </g>
-                    </g>
-                </svg>
-            </label>
-        </div>
-      </div>
+    <div class="text-center" id="book-actions">
+      @if(!$userLease)
+          <button class="btn btn-success col-5" style='height:3rem; @if($book->quantity == 0) cursor:default !important;" disabled @endif'> Lease </button>
+        @else
+          <button class="btn btn-primary col-5" style="margin-left:-1rem; height:3rem" onclick=deleteLease()> Return </button> 
+          @if( $userLease->remaining == 1)
+            <h6 class="copies text-muted ml-3" style="display:inline-block;">You still have {{$userLease->remaining}} Day in your lease</h6> 
+          @elseif($userLease->remaining == 0) 
+            <h6 class="copies text-danger" style="display:inline-block; width:16rem; margin-left:-1rem;">Your Lease ends today!!</h6> 
+          @else 
+            <h6 class="copies text-muted ml-3" style="display:inline-block;">You still have {{$userLease->remaining}} Days in your lease</h6>
+          @endif
+        @endif
     </div>
   </div>
-  @if(! $reviewedFlag)
+  @if(!$userReview)
   <div class="reviewing-box">
       <h5 class="alert alert-info">Your reviews are welcomed</h5>
       <div class="row review-cont" id="post-review-box">
@@ -357,6 +371,34 @@
           }
         });
       });
+
+      function deleteLease(){
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'DELETE',
+            url: "{{ route('removeLease') }}",
+            data: { book_id: {!! json_encode($book->id) !!} },
+            success: function(result) {
+                if(!{!! $userReview !!}){
+                  $('#success_message').fadeIn().html(result);
+                  setTimeout(function() {
+                      $('#success_message').fadeOut("slow");
+                  }, 5000 );
+                }else{
+                  $('#success_message').fadeIn().html("we hope you've enjoyed the book!");
+                  setTimeout(function() {
+                      $('#success_message').fadeOut("slow");
+                  }, 5000 );
+                }
+                document.querySelector('#book-actions').innerHTML = "<button class='btn btn-success col-5' style='height:3rem'> Lease </button>";
+                document.querySelector('#book-quantity').innerHTML = "<h5>@if($book->quantity+1 == 1) {{$book->quantity+1}} copy @else {{$book->quantity+1}} copies @endif available </h5>";
+            },
+            error: function() {
+            }
+        })
+      }
   </script>
 
 @endsection

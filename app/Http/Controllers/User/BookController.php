@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Book;
 use App\Review;
+use App\Lease;
 use App\Category;
+use DB;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -58,18 +60,14 @@ class BookController extends Controller
 
         $userReview = Review::leftJoin('users', 'reviews.user_id', '=', 'users.id')
             ->select('reviews.*', 'users.name', 'users.avatar')
-            ->where([['book_id', $book->id], ['user_id', Auth::id()]])->get();
+            ->where([['book_id', $book->id], ['user_id', Auth::id()]])->first();
         
-        $reviewedFlag = 0;
-        if($userReview->count() > 0){
-            $reviewedFlag = 1;
-        }
-
+        $userLease = Lease::where([['book_id', $book->id], ['user_id', Auth::id()], ['deleted_at', null]])->select('leases.*', DB::raw('DATEDIFF(end_date, created_at) as remaining'))->first();
         $book = Book::find($book->id);
         $category=Category::find($book->category_id);
         $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
-        return view('user.books.show', compact('book', 'favourites', 'category', 'reviews','userReview', 'reviewedFlag'));
-
+        return view('user.books.show', compact('book', 'favourites', 'category', 'reviews', 'userReview', 'userLease'));
+        // return $userLease;
     }
 
     /**
