@@ -9,7 +9,18 @@
 
   <div class="container-fluid">
     <a href="{{ URL::to('books/') }}"> <button class="btn btn-primary mr-5">Go Back</button></a>
-    <img class="book-cover" src="{{$book->cover}}" />
+
+    <!-- 3D book -->
+    <div class="thecover"> 
+      <div class="book3D">
+        <div class="book3D-cover">
+          <img class="book-cover" src="{{$book->cover}}" />
+          <div class="book3D-top"></div>
+          <div class="book3D-right"></div> 
+        </div>
+      </div>
+    </div>
+
     <div class="ml-4 book-details">  
       <h1 >{{$book->title}}</h1><br>
       <a href="{{ route('getCategory', $category->id)}}" class="alert alert-primary">{{ $category->name }}</a></label>
