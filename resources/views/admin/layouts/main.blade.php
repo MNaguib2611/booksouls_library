@@ -30,7 +30,7 @@
             <div class="app-header__logo">
                 <!-- <div class="logo-src"></div> -->
                 <a class="navbar-brand" href="/">
-                    <img src="{{asset('imgs/LogoMakr_0kpqd2.png')}}" alt="Logo" style="width:180px;height:75px;margin-top:5px;">
+                    <img src="{{asset('imgs/LogoMakr_8FEAlV.png')}}" alt="Logo" style="width:180px;height:75px;margin-top:5px;">
                 </a>
                 <div class="header__pane ml-auto">
                     <div>
