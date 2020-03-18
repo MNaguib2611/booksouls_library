@@ -70,8 +70,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $imageName = time().'.'.$data['avatar']->extension();  
-        $data['avatar']->move(public_path('imgs/users'), $imageName);
+        if(array_key_exists('avatar', $data)){
+            $imageName = time().'.'.$data['avatar']->extension();  
+            $data['avatar']->move(public_path('imgs/users'), $imageName);
+        }
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -79,7 +81,7 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'address' => $data['address'],
             'phone' => $data['phone'],
-            'avatar'=> asset('/imgs/users').'/'.$imageName
+            'avatar'=> array_key_exists('avatar', $data)? asset('/imgs/users').'/'.$imageName : "http://127.0.0.1:8000/imgs/users/avatar.png",
         ]);
     }
 }
