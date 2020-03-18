@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Review;
 use Illuminate\Http\Request;
+use Auth;
 
 class ReviewController extends Controller
 {
@@ -35,7 +36,13 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $review = new Review;
+        $review->user_id = Auth::id();
+        $review->book_id = $request->book;
+        $review->rate = $request->rate;
+        $review->comment = $request->comment;
+        $review->save();
+        return ('Your review has been saved successfully');
     }
 
     /**

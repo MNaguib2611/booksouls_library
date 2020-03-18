@@ -17,7 +17,7 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->unsignedTinyInteger('rate'); # max value is 255, we need just (0-5)
             $table->timestamps();
         });
