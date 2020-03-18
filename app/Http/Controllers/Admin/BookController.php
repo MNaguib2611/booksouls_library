@@ -248,4 +248,20 @@ class BookController extends Controller
         //return response()->json(['success' => 'Record deleted successfully!']);
         return redirect('admin/books')->with('success', 'Book deleted successfully');   
     }
+
+    public function deleteBook(Request $request){
+
+      if($request->ajax())
+        {
+         $bookID = $request->input('bookID');
+
+         $message = DB::delete('delete from books where id = ?',[$bookID]);
+         
+          $data = array(
+            'message'  => $message
+           );
+     
+           echo json_encode($data);
+          }
+      }
 }
