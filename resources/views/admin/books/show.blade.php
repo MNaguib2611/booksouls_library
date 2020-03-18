@@ -36,7 +36,7 @@
 
     <div class="ml-4 book-details">  
       <h1 >{{$myBook->title}}</h1><br>
-      <a href="{{ route('getCategory', $myCategory->id)}}" class="alert alert-primary">{{ $myCategory->name }}</a></label>
+      <a href="#" class="alert alert-primary">{{ $myCategory->name }}</a></label>
       <h3 class="card-text mt-4"> <strong>by</strong> <strong class="text-primary">{{$myBook->author}}</strong></h3>
       <h3 class="card-text mt-4" style="width:30rem;">{{$myBook->description}}</h3>
       <div  class="book-rating">
