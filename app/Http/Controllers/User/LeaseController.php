@@ -94,6 +94,6 @@ class LeaseController extends Controller
 
     public function removeLease(Request $request){
         Lease::where([["user_id", Auth::id()],["book_id", $request->book_id]])->first()->delete();
-        return ('We hope that you had fun with the book, please take a moment of your time to review the book!');
+        return ('We hope that you had fun with the book, please take a moment of your time to review it!');
     }
 }

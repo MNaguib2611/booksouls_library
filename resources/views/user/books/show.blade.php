@@ -381,7 +381,7 @@
             url: "{{ route('removeLease') }}",
             data: { book_id: {!! json_encode($book->id) !!} },
             success: function(result) {
-                if(!{!! $userReview !!}){
+                if(!{!! json_encode($userReview) !!}){
                   $('#success_message').fadeIn().html(result);
                   setTimeout(function() {
                       $('#success_message').fadeOut("slow");
