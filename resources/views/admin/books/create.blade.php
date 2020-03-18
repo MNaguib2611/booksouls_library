@@ -8,7 +8,16 @@
             <div class="card-body ">
 <h1> create new book </h1>
 
-<table>
+@if ($errors->any())
+        <strong>Whoops! </strong>
+        <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{$error}}</li>
+          @endforeach
+        </ul>    
+        </div>
+@endif
 
 
 <form class="form-horizontal" role="form" method="POST" action="/admin/books/"  enctype="multipart/form-data">
@@ -16,7 +25,8 @@
     <div class="form-group">
         <label class="col-lg-3 control-label">Cover:</label>
         <div class="col-lg-8">
-        <input type="file" class="form-control" name="cover" >
+        <input type="file" class="form-control" name="cover" accept="image/x-png,image/gif,image/jpeg" />
+
         </div>
       </div>
       <div class="form-group">
@@ -64,23 +74,15 @@
       <div class="form-group">
         <label class="col-md-3 control-label"></label>
         <div class="col-md-8">
-          <input type="button" class="btn btn-primary" value="Save Changes">
+          <input type="submit" class="btn btn-primary" value="Save Changes">
           <span></span>
           <input type="reset" class="btn btn-default" value="Cancel">
         </div>
       </div>
     </form>
 
-</table>
 
-@if ($errors->any())
-        <strong>Whoops! </strong> there where some problems with your input.<br>
-        <ul>
-          @foreach ($errors as $error)
-            <li>{{$error}}</li>
-          @endforeach
-        </ul>    
-@endif
+
 </div>
 </div>
 </div>

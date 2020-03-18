@@ -141,8 +141,8 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
+        $this->validate($request,[
+            'title' => 'required|min:3',
             'description' => 'required',
             'author' => 'required',
             'quantity' => 'required',
@@ -150,15 +150,21 @@ class BookController extends Controller
             'categories' => 'required',
             'cover' => 'required'
           ]);
-      
-        $book =new Book;
+
+        $book = new Book;
         $book->title=request('title'); 
         $book->description=request('description'); 
         $book->author=request('author'); 
         $book->quantity=request('quantity'); 
         $book->price=request('price');         
         $book->category_id=(Category::where('name',request('categories'))->pluck('id')->first()); 
-        $book->cover=request('cover');      
+        
+        $imageName = time().'.'.request('cover')->extension();  
+        request('cover')->move(public_path('imgs/books'), $imageName); 
+
+        $book->cover = asset('/imgs/books').'/'.$imageName;
+
+        $book->cover =     
         $book->save();   
 
         return redirect('admin/books')->with('success', 'new Book add successfully');

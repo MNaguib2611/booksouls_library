@@ -78,7 +78,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request,$category)
     {
         $request->validate([
             'category_name'=>'required'
