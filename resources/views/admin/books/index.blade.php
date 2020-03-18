@@ -148,6 +148,12 @@ function print_data(data,text)
                   ' <div class="stars">'+ Math.ceil(data.selectedRows[row].avgRate)+'</div>'+
                   ' <div class="created_at">'+data.selectedRows[row].created_at+'</div>'+
                     '<ul class="controls">'+
+                    '<li class="control">'+
+                        '   <a href="/admin/books/'+data.selectedRows[row].myID+'">'+
+                                '<img alt="Qries" src="https://cdn0.iconfinder.com/data/icons/glyphpack/167/visible-512.png"/>'+
+                              ' <span class="invisible">View</span>'+
+                            '</a>'+
+                        '</li>'+
                         '<li class="control">'+
                         '   <a href="/admin/books/'+data.selectedRows[row].myID+'/edit">'+
                                 '<svg class="icon icon--2x"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#edit"></use></svg>'+

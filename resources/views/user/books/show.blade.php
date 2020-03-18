@@ -7,6 +7,17 @@
 
 @section('content')
 
+@if ($errors->any())
+        <strong>Whoops! </strong>
+        <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{$error}}</li>
+          @endforeach
+        </ul>    
+        </div>
+@endif
+
   <div class="container-fluid">
     <a href="{{ URL::to('books/') }}"> <button class="btn btn-primary mr-5">Go Back</button></a>
 
@@ -343,12 +354,5 @@
         });
       });
   </script>
-  @if ($errors->any())
-          <strong>Whoops! </strong> there where some problems with your input.<br>
-          <ul>
-            @foreach ($errors as $error)
-              <li>{{$error}}</li>
-            @endforeach
-          </ul>    
-  @endif
+
 @endsection

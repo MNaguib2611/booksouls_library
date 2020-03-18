@@ -573,7 +573,7 @@
             </div>
             <div class="app-main__outer">
                 @yield('content')
-                <div class="app-wrapper-footer">
+                <div class="app-wrapper-footer" style="width:100%">
                     <div class="app-footer">
                         <div class="app-footer__inner text-center">
                             <div class="text-center m-auto">
@@ -592,6 +592,7 @@
             </div>
         </div>
     </div>
+   
     <script type="text/javascript" src="{{asset('js/mainAdmin.js')}}"></script>
     @yield('js')
 </body>

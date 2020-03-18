@@ -164,7 +164,7 @@ class BookController extends Controller
 
         $book->cover = asset('/imgs/books').'/'.$imageName;
 
-        $book->cover =     
+        
         $book->save();   
 
         return redirect('admin/books')->with('success', 'new Book add successfully');
@@ -224,7 +224,11 @@ class BookController extends Controller
           $book->quantity=request('quantity'); 
           $book->price=request('price');         
           $book->category_id=(Category::where('name',request('categories'))->pluck('id')->first()); 
-          $book->cover=request('cover');      
+        
+          $imageName = time().'.'.request('cover')->extension();  
+          request('cover')->move(public_path('imgs/books'), $imageName); 
+  
+          $book->cover = asset('/imgs/books').'/'.$imageName;
           $book->save();   
   
           return redirect('admin/books')->with('success', ' Book updated successfully');                           
