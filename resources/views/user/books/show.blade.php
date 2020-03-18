@@ -34,12 +34,16 @@
 
     <div class="ml-4 book-details">  
       <h1 >{{$book->title}}</h1><br>
-      <a href="{{ route('getCategory', $category->id)}}" class="alert alert-primary">{{ $category->name }}</a></label>
+      @if($category)
+        <a href="{{ route('getCategory', $category->id)}}" class="alert alert-primary">{{ $category->name }}</a>
+      @else
+        <div class="alert alert-secondary text-center col-6" style="margin-top:-.8rem !important;">No Category for this book</div>
+      @endif
       <h3 class="card-text mt-4"> <strong>by</strong> <strong class="text-primary">{{$book->author}}</strong></h3>
       <h3 class="card-text mt-4" style="width:30rem;">{{$book->description}}</h3>
       <div  class="book-rating">
         <div class="copies text-muted">
-            <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
+            <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies text-center col-12">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
         </div>
         <div class="price">
             <span class="currency">$</span>
