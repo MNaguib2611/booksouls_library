@@ -148,13 +148,19 @@ function print_data(data,text)
                   ' <div class="stars">'+ Math.ceil(data.selectedRows[row].avgRate)+'</div>'+
                   ' <div class="created_at">'+data.selectedRows[row].created_at+'</div>'+
                     '<ul class="controls">'+
+                    '<li class="control">'+
+                        '   <a href="/admin/books/'+data.selectedRows[row].myID+'">'+
+                                '<img alt="Qries" src="https://cdn0.iconfinder.com/data/icons/glyphpack/167/visible-512.png"/>'+
+                              ' <span class="invisible">View</span>'+
+                            '</a>'+
+                        '</li>'+
                         '<li class="control">'+
                         '   <a href="/admin/books/'+data.selectedRows[row].myID+'/edit">'+
                                 '<svg class="icon icon--2x"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#edit"></use></svg>'+
                               ' <span class="invisible">Update</span>'+
                             '</a>'+
                         '</li>'+
-                      ' <li class="control deletebutton">'+
+                      ' <li class="control deletebutton" id= "'+data.selectedRows[row].myID+'">'+
                             '<a href="#">'+
                             '   <svg class="icon icon--2x deletesvg"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#delete"></use></svg>'+
                               '  <span class="invisible">Delete</span>'+
@@ -180,6 +186,34 @@ function print_data(data,text)
     $('.deletebutton').click(function(e){
       e.preventDefault();
       $(this).parent().parent().parent().addClass("deleteme");
+      
+      var bookID=$(this).attr('id');
+      console.log(bookID);
+      $.ajax({
+        url:"{{ route('book.deleteBook') }}",
+        method:'GET',
+        data:{bookID:bookID},
+        dataType:'json',
+        success:function(data)
+        {
+          alert(data.message);
+          //fetch_book_data(orderBy,category,text);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+           alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+          } 
+      })
+      
+          
+      
+
+   
+   
+
+
+
+
+
     });
   });
 }

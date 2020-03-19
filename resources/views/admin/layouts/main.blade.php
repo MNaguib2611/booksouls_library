@@ -30,7 +30,7 @@
             <div class="app-header__logo">
                 <!-- <div class="logo-src"></div> -->
                 <a class="navbar-brand" href="/">
-                    <img src="{{asset('imgs/LogoMakr_6XQ3UC.png')}}" alt="Logo" style="width:180px;margin-top:10px;">
+                    <img src="{{asset('imgs/LogoMakr_8FEAlV.png')}}" alt="Logo" style="width:180px;height:75px;margin-top:5px;">
                 </a>
                 <div class="header__pane ml-auto">
                     <div>
@@ -573,7 +573,7 @@
             </div>
             <div class="app-main__outer">
                 @yield('content')
-                <div class="app-wrapper-footer">
+                <div class="app-wrapper-footer" style="width:100%">
                     <div class="app-footer">
                         <div class="app-footer__inner text-center">
                             <div class="text-center m-auto">
@@ -592,6 +592,7 @@
             </div>
         </div>
     </div>
+   
     <script type="text/javascript" src="{{asset('js/mainAdmin.js')}}"></script>
     @yield('js')
 </body>

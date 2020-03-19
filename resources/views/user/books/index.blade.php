@@ -92,7 +92,7 @@
                     <span class="duration">day</span>
                 </div>
                 <div class="copies text-muted">
-                    <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
+                    <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies text-center col-12">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
                 </div>
             </div>
         </div>

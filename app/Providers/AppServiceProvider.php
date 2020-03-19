@@ -5,7 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\Review;
+use App\Lease;
 use App\Observers\ReviewObserver;
+use App\Observers\LeaseObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Review::observe(ReviewObserver::class);
+        Lease::observe(LeaseObserver::class);
     }
 }

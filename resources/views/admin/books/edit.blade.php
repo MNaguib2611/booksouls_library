@@ -15,7 +15,7 @@
                         <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
                         <h6>Upload a different cover...</h6>
                         
-                        <input type="file" class="form-control" name="cover" value="{{ $myBook->cover }}">
+                        <input type="file" class="form-control" name="cover" accept="image/x-png,image/gif,image/jpeg"  value="{{ $myBook->cover }}">
                       </div>
                     </div>
                     
