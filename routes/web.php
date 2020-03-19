@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/book/getCategories', 'Admin\BookController@getCategories')->name('book.getCategories');
             Route::get('/book/deleteBook', 'Admin\BookController@deleteBook')->name('book.deleteBook');
             Route::get('/book/selectedData', 'Admin\BookController@selectedData')->name('book.selectedData');
+
             
         });//end of admin middleware
         
@@ -57,6 +58,8 @@ Route::group(['middleware' => 'auth'], function () {
             'middleware' => 'endUser'],
             function () {
                 Route::Resource('/books', 'User\BookController');
+                Route::get('/selectedData', 'User\BookController@selectedData')->name('selectedData');
+
                 Route::Resource('/leases', 'User\LeaseController');
                 Route::Resource('/favourites', 'User\FavouriteController');
                 Route::Resource('/reviews', 'User\ReviewController');

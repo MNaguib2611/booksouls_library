@@ -22,9 +22,9 @@
         </div>
     @endif
     
-  
+    <a href="{{ URL::to('books/') }}"> <button class="btn btn-primary mr-5"> All Books </button></a>
     @if(!empty($selected))
-    <div class="alert alert-success alert-block">
+    <div class="alert alert-success alert-block" style="width:max-content">
             <ul>
                 @foreach ($selected as $select)
                     <li>{{ $select }}</li>
@@ -33,40 +33,8 @@
         </div>
     @endif
 
-  
-    <form class="form-horizontal" role="form" method="get" action="/selectedData "  enctype="multipart/form-data">
-    @csrf
-    <input type="text" name="search" id="search" class="form-control" placeholder="Search" style="width:40%" />
-            <br/>
-
-            <input type="radio" name="order" value="avgRate" class="form-check-label" ></input>
-              <label class="form-check-label" for="gridRadios1">
-              Rate
-              </label>
-            <input type="radio" name="order" value="created_at" class="form-check-label" ></input>
-              <label class="form-check-label" for="gridRadios2">
-                Latest
-              </label>
-
-            <input type="radio" name="order" value="title" class="form-check-label"  ></input>
-              <label class="form-check-label" for="gridRadios2">
-                Title
-              </label>
-            
-              
-            <select name="category"class="form-control" style="width:max-content ;display:inline">
-            <option value="0"> All </option> 
-
-            @foreach ($categories as $categ)
-            <option value={{$categ->id}}> {{$categ->name}}</option> 
-            @endforeach
-            </select>
-            <br/>
-            <button type="submit" class="btn btn-primary ml-2 mb-2">Filter Data</button>
-             </form>
-            
-
 <div class="cont">
+ @if(!empty($allBooks))
     <div class="cards">
         @foreach ($allBooks as $book)
         <div class="book-card">
@@ -154,9 +122,6 @@
         <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" ></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
-         
-         $('#search2').val("search");
-
             function handlingFav(book_id, event){
                 if(event.target.checked){                
                     $.ajax({
@@ -200,6 +165,13 @@
     <div class="paginate">
         {{$allBooks->links()}}
     </div>
+
+@else
+<div class="alert alert-block">
+  sorry No Result
+</div>
+
+ @endif   
 </div>
 
 
