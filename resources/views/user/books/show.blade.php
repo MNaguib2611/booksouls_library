@@ -275,7 +275,6 @@
     <div class="accordian">
       <ul>
         @if(count($relatedBooks) < 10)
-        <div>
         <style>
           .accordian ul:hover li {width: {!! json_encode(1100/(count($relatedBooks)+1)) !!}px;}
           .accordian ul li:hover {width: {!! json_encode(1100/(count($relatedBooks)+1)*2) !!}px;}
@@ -283,13 +282,13 @@
           .image_title {width: 150%;text-align: left;}
         </style>
         @endif
-        @foreach($relatedBooks as $book)
+        @foreach($relatedBooks as $relatedBook)
           <li>
             <div class="image_title">
-              <a href="{{ route('books.show', $book->id) }}">{{ $book->title }}</a>
+              <a href="{{ route('books.show', $relatedBook->id) }}">{{ $relatedBook->title }}</a>
             </div>
-            <a href="{{ route('books.show', $book->id) }}">
-              <img src="{{ $book->cover }}"/>
+            <a href="{{ route('books.show', $relatedBook->id) }}">
+              <img src="{{ $relatedBook->cover }}"/>
             </a>
           </li>
         @endforeach
