@@ -29,15 +29,15 @@ class UserRequest extends FormRequest
             'address' => ['required','max:191'],
             'email' => array('required',
             'max:191','string','email',
-            Rule::unique('users')->ignore($this->route('users.update')),
+            Rule::unique('users')->ignore($this->route('endUser')),
             ),
             'username' => array('required',
             'max:191','string',
-            Rule::unique('users')->ignore($this->route('users.update')),
+            Rule::unique('users')->ignore($this->route('endUser')),
             ),
             'phone' => array('required',
             'digits_between:10,14',
-            Rule::unique('users')->ignore($this->route('users.update')),
+            Rule::unique('users')->ignore($this->route('endUser')),
             ),
             'avatar'  => ($this -> isMethod("put") ? "nullable" : "required") . "|image"
         ];

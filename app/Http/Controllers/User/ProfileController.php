@@ -5,6 +5,7 @@
     use App\User;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
+    use Illuminate\Http\Request;
     use App\Http\Requests\UserRequest;
     use Hash;
 
@@ -29,8 +30,26 @@
             $user = Auth::user();
             return view('user.profile', compact('user'));
         }
-        public function update(UserRequest $request, User $user)
+        public function update(Request $request, User $user)
         {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'password' => ['nullable','confirmed', 'string', 'min:8'] ,
+                'address' => ['required','max:191'],
+                'email' => array('required',
+                'max:191','string','email',
+                Rule::unique('users')->ignore($user->id),
+                ),
+                'username' => array('required',
+                'max:191','string',
+                Rule::unique('users')->ignore($user->id),
+                ),
+                'phone' => array('required',
+                'digits_between:10,14',
+                Rule::unique('users')->ignore($user->id),
+                )
+            ]);
+
             $requestData=array_filter($request->all());
             if ($request->hasFile('avatar')) {
                 $imageName = time().'.'.$request->avatar->extension();  
