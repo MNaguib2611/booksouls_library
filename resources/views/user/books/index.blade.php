@@ -48,7 +48,7 @@
                 Latest
               </label>
 
-            <input type="radio" name="order" value="title" class="form-check-label"  ></input>
+            <input type="radio" name="order" value="title" class="form-check-label"  checked ></input>
               <label class="form-check-label" for="gridRadios2">
                 Title
               </label>
@@ -154,8 +154,6 @@
         <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" ></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
-         
-         $('#search2').val("search");
 
             function handlingFav(book_id, event){
                 if(event.target.checked){                

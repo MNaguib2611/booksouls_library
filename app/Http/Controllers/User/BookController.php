@@ -88,19 +88,18 @@ class BookController extends Controller
 
             if($category > 0)
             {
-                $allBooks = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
-                ->select('books.*','books.id as myID','books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
+                $allBooks = DB::table('books')
+                ->select('books.*','books.title as title','books.rate as avgRate')
                 ->where('books.category_id', '=', $category)
                 ->where('title', 'like', '%'.$text.'%')
                 ->orwhere('author', 'like','%'.$text.'%')
                 ->groupBy('books.id')->orderBy($order,$ascORdesc)->paginate(15)->setPath ( '' );
-                $cat=Category::find($category)->first()->name;
+                $cat=Category::find($category)->name;
             }  
             else
             {  
-                $allBooks = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id')
-                ->select('books.*','books.id as myID',
-                'books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
+                $allBooks = DB::table('books')
+                ->select('books.*','books.title as title','books.rate as avgRate')
                 ->where('title', 'like', '%'.$text.'%')
                 ->orwhere('author', 'like','%'.$text.'%')
                 ->groupBy('books.id')->orderBy($order,$ascORdesc)->paginate(15)->setPath ( '' );

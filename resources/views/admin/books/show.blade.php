@@ -37,7 +37,7 @@
     <div class="ml-4 book-details">  
       <h1 >{{$myBook->title}}</h1><br>
       @if($myCategory)
-        <a href="{{ route('getCategory', $myCategory->id)}}" class="alert alert-primary">{{ $myCategory->name }}</a>
+        <button  class="alert alert-primary" disabled>{{ $myCategory->name }}</button>
       @else
         <div class="alert alert-secondary text-center col-6" style="margin-top:-.8rem !important;">No Category for this book</div>
       @endif

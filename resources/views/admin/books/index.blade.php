@@ -27,7 +27,7 @@
                 Latest
               </label>
 
-            <input type="radio" name="order" value="title" class="form-check-label" ></input>
+            <input type="radio" name="order" value="title" class="form-check-label" checked></input>
               <label class="form-check-label" for="gridRadios2">
                 Title
               </label>
@@ -196,11 +196,11 @@ function print_data(data,text)
         dataType:'json',
         success:function(data)
         {
-          alert(data.message);
+          //alert(data.message);
           //fetch_book_data(orderBy,category,text);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
-           alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+           //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
           } 
       })
       
