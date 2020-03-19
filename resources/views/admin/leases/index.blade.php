@@ -1,5 +1,7 @@
 @extends('admin.layouts.main')
-
+@section('title')
+   <title>Leases</title> 
+@endsection
 @section('css')
 <link href="{{ asset('css/searchLeases.css') }}" rel="stylesheet">
 @endsection

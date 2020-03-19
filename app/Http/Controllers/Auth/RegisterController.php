@@ -57,7 +57,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'username' => ['required','max:191', 'unique:users'],
             'address' => ['required','max:191'],
-            'phone' => ['unique:users','required','digits_between:10,15'],
+            'phone' => ['unique:users','required','digits_between:10,14'],
             'avatar'  =>  ["nullable","image"]
         ]);
     }
@@ -81,7 +81,7 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'address' => $data['address'],
             'phone' => $data['phone'],
-            'avatar'=> array_key_exists('avatar', $data)? asset('/imgs/users').'/'.$imageName : "http://127.0.0.1:8000/imgs/users/avatar.png",
+            'avatar'=> array_key_exists('avatar', $data)? asset('/imgs/users').'/'.$imageName :  asset("/imgs/users/avatar.png"),
         ]);
     }
 }

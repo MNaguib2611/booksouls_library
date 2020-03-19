@@ -42,9 +42,8 @@ class CategoryController extends Controller
             $request->validate([
                 'category_name'=>'required|unique:categories,name'
             ]);
-    
             $Category = new Category([
-                'name' => $request->get('category_name')
+                'name' => $request->category_name
             ]);
             $Category->save();
             return redirect('/admin/categories')->with('success', 'Category saved!');

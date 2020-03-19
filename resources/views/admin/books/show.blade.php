@@ -6,7 +6,9 @@
 {{ HTML::style('css/rating.css') }}
 {{ HTML::style('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}
 {{ HTML::style('css/showbook.css') }}
-
+@section('title')
+   <title>Books</title> 
+@endsection
 @section('content')
 
 @if ($errors->any())

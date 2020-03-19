@@ -39,7 +39,7 @@ class AdminRequest extends FormRequest
             'digits_between:10,14',
             Rule::unique('users')->ignore($this->route('admin')),
             ),
-            'avatar'  => ($this -> isMethod("put") ? "nullable" : "required") . "|image"
+            'avatar'  =>  ["nullable","image"]
         ];
     }
 }
