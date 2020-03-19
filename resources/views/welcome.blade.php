@@ -39,7 +39,11 @@
                 @if (Route::has('login'))
                     <li class="nav-item">
                         @auth
-                        <a class="nav-link js-scroll-trigger" href="{{ url('/home') }}">Home</a>
+                            @if (Route::has('admin'))
+                            <a class="nav-link js-scroll-trigger" href="{{ url('/home') }}">Home</a>
+                            @else
+                            <a class="nav-link js-scroll-trigger" href="{{ url('/books') }}">Home</a>
+                            @endif
                         @else
                         <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Login</a>
                     </li>
