@@ -23,8 +23,8 @@
       <form method="post" action="{{ route('categories.store') }}">
           @csrf
           <div class="form-group">    
-              <label for="name">Category Name:</label>
-              <input type="text" class="form-control" name="name"/>
+              <label for="category_name">Category Name:</label>
+              <input type="text" class="form-control" name="category_name"/>
           </div>
           <button type="submit" class="btn btn-primary ml-2 mb-2">Add Category</button>
       </form>

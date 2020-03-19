@@ -23,8 +23,8 @@
           @method('PATCH')
           @csrf
           <div class="form-group">    
-              <label for="name">Category Name:</label>
-              <input type="text" class="form-control" name="name" value={{ $category->name }}>
+              <label for="category_name">Category Name:</label>
+              <input type="text" class="form-control" name="category_name" value="{{$category->name}}">
           </div>
           <button type="submit" class="btn btn-primary ml-2 mb-2">update Category</button>
       </form>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -39,10 +40,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
             $request->validate([
-                'name'=>['required','unique:categories']
+                'category_name'=>'required|unique:categories,name'
             ]);
             $Category = new Category([
-                'name' => $request->name
+                'name' => $request->category_name
             ]);
             $Category->save();
             return redirect('/admin/categories')->with('success', 'Category saved!');
@@ -80,10 +81,11 @@ class CategoryController extends Controller
     public function update(Request $request,Category $category)
     {
         $request->validate([
-            'name'=>['required','unique:categories']
+            'category_name'=> ['required',
+            Rule::unique('categories', 'name')->ignore($category->id)]
         ]);
 
-        $category->name =  $request->get('name');
+        $category->name =  $request->get('category_name');
         $category->save();
 
         return redirect('/admin/categories')->with('success', 'Category updated!');
