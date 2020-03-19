@@ -316,7 +316,10 @@
       function createReview(rate, comment, date){
           
         newChild = "<div class='review-card'><div class='review-photo'><img src=" + {!! json_encode(Auth::user()->avatar) !!}
-                    + "></div><div id='myReview' class='review-box'><div class='review-author'><p><strong>"
+                    + "></div><div id='myReview' class='review-box'>"+
+                    "<button id='deleteMyReview' type='button' title='delete' class='close'><i class='fa fa-trash' aria-hidden='true'></i></button>"+
+                    // "<button id='review-edit' type='button' class='close'><i class='fa fa-edit' style='font-size:1.15rem !important; margin-right:5px; margin-top:2px;' title='edit'></i></button>"+
+                    "<div class='review-author'><p><strong>"
                     + {!! json_encode(Auth::user()->name) !!} + '</strong>\xa0\xa0 - ';
         
         (rate > 0) ? newChild += "<span class='fa fa-star checked '></span>" : newChild += "<span class='fa fa-star fa-star-o'></span>";
@@ -329,6 +332,23 @@
                     comment + "</p></div> <div class='review-date'><time>" +
                     date + "</time></div><style>#myReview{background-color:rgba(255, 240, 0, 0.24);} #myReview:after {border-right-color:rgba(255, 240, 0, 0.24);}</style></div></div>"
         document.querySelector(".reviews").innerHTML = newChild + document.querySelector(".reviews").innerHTML;
+
+        $("#deleteMyReview").click(function(e) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'DELETE',
+            url: "{{ route('removeReview') }}",
+            data: { 'book_id': {!! json_encode($book->id) !!} },
+            success: function(result) {
+              location.reload(true);
+              },
+            error: function(err) {
+              console.log(err);
+            }
+          });
+        });
       }
 
       function checkRate(e){

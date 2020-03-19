@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'User\ProfileController@update']);
                 Route::delete('/remove-favourite', 'User\FavouriteController@removeFavourite')->name('removeFavourite');
                 Route::delete('/remove-lease', 'User\LeaseController@removeLease')->name('removeLease');
+                Route::delete('/remove-review', 'User\ReviewController@removeReview')->name('removeReview');
 
     });//end of endUser middleware
 

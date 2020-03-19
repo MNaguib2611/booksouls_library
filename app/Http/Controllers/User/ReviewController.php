@@ -89,4 +89,10 @@ class ReviewController extends Controller
     {
         //
     }
+    
+    public function removeReview(Request $request)
+    {
+        Review::where([['user_id', Auth::id()], ['book_id', $request->book_id]])->first()->delete();
+        return back()->with('success', 'Your review has been deleted successfully');
+    }
 }
