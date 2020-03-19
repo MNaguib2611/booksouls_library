@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/selectedData', 'User\BookController@selectedData')->name('selectedData');
 
                 Route::Resource('/leases', 'User\LeaseController');
+
+                Route::get('/leases/create/{book}', 'User\LeaseController@createWithBook')->name('leases.create.book');
                 Route::Resource('/favourites', 'User\FavouriteController');
                 Route::Resource('/reviews', 'User\ReviewController');
                 Route::get('/categories', 'User\CategoryController@index')->name('getCategories');
@@ -69,6 +71,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'User\ProfileController@update']);
                 Route::delete('/remove-favourite', 'User\FavouriteController@removeFavourite')->name('removeFavourite');
                 Route::delete('/remove-lease', 'User\LeaseController@removeLease')->name('removeLease');
+                Route::delete('/remove-review', 'User\ReviewController@removeReview')->name('removeReview');
 
     });//end of endUser middleware
 

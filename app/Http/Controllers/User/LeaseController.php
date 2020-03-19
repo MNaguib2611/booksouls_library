@@ -4,8 +4,11 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 
 use App\Lease;
+use App\Book;
 use Illuminate\Http\Request;
+use App\Http\Requests\LeaseRequest;
 use Auth;
+use Carbon\Carbon;
 
 
 class LeaseController extends Controller
@@ -27,24 +30,49 @@ class LeaseController extends Controller
      */
     public function create()
     {
-        //
+    //    return view('user.leases.create');
     }
-
+    public function createWithBook(Book $book)
+    {
+       return view('user.leases.create',["book"=>$book]);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LeaseRequest $request)
     {
+        //check available copies 
+        $availableCopies=Book::find($request->book)->quantity;
+        if ($availableCopies==0) {
+            return back()->withErrors('No copies available of this book currently.');
+        }
+        if (count(Auth::user()->leases) > 4) {
+            return back()->withErrors('You currently have 5 books,return one to be able to lease a new one!');
+        }
+        if (Lease::where('user_id',Auth::id())->where('book_id',$request->book)->count()>0) {
+            return back()->withErrors('You already have a copy of this book currently.');
+        }
+     
+        
+        //check if he had the book for in past three days
+        $previousLeases=Lease::onlyTrashed()->where('user_id',Auth::id())->where('book_id',$request->book)->where( 'created_at', '>', Carbon::now()->subDays(3))->count();
+        
+        if ($previousLeases>0 && $availableCopies<4) {
+            return back()->withErrors('You need to wait at least 3 days before borrowing the same book again');
+        }
+       
         $lease = new Lease;
         $lease->user_id = Auth::id();
         $lease->book_id = $request->book;
-        $lease->duration = 10;
-        $lease->end_date = now()->addDays(10);
+        $lease->duration = $request->days;
+        $lease->end_date = now()->addDays($request->days);
         $lease->save();
-        return redirect('books')->with('success','You have booked this book successfully, Now you can come to our place to get it!');;
+        
+        return redirect('books')->with('success','You have Leased this book successfully');;
     }
 
     /**
@@ -54,29 +82,6 @@ class LeaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Lease $lease)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Lease  $lease
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Lease $lease)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Lease  $lease
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Lease $lease)
     {
         //
     }
@@ -93,11 +98,7 @@ class LeaseController extends Controller
     }
 
     public function removeLease(Request $request){
-        Lease::where([
-                    ["user_id", Auth::id()],
-                    ["book_id", $request->book],
-                ])->delete();
-        return redirect('books')->with('success', 'We hope that you had fun with the book, please take a moment of your time to review the book!');;
-    
+        Lease::where([["user_id", Auth::id()],["book_id", $request->book_id]])->first()->delete();
+        return ('We hope that you had fun with the book, please take a moment of your time to review it!');
     }
 }

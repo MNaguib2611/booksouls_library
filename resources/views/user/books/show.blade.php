@@ -4,6 +4,7 @@
 {{ HTML::style('css/rating.css') }}
 {{ HTML::style('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}
 {{ HTML::style('css/showbook.css') }}
+{{ HTML::style('css/accordion.css') }}
 
 @section('content')
 
@@ -18,11 +19,10 @@
         </div>
 @endif
 
-  <div class="container-fluid">
-    <a href="{{ URL::to('books/') }}"> <button class="btn btn-primary mr-5">Go Back</button></a>
+  <div class="container-fluid" style="width:100% !important;">
 
     <!-- 3D book -->
-    <div class="thecover"> 
+    <div class="thecover" style="margin-left: 8rem;"> 
       <div class="book3D">
         <div class="book3D-cover">
           <img class="book-cover" src="{{$book->cover}}" />
@@ -34,15 +34,72 @@
 
     <div class="ml-4 book-details">  
       <h1 >{{$book->title}}</h1><br>
-      @if($category)
-        <a href="{{ route('getCategory', $category->id)}}" class="alert alert-primary">{{ $category->name }}</a>
-      @else
-        <div class="alert alert-secondary text-center col-6" style="margin-top:-.8rem !important;">No Category for this book</div>
-      @endif
-      <h3 class="card-text mt-4"> <strong>by</strong> <strong class="text-primary">{{$book->author}}</strong></h3>
-      <h3 class="card-text mt-4" style="width:30rem;">{{$book->description}}</h3>
+      <div class="book-rating float-right " style="margin-top:-4.5rem;">
+        <div class="heart-btn">  
+          <div class="liked-button">
+              <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
+              <label for="{{$book->id}}">
+                  <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
+                      <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
+                          <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
+                          <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
+
+                          <g class="grp7" opacity="0" transform="translate(7 6)">
+                              <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
+                              <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp6" opacity="0" transform="translate(0 28)">
+                              <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
+                              <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp3" opacity="0" transform="translate(52 28)">
+                              <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
+                              <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp2" opacity="0" transform="translate(44 6)">
+                              <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
+                              <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp5" opacity="0" transform="translate(14 50)">
+                              <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
+                              <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp4" opacity="0" transform="translate(35 50)">
+                              <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
+                              <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
+                          </g>
+
+                          <g class="grp1" opacity="0" transform="translate(24)">
+                              <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
+                              <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
+                          </g>
+                      </g>
+                  </svg>
+              </label>
+          </div>
+        </div>
+    </div>
+    <h3 class="card-text" style="margin:-1.5rem 0 2.5rem 1rem; font-size:1.3rem !important;"> <strong>by</strong> <strong class="text-primary ">{{$book->author}}</strong></h3>
+    @if($category)
+      <a href="{{ route('getCategory', $category->id)}}" class="alert alert-primary">{{ $category->name }}</a>
+    @else
+      <div class="alert alert-secondary text-center col-6" style="margin-top:-.8rem !important;">No Category for this book</div>
+    @endif
+      <div class="rating rating-card float-right" style="margin-top:0; margin-right:-2rem;"> 
+            <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+            <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+      </div>
+      <h3 class="card-text mt-5 mb-5" style="width:30rem;">{{$book->description}}</h3>
       <div  class="book-rating">
-        <div class="copies text-muted">
+        <div class="copies text-muted ml-1" id="book-quantity">
             <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies text-center col-12">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
         </div>
         <div class="price">
@@ -50,66 +107,24 @@
             <span class="value">{{$book->price}}</span>
             <span class="duration">day</span>
         </div>
+        
       </div>
-      <div class="book-rating">
-      <div class="rating rating-card"> 
-            <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-            <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-      </div>
-      <div class="heart-btn">  
-        <div class="liked-button">
-            <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
-            <label for="{{$book->id}}">
-                <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
-                    <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
-                        <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
-                        <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
-
-                        <g class="grp7" opacity="0" transform="translate(7 6)">
-                            <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
-                            <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp6" opacity="0" transform="translate(0 28)">
-                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
-                            <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp3" opacity="0" transform="translate(52 28)">
-                            <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
-                            <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp2" opacity="0" transform="translate(44 6)">
-                            <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
-                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp5" opacity="0" transform="translate(14 50)">
-                            <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
-                            <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp4" opacity="0" transform="translate(35 50)">
-                            <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
-                            <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
-                        </g>
-
-                        <g class="grp1" opacity="0" transform="translate(24)">
-                            <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
-                            <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
-                        </g>
-                    </g>
-                </svg>
-            </label>
-        </div>
-      </div>
+    <div class="text-center" id="book-actions">
+      @if(!$userLease)
+          <a href="{{route('leases.create.book',$book->id)}}"><button class="btn btn-success col-5" style='height:3rem; @if($book->quantity == 0) cursor:default !important;" disabled @endif'> Lease </button></a>
+        @else
+          <button class="btn btn-primary col-5" style="margin-left:-1rem; height:3rem" onclick=deleteLease()> Return </button> 
+          @if( $userLease->remaining == 1)
+            <h6 class="copies text-muted ml-3" style="display:inline-block;">You still have {{$userLease->remaining}} Day in your lease</h6> 
+          @elseif($userLease->remaining == 0) 
+            <h6 class="copies text-danger" style="display:inline-block; width:16rem; margin-left:-1rem;">Your Lease ends today!!</h6> 
+          @else 
+            <h6 class="copies text-muted ml-3" style="display:inline-block;">You still have {{$userLease->remaining}} Days in your lease</h6>
+          @endif
+        @endif
     </div>
   </div>
-  @if(! $reviewedFlag)
+  @if(!$userReview)
   <div class="reviewing-box">
       <h5 class="alert alert-info">Your reviews are welcomed</h5>
       <div class="row review-cont" id="post-review-box">
@@ -227,6 +242,9 @@
   @endif
   <div class="reviews">
       @foreach($reviews as $review)
+        @if($review->user_id == Auth::id())
+          @continue
+        @endif
         <div class="review-card">
           <div class="review-photo">
               <img src="{{$review->avatar}}">
@@ -251,9 +269,32 @@
               </div>
           </div>
         </div>
-        @endforeach
+      @endforeach
     </div>
-  <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" style="text-align:center;"></div>
+    <h2 style="margin:5rem 0 2rem 5rem; font-weight:bold;">Related Books</h2>
+    <div class="accordian">
+      <ul>
+        @if(count($relatedBooks) < 10)
+        <style>
+          .accordian ul:hover li {width: {!! json_encode(1100/(count($relatedBooks)+1)) !!}px;}
+          .accordian ul li:hover {width: {!! json_encode(1100/(count($relatedBooks)+1)*2) !!}px;}
+          .accordian li {width: {!! json_encode(1100/(count($relatedBooks))) !!}px;}
+          .image_title {width: 150%;text-align: left;}
+        </style>
+        @endif
+        @foreach($relatedBooks as $relatedBook)
+          <li>
+            <div class="image_title">
+              <a href="{{ route('books.show', $relatedBook->id) }}">{{ $relatedBook->title }}</a>
+            </div>
+            <a href="{{ route('books.show', $relatedBook->id) }}">
+              <img src="{{ $relatedBook->cover }}"/>
+            </a>
+          </li>
+        @endforeach
+      </ul>
+    </div>
+    <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" style="text-align:center;"></div>
   <div id="error_message" class="alert alert-danger ajax_response fixed-top m-auto" style="max-width:320px !important; text-align:center;" ></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
@@ -296,23 +337,13 @@
           }
       }
 
-      function checkRate(e){
-        rate = $("input[name='rating']:checked").val();
-        if(!rate){
-          $('#error_message').fadeIn().html("You must choose a rate!");
-          setTimeout(function() {
-              $('#error_message').fadeOut("slow");
-          }, 2000 );
-        }
-      }
-
-      function createReview(rate, comment){
-        let dt = new Date();
-        let stringDate = `${(dt.getFullYear()).toString().padStart(4, '0')}-${(dt.getMonth()+1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')} ${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}`;
-        document.querySelector(".reviewing-box").style.display = "none";
+      function createReview(rate, comment, date){
           
         newChild = "<div class='review-card'><div class='review-photo'><img src=" + {!! json_encode(Auth::user()->avatar) !!}
-                    + "></div><div class='review-box'><div class='review-author'><p><strong>"
+                    + "></div><div id='myReview' class='review-box'>"+
+                    "<button id='deleteMyReview' type='button' title='delete' class='close'><i class='fa fa-trash' aria-hidden='true'></i></button>"+
+                    // "<button id='review-edit' type='button' class='close'><i class='fa fa-edit' style='font-size:1.15rem !important; margin-right:5px; margin-top:2px;' title='edit'></i></button>"+
+                    "<div class='review-author'><p><strong>"
                     + {!! json_encode(Auth::user()->name) !!} + '</strong>\xa0\xa0 - ';
         
         (rate > 0) ? newChild += "<span class='fa fa-star checked '></span>" : newChild += "<span class='fa fa-star fa-star-o'></span>";
@@ -323,8 +354,35 @@
         
         newChild += "</p></div><div class='review-comment'><p> " + 
                     comment + "</p></div> <div class='review-date'><time>" +
-                    stringDate + "</time></div></div></div>"
+                    date + "</time></div><style>#myReview{background-color:rgba(255, 240, 0, 0.24);} #myReview:after {border-right-color:rgba(255, 240, 0, 0.24);}</style></div></div>"
         document.querySelector(".reviews").innerHTML = newChild + document.querySelector(".reviews").innerHTML;
+
+        $("#deleteMyReview").click(function(e) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'DELETE',
+            url: "{{ route('removeReview') }}",
+            data: { 'book_id': {!! json_encode($book->id) !!} },
+            success: function(result) {
+              location.reload(true);
+              },
+            error: function(err) {
+              console.log(err);
+            }
+          });
+        });
+      }
+
+      function checkRate(e){
+        rate = $("input[name='rating']:checked").val();
+        if(!rate){
+          $('#error_message').fadeIn().html("You must choose a rate!");
+          setTimeout(function() {
+              $('#error_message').fadeOut("slow");
+          }, 2000 );
+        }
       }
 
       $("#review-form").submit(function(e) {
@@ -350,13 +408,66 @@
               setTimeout(function() {
                   $('#success_message').fadeOut("slow");
               }, 2000 );
-              createReview(rate, comment);
+              let dt = new Date();
+              let stringDate=dateFormating(dt); 
+              document.querySelector(".reviewing-box").style.display = "none";
+              createReview(rate, comment, stringDate);
             },
           error: function(err) {
             console.log(err);
           }
         });
       });
+
+      function deleteLease(){
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'DELETE',
+            url: "{{ route('removeLease') }}",
+            data: { book_id: {!! json_encode($book->id) !!} },
+            success: function(result) {
+                if(!{!! json_encode($userReview) !!}){
+                  $('#success_message').fadeIn().html(result);
+                  setTimeout(function() {
+                      $('#success_message').fadeOut("slow");
+                  }, 5000 );
+                }else{
+                  $('#success_message').fadeIn().html("we hope you've enjoyed the book!");
+                  setTimeout(function() {
+                      $('#success_message').fadeOut("slow");
+                  }, 5000 );
+                }
+                document.querySelector('#book-actions').innerHTML = "<button class='btn btn-success col-5' style='height:3rem'> Lease </button>";
+                document.querySelector('#book-quantity').innerHTML = "<h5>@if($book->quantity+1 == 1) {{$book->quantity+1}} copy @else {{$book->quantity+1}} copies @endif available </h5>";
+            },
+            error: function() {
+            }
+        })
+      }
+
+      $(document).ready(()=>{
+        review = {!! json_encode($userReview) !!}; 
+        if(review){
+          let rate = review.rate;
+          let comment = review.comment;
+          comment = comment? comment: ""; //handling null values
+          let dt = new Date(review.created_at);
+          let created_at = dateFormating(dt);
+          createReview(rate, comment, created_at);
+        }
+      });
+
+      function dateFormating(dt){
+        return `
+${(dt.getFullYear()).toString().padStart(4, '0')}-\
+${(dt.getMonth()+1).toString().padStart(2, '0')}-\
+${dt.getDate().toString().padStart(2, '0')} \
+${dt.getHours().toString().padStart(2, '0')}:\
+${dt.getMinutes().toString().padStart(2, '0')}:\
+${dt.getSeconds().toString().padStart(2, '0')}`;
+      }
   </script>
 
 @endsection
