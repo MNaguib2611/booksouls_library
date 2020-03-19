@@ -1,5 +1,7 @@
 @extends('admin.layouts.main')
-
+@section('title')
+   <title>Users</title> 
+@endsection
 
 @section('content')
 <div class="container">
@@ -28,11 +30,9 @@
                             <tr>
                                <th>Name</th>
                                <th>Username</th>
-                               <th>Email</th>
                                <th>Phone</th>
-                               <th>Address</th>
                                <th width="20%">Avatar</th>
-                               <th width="20%">Actions</th>
+                               <th width="30%">Actions</th>
                             </tr>
                            </thead>
                             <tbody>
@@ -41,9 +41,7 @@
                                
                                     <td>  <a href="{{route('users.show', $user->id) }}">{{$user->name}}</a></td>
                                     <td>{{$user->username}}</td>
-                                    <td>{{$user->email}}</td>
                                     <td>{{$user->phone}}</td>
-                                    <td>{{$user->address}}</td>
                                     <td width="20%"><img width="80%" src="{{$user->avatar}}" alt=""></td>
                                     <td>
                                         {!! Form::open(['route' => ['users.destroy', $user->id],'class'=>'d-inline','method' => "delete"]) !!}
@@ -61,6 +59,12 @@
                                         {!! Form::text('isActive', 1, array_merge(['hidden' => 'hidden']))  !!}
                                         {!! Form::submit('Activate!',['class' => 'btn btn-sm btn-success']); !!}
                                         {!! Form::close() !!}
+                                        @endif
+                                        @if ($user->isActive==1)
+                                            {!! Form::open(['route' => ['user.upgrade', $user->id],'class'=>'d-inline','method' => "put"]) !!}
+                                            {!! Form::text('isAdmin', 1, array_merge(['hidden' => 'hidden']))  !!}
+                                            {!! Form::submit('Upgrade!',['class' => 'btn btn-sm btn-primary']); !!}
+                                            {!! Form::close() !!}
                                         @endif
                                         
                                     </td>

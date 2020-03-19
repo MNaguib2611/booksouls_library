@@ -20,10 +20,10 @@ class LeaseController extends Controller
         $paginate=1;
         if ($request->has('orderBy')) {
             if ($request->orderBy =="startDate") {
-                $Leases = Lease::paginate(18);
+                $Leases = Lease::orderBy('created_at','desc')->paginate(18);
                 $byStart=1;
             }elseif ($request->orderBy =="endDate") {
-                $Leases = Lease::orderBy('end_date','desc')->paginate();
+                $Leases = Lease::orderBy('end_date','desc')->paginate(18);
                 $byStart=0;
             }
         }elseif ($request->has('search')) {
@@ -38,7 +38,7 @@ class LeaseController extends Controller
             $Leases=$Leases->get();  
             $paginate=0;
         }else{
-            $Leases = Lease::paginate(18);
+            $Leases = Lease::orderBy('created_at','desc')->paginate(18);
         }
         return view('admin.leases.index', compact('Leases','byStart','paginate'));
     }

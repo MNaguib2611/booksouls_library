@@ -1,6 +1,8 @@
 
 @extends('admin.layouts.main')
-
+@section('title')
+   <title>Categories</title> 
+@endsection
 @section('content')
 <div class="container">
   <div class="container justify-content-center">
@@ -21,8 +23,8 @@
       <form method="post" action="{{ route('categories.store') }}">
           @csrf
           <div class="form-group">    
-              <label for="category_name">Category Name:</label>
-              <input type="text" class="form-control" name="category_name"/>
+              <label for="name">Category Name:</label>
+              <input type="text" class="form-control" name="name"/>
           </div>
           <button type="submit" class="btn btn-primary ml-2 mb-2">Add Category</button>
       </form>

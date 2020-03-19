@@ -15,7 +15,7 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        //get all dates in MY format in an array
+        //get all dates in My format in an array
         $profitDates=[];
         $profitvalues=[];
         $modelProfits=Profit::oldest()->get();
@@ -23,20 +23,23 @@ class AdminController extends Controller
            $profitDates[]  =($modelProfit->created_at->format('My'));
            $profitvalues[] =$modelProfit->profit;
         }
-
         $booksCategory=[];
         $booksCountBCategory=[];
         $books=Book::with('category')->get()->groupBy('category.name');
         foreach ($books as $category =>$bookCategories) {
+            if ($category==null) {
+                $category="other";
+            }
             $booksCategory[]  =$category;
             $booksCountBCategory[] =count($bookCategories);
         }
-        
-
         $leasesCategory=[];
         $leaseCountBCategory=[];
         $Leases=Lease::with('book.category')->withTrashed()->get()->groupBy('book.category.name');
         foreach ($Leases as $category =>$LeaseCategories) {
+            if ($category==null) {
+                $category="other";
+            }
             $leasesCategory[]  =$category;
             $leaseCountBCategory[] =count($LeaseCategories);
         }
@@ -106,16 +109,24 @@ class AdminController extends Controller
     public function store(AdminRequest $request)
     {
 
-        //upload the image to the the server
-        $imageName = time().'.'.$request->avatar->extension();  
-        $request->avatar->move(public_path('imgs/admins'), $imageName);
-
         //add isAdmin to the request
         $request->request->add(['isAdmin' => 1]);
 
-        //change the value of avatar to the new random image.name
+        
         $requestData = $request->all();
-        $requestData['avatar'] = asset('/imgs/admins').'/'.$imageName;
+
+        if ($request->hasFile('avatar')) {
+             //upload the image to the the server
+            $imageName = time().'.'.$request->avatar->extension();  
+            $request->avatar->move(public_path('imgs/admins'), $imageName);
+            //change the value of avatar to the new random image.name
+            $requestData['avatar'] = asset('/imgs/admins').'/'.$imageName;
+        }else {
+            $requestData['avatar']= asset("/imgs/users/avatar.png");
+        }
+       
+
+        
 
         //hash the password
         $requestData['password']=Hash::make($requestData['password']);

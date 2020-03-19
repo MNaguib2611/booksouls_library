@@ -1,5 +1,7 @@
 @extends('admin.layouts.main')
-
+@section('title')
+   <title>Users</title> 
+@endsection
 @section('content')
 <div class="container">
     <div class="container justify-content-center">
@@ -50,7 +52,7 @@
                                 @if ($user->isActive==1)
                                     {!! Form::open(['route' => ['user.upgrade', $user->id],'method' => "put"]) !!}
                                     {!! Form::text('isAdmin', 1, array_merge(['hidden' => 'hidden']))  !!}
-                                    {!! Form::submit('Upgrade!',['class' => 'btn btn-success']); !!}
+                                    {!! Form::submit('Upgrade!',['class' => 'btn btn-primary']); !!}
                                     {!! Form::close() !!}
                                 @endif
                             </div>

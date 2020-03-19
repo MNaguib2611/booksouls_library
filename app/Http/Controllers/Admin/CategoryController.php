@@ -39,11 +39,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
             $request->validate([
-                'category_name'=>'required'
+                'name'=>['required','unique:categories']
             ]);
-    
             $Category = new Category([
-                'name' => $request->get('category_name')
+                'name' => $request->name
             ]);
             $Category->save();
             return redirect('/admin/categories')->with('success', 'Category saved!');
@@ -78,13 +77,13 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$category)
+    public function update(Request $request,Category $category)
     {
         $request->validate([
-            'category_name'=>'required'
+            'name'=>['required','unique:categories']
         ]);
 
-        $category->name =  $request->get('category_name');
+        $category->name =  $request->get('name');
         $category->save();
 
         return redirect('/admin/categories')->with('success', 'Category updated!');

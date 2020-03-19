@@ -1,5 +1,7 @@
 @extends('admin.layouts.main')
-
+@section('title')
+   <title>Books</title> 
+@endsection
 @section('content')
 <div class="container">
   <div class="container justify-content-center">
@@ -196,7 +198,7 @@ function print_data(data,text)
         dataType:'json',
         success:function(data)
         {
-          alert(data.message);
+          // alert(data.message);
           //fetch_book_data(orderBy,category,text);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
