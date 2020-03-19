@@ -73,12 +73,16 @@ class BookController extends Controller
 
             if($category > 0)
             {
+
                 $allBooks = DB::table('books')
                 ->select('books.*','books.title as title','books.rate as avgRate')
                 ->where('books.category_id', '=', $category)
-                ->where('title', 'like', '%'.$text.'%')
-                ->orwhere('author', 'like','%'.$text.'%')
+                ->where(function($q) use ($text) {
+                    $q->where('title', 'like', '%'.$text.'%')
+                    ->orwhere('author', 'like','%'.$text.'%');
+                }) 
                 ->groupBy('books.id')->orderBy($order,$ascORdesc)->paginate(15)->setPath ( '' );
+              
                 $cat=Category::find($category)->name;
             }  
             else
