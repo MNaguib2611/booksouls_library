@@ -8,10 +8,8 @@ use App\Lease;
 use App\Category;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Auth;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Input;
 
 
 
@@ -128,7 +126,7 @@ class BookController extends Controller
             return view('user.books.index2',compact('allBooks', 'favourites', 'leases','categories','selected'))->withQuery($text,$order,$category);    
             }
 
-            return view('user.books.index2',compact('selected'))->withQuery($text,$order,$category);    
+            return view('user.books.index2')->withQuery($text,$order,$category);    
 
         }
 
