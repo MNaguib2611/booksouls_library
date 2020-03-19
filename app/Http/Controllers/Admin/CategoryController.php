@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -39,7 +40,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
             $request->validate([
-                'category_name'=>'required'
+                'category_name'=>'required|unique:categories,name'
             ]);
     
             $Category = new Category([
@@ -78,10 +79,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$category)
+    public function update(Request $request,Category $category)
     {
         $request->validate([
-            'category_name'=>'required'
+            'category_name'=> ['required',
+            Rule::unique('categories', 'name')->ignore($category->id)]
         ]);
 
         $category->name =  $request->get('category_name');
