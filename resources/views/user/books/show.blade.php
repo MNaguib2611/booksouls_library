@@ -110,7 +110,7 @@
       </div>
     <div class="text-center" id="book-actions">
       @if(!$userLease)
-          <button class="btn btn-success col-5" style='height:3rem; @if($book->quantity == 0) cursor:default !important;" disabled @endif'> Lease </button>
+          <a href="{{route('leases.create.book',$book->id)}}"><button class="btn btn-success col-5" style='height:3rem; @if($book->quantity == 0) cursor:default !important;" disabled @endif'> Lease </button></a>
         @else
           <button class="btn btn-primary col-5" style="margin-left:-1rem; height:3rem" onclick=deleteLease()> Return </button> 
           @if( $userLease->remaining == 1)

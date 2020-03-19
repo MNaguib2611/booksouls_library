@@ -7,11 +7,13 @@
 
 @section('content')
     @if ($message = Session::get('success'))
-            <div class="alert alert-success alert-block">
+            <div class="col-4 alert alert-success m-auto">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                     <strong>{{ $message }}</strong>
             </div>
     @endif
+
+
 <div class="cont">
     <div class="cards">
         @foreach ($allBooks as $book)
@@ -21,7 +23,7 @@
                     <h2>{{$book->title}}</h2>
                     <div class="card__buttons">
                         <a href="{{ route('books.show', $book->id) }}">More Details</a>
-                        <a href="{{ route('books.show', $book->id) }}" class="@if ($book->quantity == 0) disabled @endif">Lease</a>
+                        <a href="{{ route('leases.create.book', $book->id) }}" class="@if ($book->quantity == 0) disabled @endif">Lease</a>
                     </div>
                 </div>
                 <div class="card-bdy">

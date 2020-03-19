@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::Resource('/books', 'User\BookController');
                 Route::Resource('/leases', 'User\LeaseController');
 
-                Route::get('/leases/create/{book}', 'User\LeaseController@createWithBook');
+                Route::get('/leases/create/{book}', 'User\LeaseController@createWithBook')->name('leases.create.book');
                 Route::Resource('/favourites', 'User\FavouriteController');
                 Route::Resource('/reviews', 'User\ReviewController');
                 Route::get('/categories', 'User\CategoryController@index')->name('getCategories');

@@ -92,7 +92,11 @@
                                                 @csrf
                                                 <input id="daysForm" type="hidden" name="days" value="5">
                                                 <input id="bookId" type="hidden" name="book" value="{{$book->id}}">
-                                                <button type="submit" class="confirm">Confirm</button></div>
+                                                @if($book->quantity == 0)
+                                                <span class="text-danger border copies  ml-1 p-3 rounded">No copies available</span>
+                                                @else 
+                                                 <button type="submit" class="confirm" style="">Confirm</button></div>
+                                                @endif
                                             </form>
                                     </div>
                                 </div>

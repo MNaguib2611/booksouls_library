@@ -71,8 +71,6 @@ class LeaseController extends Controller
         $lease->duration = $request->days;
         $lease->end_date = now()->addDays($request->days);
         $lease->save();
-        Book::find($request->book)->update(['quantity' => DB::raw('quantity - 1'),]);
-
         
         return redirect('books')->with('success','You have Leased this book successfully');;
     }
