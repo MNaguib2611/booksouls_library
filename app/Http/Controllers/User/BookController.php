@@ -67,7 +67,6 @@ class BookController extends Controller
         $category=Category::find($book->category_id);
         $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
         return view('user.books.show', compact('book', 'favourites', 'category', 'reviews', 'userReview', 'userLease'));
-        // return $userLease;
     }
 
     /**
