@@ -125,7 +125,7 @@
     </div>
   </div>
   @if(!$userReview)
-  <div class="reviewing-box">
+  <div class="reviewing-box" >
       <h5 class="alert alert-info">Your reviews are welcomed</h5>
       <div class="row review-cont" id="post-review-box">
         <div class="col-md-12">
@@ -251,7 +251,7 @@
           </div>
           <div class="review-box">
               <div class="review-author">
-              <p><strong>{{$review->name}}</strong>&nbsp;&nbsp;- 
+              <p><strong>{{$review->name}}</strong>&nbsp;&nbsp;-&nbsp;
                 <span class="fa fa-star @if($review->rate > 0 ) checked @else fa-star-o @endif"></span>
                 <span class="fa fa-star @if($review->rate > 1 ) checked @else fa-star-o @endif"></span>
                 <span class="fa fa-star @if($review->rate > 2 ) checked @else fa-star-o @endif"></span>
@@ -270,31 +270,31 @@
           </div>
         </div>
       @endforeach
-    </div>
-    <h2 style="margin:5rem 0 2rem 5rem; font-weight:bold;">Related Books</h2>
-    <div class="accordian">
-      <ul>
-        @if(count($relatedBooks) < 10)
-        <style>
-          .accordian ul:hover li {width: {!! json_encode(1100/(count($relatedBooks)+1)) !!}px;}
-          .accordian ul li:hover {width: {!! json_encode(1100/(count($relatedBooks)+1)*2) !!}px;}
-          .accordian li {width: {!! json_encode(1100/(count($relatedBooks))) !!}px;}
-          .image_title {width: 150%;text-align: left;}
-        </style>
-        @endif
-        @foreach($relatedBooks as $relatedBook)
-          <li>
-            <div class="image_title">
-              <a href="{{ route('books.show', $relatedBook->id) }}">{{ $relatedBook->title }}</a>
-            </div>
-            <a href="{{ route('books.show', $relatedBook->id) }}">
-              <img src="{{ $relatedBook->cover }}"/>
-            </a>
-          </li>
-        @endforeach
-      </ul>
-    </div>
-    <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" style="text-align:center;"></div>
+  </div>
+  <h2 style="margin:5rem 80% 2rem 5rem; font-weight:bold; display:block;">Related Books</h2>
+  <div class="accordian">
+    <ul>
+      @if(count($relatedBooks) < 10)
+      <style>
+        .accordian ul:hover li {width: {!! json_encode(1100/(count($relatedBooks)+1)) !!}px;}
+        .accordian ul li:hover {width: {!! json_encode(1100/(count($relatedBooks)+1)*2) !!}px;}
+        .accordian li {width: {!! json_encode(1100/(count($relatedBooks))) !!}px;}
+        .image_title {width: 150%;text-align: left;}
+      </style>
+      @endif
+      @foreach($relatedBooks as $relatedBook)
+        <li>
+          <div class="image_title">
+            <a href="{{ route('books.show', $relatedBook->id) }}">{{ $relatedBook->title }}</a>
+          </div>
+          <a href="{{ route('books.show', $relatedBook->id) }}">
+            <img src="{{ $relatedBook->cover }}"/>
+          </a>
+        </li>
+      @endforeach
+    </ul>
+  </div>
+  <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" style="text-align:center;"></div>
   <div id="error_message" class="alert alert-danger ajax_response fixed-top m-auto" style="max-width:320px !important; text-align:center;" ></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
@@ -341,10 +341,10 @@
           
         newChild = "<div class='review-card'><div class='review-photo'><img src=" + {!! json_encode(Auth::user()->avatar) !!}
                     + "></div><div id='myReview' class='review-box'>"+
-                    "<button id='deleteMyReview' type='button' title='delete' class='close'><i class='fa fa-trash' aria-hidden='true'></i></button>"+
+                    "<button id='deleteMyReview' type='button' title='delete' class='close' onclick='deletingReview()' ><i class='fa fa-trash' aria-hidden='true'></i></button>"+
                     // "<button id='review-edit' type='button' class='close'><i class='fa fa-edit' style='font-size:1.15rem !important; margin-right:5px; margin-top:2px;' title='edit'></i></button>"+
                     "<div class='review-author'><p><strong>"
-                    + {!! json_encode(Auth::user()->name) !!} + '</strong>\xa0\xa0 - ';
+                    + {!! json_encode(Auth::user()->name) !!} + '</strong>\xa0\xa0-\xa0 ';
         
         (rate > 0) ? newChild += "<span class='fa fa-star checked '></span>" : newChild += "<span class='fa fa-star fa-star-o'></span>";
         (rate > 1) ? newChild += "<span class='fa fa-star checked '></span>" : newChild += "<span class='fa fa-star fa-star-o'></span>";
@@ -356,23 +356,6 @@
                     comment + "</p></div> <div class='review-date'><time>" +
                     date + "</time></div><style>#myReview{background-color:rgba(255, 240, 0, 0.24);} #myReview:after {border-right-color:rgba(255, 240, 0, 0.24);}</style></div></div>"
         document.querySelector(".reviews").innerHTML = newChild + document.querySelector(".reviews").innerHTML;
-
-        $("#deleteMyReview").click(function(e) {
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'DELETE',
-            url: "{{ route('removeReview') }}",
-            data: { 'book_id': {!! json_encode($book->id) !!} },
-            success: function(result) {
-              location.reload(true);
-              },
-            error: function(err) {
-              console.log(err);
-            }
-          });
-        });
       }
 
       function checkRate(e){
@@ -439,7 +422,7 @@
                       $('#success_message').fadeOut("slow");
                   }, 5000 );
                 }
-                document.querySelector('#book-actions').innerHTML = "<button class='btn btn-success col-5' style='height:3rem'> Lease </button>";
+                document.querySelector('#book-actions').innerHTML = "<a href='{{route('leases.create.book',$book->id)}}'><button class='btn btn-success col-5' style='height:3rem'> Lease </button></a>";
                 document.querySelector('#book-quantity').innerHTML = "<h5>@if($book->quantity+1 == 1) {{$book->quantity+1}} copy @else {{$book->quantity+1}} copies @endif available </h5>";
             },
             error: function() {
@@ -467,6 +450,24 @@ ${dt.getDate().toString().padStart(2, '0')} \
 ${dt.getHours().toString().padStart(2, '0')}:\
 ${dt.getMinutes().toString().padStart(2, '0')}:\
 ${dt.getSeconds().toString().padStart(2, '0')}`;
+      }
+
+
+      function deletingReview(){
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'DELETE',
+            url: "{{ route('removeReview') }}",
+            data: { 'book_id': {!! json_encode($book->id) !!} },
+            success: function(result) {
+              },
+            error: function(err) {
+              console.log(err);
+            }
+          });
+        location.reload(true);
       }
   </script>
 

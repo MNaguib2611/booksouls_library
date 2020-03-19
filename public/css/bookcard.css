@@ -211,3 +211,7 @@ a.disabled {
   margin-top: 4rem;
   margin-left: 40%;
 }
+
+.cont{
+  margin-top: 3rem !important;
+}

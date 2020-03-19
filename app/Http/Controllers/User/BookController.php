@@ -22,22 +22,14 @@ class BookController extends Controller
      */
     public function index()
     {
-        $allBooks = Book::paginate(15);
+        $allBooks = Book::orderBy('title')->paginate(15);
         $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
         $leases = Auth::user()->leases->pluck("book_id")->toArray();
         $categories = Category::all();
-        return view('user.books.index',compact('allBooks', 'favourites', 'leases','categories'));       
+        return view('user.books.index',compact('allBooks', 'favourites', 'leases', 'categories'));       
     }
 
 
-  
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function show(Book $book)
     {
         $reviews = Review::leftJoin('users', 'reviews.user_id', '=', 'users.id')
@@ -58,21 +50,14 @@ class BookController extends Controller
         return view('user.books.show', compact('book', 'favourites', 'category', 'reviews', 'userReview', 'userLease', 'relatedBooks'));
     }
 
-  
 
-
-      /**
-     * Search
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function selectedData(Request $request)
     {
         $text=request('search'); 
         $order=request('order'); 
         $category=request('category'); 
         
-        if($text != "" | $order != "" | $category != 0)
+        if($text != "" || $order != "" || $category != 0)
         {
            
             $ascORdesc="";
@@ -106,8 +91,6 @@ class BookController extends Controller
                 $cat="All";
             }        
 
-            
-
             $pagination = $allBooks->appends ( array (
                 'text' => Request( 'text' ) ,
                 'order' => Request( 'order' ) ,
@@ -122,18 +105,13 @@ class BookController extends Controller
             $selected = array("your input text is --> $text","order By --> $order","category is --> $cat");
 
             if (count($allBooks) > 0)
-            return view('user.books.index2',compact('allBooks', 'favourites', 'leases','categories','selected'))->withQuery($text,$order,$category);    
-            }
-
-            return view('user.books.index2')->withQuery($text,$order,$category);    
-
+                return view('user.books.index',compact('allBooks', 'favourites', 'leases','categories','selected'))->withQuery($text,$order,$category);    
         }
 
-          
-       
-                
-            
-          
-
-
+        $allBooks = Book::orderBy('title')->paginate(15);
+        $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
+        $leases = Auth::user()->leases->pluck("book_id")->toArray();
+        $categories = Category::all();
+        return view('user.books.index',compact('allBooks', 'favourites', 'leases', 'categories')); 
     }
+}

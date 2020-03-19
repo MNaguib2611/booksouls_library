@@ -116,10 +116,11 @@
 }
 
 .review-card{
-    width:80%;
+    width:60%;
     font-family: 'Poppins', sans-serif;
     font-size:16px;
     margin-bottom: 2rem;
+    margin-left: 20%;
 }
 .review-photo{
     height:80px;
@@ -173,8 +174,8 @@
 }
 
 .reviews{
-    margin-left: 8rem;
-    margin-top: 8rem;
+    margin: auto !important;
+    margin-top: 7rem !important;
 }
 
 .stars {
@@ -192,7 +193,7 @@
 
 .reviewing-box{
     margin: auto !important;
-    margin-top: 4rem !important;
+    margin-top: 7rem !important;
     text-align: left;
 }
 .reviewing-box h5{
