@@ -141,7 +141,7 @@ function print_data(data,text)
       if(data.selectedRows[row].title.toLowerCase().indexOf(text.toLowerCase()) >= 0 ||data.selectedRows[row].author.toLowerCase().indexOf(text.toLowerCase()) >= 0 )       
         {
           var output =  '<div class="book">'+
-                '<div class="bookpic" style="background-image: url(\''+" "+'\');"></div>'+
+                '<div class="bookpic" style="background-image: url(\''+data.selectedRows[row].cover+'\');"></div>'+
                 '<div class="bookinfo">'+
                 '   <div class="title">'+data.selectedRows[row].title+'</div>'+
                   '  <div class="author">'+data.selectedRows[row].author+'</div>'+

@@ -9,6 +9,9 @@ use App\Category;
 use DB;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Arr;
+
+
 
 class BookController extends Controller
 {
@@ -22,29 +25,12 @@ class BookController extends Controller
         $allBooks = Book::paginate(15);
         $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
         $leases = Auth::user()->leases->pluck("book_id")->toArray();
-        return view('user.books.index',compact('allBooks', 'favourites', 'leases'));       
+        $categories = Category::all();
+        return view('user.books.index',compact('allBooks', 'favourites', 'leases','categories'));       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  
 
     /**
      * Display the specified resource.
@@ -72,37 +58,83 @@ class BookController extends Controller
         return view('user.books.show', compact('book', 'favourites', 'category', 'reviews', 'userReview', 'userLease', 'relatedBooks'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Book $book)
-    {
-        //
-    }
+  
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Book $book)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
+      /**
+     * Search
      *
-     * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function selectedData(Request $request)
     {
-        //
+        $text=request('search'); 
+        $order=request('order'); 
+        $category=request('category'); 
+        
+        if($text != "" | $order != "" | $category != 0)
+        {
+           
+            $ascORdesc="";
+            if(!$order)
+            {
+                $order="title";
+            }
+            
+            if($order=="title")
+                $ascORdesc="asc";
+            else
+                $ascORdesc="desc";
+
+            if($category > 0)
+            {
+                $allBooks = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
+                ->select('books.*','books.id as myID','books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
+                ->where('books.category_id', '=', $category)
+                ->where('title', 'like', '%'.$text.'%')
+                ->orwhere('author', 'like','%'.$text.'%')
+                ->groupBy('books.id')->orderBy($order,$ascORdesc)->paginate(15)->setPath ( '' );
+                $cat=Category::find($category)->first()->name;
+            }  
+            else
+            {  
+                $allBooks = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id')
+                ->select('books.*','books.id as myID',
+                'books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
+                ->where('title', 'like', '%'.$text.'%')
+                ->orwhere('author', 'like','%'.$text.'%')
+                ->groupBy('books.id')->orderBy($order,$ascORdesc)->paginate(15)->setPath ( '' );
+                $cat="All";
+            }        
+
+            
+
+            $pagination = $allBooks->appends ( array (
+                'text' => Request( 'text' ) ,
+                'order' => Request( 'order' ) ,
+                'category' => Request( 'category' )                 
+                ) );
+
+            $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
+            $leases = Auth::user()->leases->pluck("book_id")->toArray();
+            $categories = Category::all();
+        
+
+            $selected = array("your input text is --> $text","order By --> $order","category is --> $cat");
+
+            if (count($allBooks) > 0)
+            return view('user.books.index2',compact('allBooks', 'favourites', 'leases','categories','selected'))->withQuery($text,$order,$category);    
+            }
+
+            return view('user.books.index2')->withQuery($text,$order,$category);    
+
+        }
+
+          
+       
+                
+            
+          
+
+
     }
-}

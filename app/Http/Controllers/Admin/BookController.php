@@ -94,7 +94,7 @@ class BookController extends Controller
         //    $query-> where('title', 'like', '%'.$text.'%')
         //    ->orwhere('author', 'like','%'.$text.'%');
         //   })
-        ->groupBy('books.id')->orderBy('title','asc')->get();
+        ->groupBy('books.id')->orderBy($myOrder,'asc')->get();
 
        // $selectedRows = DB::table('books')->where('books.category_id', '=', 4)->get();
       }  
