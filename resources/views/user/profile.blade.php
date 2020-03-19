@@ -2,79 +2,64 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="container justify-content-center">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Update Profile') }}</div>
+                <div class="card-header">My Profile</div>
 
                 <div class="card-body">
-                <form method="post" action="{{route('users.update', $user)}}">
-                        @method('PATCH')
-                        @csrf
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
                         </div>
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    @endif
+                        
+                    <div class="row">
+                        <div class='col-lg-8 form-group'>
+                            {!! Form::open(['route' => ['users.update',$user->id],'method' => "put",'enctype'=>"multipart/form-data" ]) !!}
+                            {!! Form::token(); !!}
+                            {!! Form::label('name', 'Name'); !!}
+                            {!! Form::text('name', $user->name, array_merge(['class' => 'form-control']))  !!}
+                            <br>
+                            {!! Form::label('username', 'Username'); !!}
+                            {!! Form::text('username', $user->username, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('email', 'Email'); !!}
+                            {!! Form::text('email', $user->email, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('phone', 'Phone'); !!}
+                            {!! Form::text('phone', $user->phone, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('address', 'Address'); !!}
+                            {!! Form::text('address', $user->address, array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('avatar', 'Avatar'); !!}
+                            {!! Form::file('avatar',['class' => 'form-control']); !!}
+                            <br>
+                            {!! Form::label('password', 'Password'); !!}
+                            {!! Form::text('password', '', array_merge(['class' => 'form-control'])); !!}
+                            <br>
+                            {!! Form::label('password_confirmation', 'Password Confirm'); !!}
+                            {!! Form::text('password_confirmation', '', array_merge(['class' => 'form-control'])); !!}
+                            
+                            
+                            {!! Form::submit('Update',['class' => 'btn btn-info m-3 float-right']); !!}
+                            {!! Form::close() !!} 
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
+                        <div class="col-lg-4">
+                            <img src="{{$user->avatar}}" alt="Avatar" width="100%">
+                            
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
-                                </button>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="col-sm-12" style="text-align:center;">
-                            @if(session()->get('success'))
-                                <div class="alert alert-success">
-                                {{ session()->get('success') }}  
-                                </div>
-                            @endif
-                        </div> 
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

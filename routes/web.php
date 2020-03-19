@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/categories', 'User\CategoryController@index')->name('getCategories');
                 Route::get('/categories/{category}', 'User\CategoryController@show')->name('getCategory');
                 Route::get('profile',  ['as' => 'users.edit', 'uses' => 'User\ProfileController@edit']);
-                Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'User\ProfileController@update']);
+                Route::put('users/{user}/update',  ['as' => 'users.update', 'uses' => 'User\ProfileController@update']);
                 Route::delete('/remove-favourite', 'User\FavouriteController@removeFavourite')->name('removeFavourite');
                 Route::delete('/remove-lease', 'User\LeaseController@removeLease')->name('removeLease');
                 Route::delete('/remove-review', 'User\ReviewController@removeReview')->name('removeReview');

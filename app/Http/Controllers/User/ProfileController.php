@@ -5,6 +5,8 @@
     use App\User;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
+    use App\Http\Requests\UserRequest;
+    use Hash;
 
     class ProfileController extends Controller
     {
@@ -27,33 +29,19 @@
             $user = Auth::user();
             return view('user.profile', compact('user'));
         }
-        public function update(User $user)
-        { 
-            if(Auth::user()->email == request('email')) 
-            {
-                $this->validate(request(), [
-                    'name' => 'required',
-                    'password' => 'required|min:6|confirmed'
-                ]);
-                $user->name = request('name');
-                $user->password = bcrypt(request('password'));
-                $user->save();
-                // return back();
-                return redirect('/profile')->with('success', 'Profile Updated Successfully !');
+        public function update(UserRequest $request, User $user)
+        {
+            $requestData=array_filter($request->all());
+            if ($request->hasFile('avatar')) {
+                $imageName = time().'.'.$request->avatar->extension();  
+                $request->avatar->move(public_path('imgs/users'), $imageName);
+                $requestData['avatar'] = asset('/imgs/users').'/'.$imageName;
             }
-            else
-            {
-                $this->validate(request(), [
-                    'name' => 'required',
-                    'email' => 'email|required|unique:users,email,'.$this->segment(2),
-                    'password' => 'required|min:6|confirmed'
-                ]);
-                $user->name = request('name');
-                $user->email = request('email');
-                $user->password = bcrypt(request('password'));
-                $user->save();
-                // return back();
-                return redirect('/profile')->with('success', 'Profile Updated Successfully !');  
+            if($request->password !=""){
+                //hash the password
+                $requestData['password']=Hash::make($requestData['password']);
             }
+            $user->update($requestData);
+            return back()->with('status',"Profile updated successfully");
         }
     }
