@@ -156,6 +156,7 @@
 .review-box:after {
       border-right-color: rgb(241, 239, 239);
       border-width: 25px;
+      margin-right:-.1rem;
 }
 .review-comment{
     color:#9A9999;

@@ -241,6 +241,9 @@
   @endif
   <div class="reviews">
       @foreach($reviews as $review)
+        @if($review->user_id == Auth::id())
+          @continue
+        @endif
         <div class="review-card">
           <div class="review-photo">
               <img src="{{$review->avatar}}">
@@ -265,7 +268,7 @@
               </div>
           </div>
         </div>
-        @endforeach
+      @endforeach
     </div>
   <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" style="text-align:center;"></div>
   <div id="error_message" class="alert alert-danger ajax_response fixed-top m-auto" style="max-width:320px !important; text-align:center;" ></div>
@@ -310,23 +313,10 @@
           }
       }
 
-      function checkRate(e){
-        rate = $("input[name='rating']:checked").val();
-        if(!rate){
-          $('#error_message').fadeIn().html("You must choose a rate!");
-          setTimeout(function() {
-              $('#error_message').fadeOut("slow");
-          }, 2000 );
-        }
-      }
-
-      function createReview(rate, comment){
-        let dt = new Date();
-        let stringDate = `${(dt.getFullYear()).toString().padStart(4, '0')}-${(dt.getMonth()+1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')} ${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}`;
-        document.querySelector(".reviewing-box").style.display = "none";
+      function createReview(rate, comment, date){
           
         newChild = "<div class='review-card'><div class='review-photo'><img src=" + {!! json_encode(Auth::user()->avatar) !!}
-                    + "></div><div class='review-box'><div class='review-author'><p><strong>"
+                    + "></div><div id='myReview' class='review-box'><div class='review-author'><p><strong>"
                     + {!! json_encode(Auth::user()->name) !!} + '</strong>\xa0\xa0 - ';
         
         (rate > 0) ? newChild += "<span class='fa fa-star checked '></span>" : newChild += "<span class='fa fa-star fa-star-o'></span>";
@@ -337,8 +327,18 @@
         
         newChild += "</p></div><div class='review-comment'><p> " + 
                     comment + "</p></div> <div class='review-date'><time>" +
-                    stringDate + "</time></div></div></div>"
+                    date + "</time></div><style>#myReview{background-color:rgba(255, 240, 0, 0.24);} #myReview:after {border-right-color:rgba(255, 240, 0, 0.24);}</style></div></div>"
         document.querySelector(".reviews").innerHTML = newChild + document.querySelector(".reviews").innerHTML;
+      }
+
+      function checkRate(e){
+        rate = $("input[name='rating']:checked").val();
+        if(!rate){
+          $('#error_message').fadeIn().html("You must choose a rate!");
+          setTimeout(function() {
+              $('#error_message').fadeOut("slow");
+          }, 2000 );
+        }
       }
 
       $("#review-form").submit(function(e) {
@@ -364,7 +364,10 @@
               setTimeout(function() {
                   $('#success_message').fadeOut("slow");
               }, 2000 );
-              createReview(rate, comment);
+              let dt = new Date();
+              let stringDate=dateFormating(dt); 
+              document.querySelector(".reviewing-box").style.display = "none";
+              createReview(rate, comment, stringDate);
             },
           error: function(err) {
             console.log(err);
@@ -398,6 +401,28 @@
             error: function() {
             }
         })
+      }
+
+      $(document).ready(()=>{
+        review = {!! json_encode($userReview) !!}; 
+        if(review){
+          let rate = review.rate;
+          let comment = review.comment;
+          comment = comment? comment: ""; //handling null values
+          let dt = new Date(review.created_at);
+          let created_at = dateFormating(dt);
+          createReview(rate, comment, created_at);
+        }
+      });
+
+      function dateFormating(dt){
+        return `
+${(dt.getFullYear()).toString().padStart(4, '0')}-\
+${(dt.getMonth()+1).toString().padStart(2, '0')}-\
+${dt.getDate().toString().padStart(2, '0')} \
+${dt.getHours().toString().padStart(2, '0')}:\
+${dt.getMinutes().toString().padStart(2, '0')}:\
+${dt.getSeconds().toString().padStart(2, '0')}`;
       }
   </script>
 
