@@ -4,6 +4,7 @@
 {{ HTML::style('css/rating.css') }}
 {{ HTML::style('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}
 {{ HTML::style('css/showbook.css') }}
+{{ HTML::style('css/accordion.css') }}
 
 @section('content')
 
@@ -270,7 +271,31 @@
         </div>
       @endforeach
     </div>
-  <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" style="text-align:center;"></div>
+    <h2 style="margin:5rem 0 2rem 5rem; font-weight:bold;">Related Books</h2>
+    <div class="accordian">
+      <ul>
+        @if(count($relatedBooks) < 10)
+        <div>
+        <style>
+          .accordian ul:hover li {width: {!! json_encode(1100/(count($relatedBooks)+1)) !!}px;}
+          .accordian ul li:hover {width: {!! json_encode(1100/(count($relatedBooks)+1)*2) !!}px;}
+          .accordian li {width: {!! json_encode(1100/(count($relatedBooks))) !!}px;}
+          .image_title {width: 150%;text-align: left;}
+        </style>
+        @endif
+        @foreach($relatedBooks as $book)
+          <li>
+            <div class="image_title">
+              <a href="{{ route('books.show', $book->id) }}">{{ $book->title }}</a>
+            </div>
+            <a href="{{ route('books.show', $book->id) }}">
+              <img src="{{ $book->cover }}"/>
+            </a>
+          </li>
+        @endforeach
+      </ul>
+    </div>
+    <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" style="text-align:center;"></div>
   <div id="error_message" class="alert alert-danger ajax_response fixed-top m-auto" style="max-width:320px !important; text-align:center;" ></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>

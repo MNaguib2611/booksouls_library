@@ -61,12 +61,15 @@ class BookController extends Controller
         $userReview = Review::leftJoin('users', 'reviews.user_id', '=', 'users.id')
             ->select('reviews.*', 'users.name', 'users.avatar')
             ->where([['book_id', $book->id], ['user_id', Auth::id()]])->first();
-        
+        $relatedBooks = Book::where([['category_id', $book->category_id], ['id', '!=', $book->id]])->get();
+        if(count($relatedBooks)>10){
+            $relatedBooks = $relatedBooks->random(10);
+        }
         $userLease = Lease::where([['book_id', $book->id], ['user_id', Auth::id()], ['deleted_at', null]])->select('leases.*', DB::raw('DATEDIFF(end_date, created_at) as remaining'))->first();
         $book = Book::find($book->id);
         $category=Category::find($book->category_id);
         $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
-        return view('user.books.show', compact('book', 'favourites', 'category', 'reviews', 'userReview', 'userLease'));
+        return view('user.books.show', compact('book', 'favourites', 'category', 'reviews', 'userReview', 'userLease', 'relatedBooks'));
     }
 
     /**
