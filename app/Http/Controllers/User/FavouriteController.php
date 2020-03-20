@@ -17,7 +17,10 @@ class FavouriteController extends Controller
      */
     public function index()
     {
-        //
+        $allBooks = Auth::user()->favourites()->leftJoin('books', 'favourites.book_id', '=', 'books.id')
+        ->select('books.*')->orderBy('books.title')->paginate(15);
+        $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
+        return view('user.favourites.index', compact('allBooks', 'favourites'));
     }
 
     /**

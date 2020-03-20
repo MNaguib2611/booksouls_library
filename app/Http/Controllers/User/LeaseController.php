@@ -8,6 +8,7 @@ use App\Book;
 use Illuminate\Http\Request;
 use App\Http\Requests\LeaseRequest;
 use Auth;
+use DB;
 use Carbon\Carbon;
 
 
@@ -20,7 +21,10 @@ class LeaseController extends Controller
      */
     public function index()
     {
-        //
+        $allBooks = Auth::user()->leases()->leftJoin('books', 'leases.book_id', '=', 'books.id')
+        ->select('books.*', DB::raw('DATEDIFF(leases.end_date, leases.created_at) as remaining'))->orderBy('books.title')->paginate(15);
+        $favourites = Auth::user()->favourites->pluck("book_id")->toArray();
+        return view('user.leases.index', compact('allBooks', 'favourites'));
     }
 
     /**

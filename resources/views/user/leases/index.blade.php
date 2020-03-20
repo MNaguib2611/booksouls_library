@@ -1,0 +1,192 @@
+@extends('layouts.app')
+
+{{ HTML::style('css/likebutton.css') }}
+{{ HTML::style('css/bookcard.css') }}
+{{ HTML::style('css/rating.css') }}
+{{ HTML::style('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}
+
+@section('content')
+    @if ($message = Session::get('success'))
+            <div class="col-4 alert alert-success m-auto">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>{{ $message }}</strong>
+            </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif      
+
+<div class="cont">
+    <div class="cards">
+        @forelse($allBooks as $book)
+            <div class="book-card">
+                <div class="book-card-body">
+                    <div class="card__inner" style="background: url({{$book->cover}}) no-repeat;">
+                        <h2>{{$book->title}}</h2>
+                        <div class="card__buttons">
+                            <a href="{{ route('books.show', $book->id) }}">More Details</a>
+                            <a href="{{ route('leases.create.book', $book->id) }}" class="@if ($book->quantity == 0) disabled @endif">Lease</a>
+                        </div>
+                    </div>
+                    <div class="card-bdy">
+                        <div class="rating rating-card mb-2 float-right"> 
+                            <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                        </div>
+                        <h3 class="card-text ml-3"> <strong>by</strong> <strong class="text-primary">{{$book->author}}</strong></h3>
+                        <h3 class="card-text m-3">{!! Str::words($book->description, 20,'...') !!}</h3>
+                    </div>
+                </div>
+
+                <div class="book-card-footer">
+                    <div class="heart-btn">  
+                        <div class="liked-button">
+                        <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
+                            <label for="{{$book->id}}">
+                                <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
+                                    <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
+                                        <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" class="heart" fill="#AAB8C2"/>
+                                        <circle class="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
+
+                                        <g class="grp7" opacity="0" transform="translate(7 6)">
+                                            <circle class="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
+                                            <circle class="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
+                                        </g>
+
+                                        <g class="grp6" opacity="0" transform="translate(0 28)">
+                                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
+                                            <circle class="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
+                                        </g>
+
+                                        <g class="grp3" opacity="0" transform="translate(52 28)">
+                                            <circle class="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
+                                            <circle class="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
+                                        </g>
+
+                                        <g class="grp2" opacity="0" transform="translate(44 6)">
+                                            <circle class="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
+                                            <circle class="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
+                                        </g>
+
+                                        <g class="grp5" opacity="0" transform="translate(14 50)">
+                                            <circle class="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
+                                            <circle class="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
+                                        </g>
+
+                                        <g class="grp4" opacity="0" transform="translate(35 50)">
+                                            <circle class="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
+                                            <circle class="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
+                                        </g>
+
+                                        <g class="grp1" opacity="0" transform="translate(24)">
+                                            <circle class="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
+                                            <circle class="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="text-center text-muted" id="book-actions-{{$book->id}}" index="{{$book->id}}">
+                        <button class="btn btn-primary" style="margin-left:-1rem; height:3rem; width:10rem;" onClick="deleteLease({{$book->id}})"> Return </button> 
+                    </div>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="value">{{$book->price}}</span>
+                        <span class="duration">day</span>
+                    </div>
+                    <div class="copies text-muted mb-3" style="margin-top:-1rem">
+                        @if( $book->remaining == 1)
+                            <h6 class="copies text-muted ml-3" style="display:inline-block;">You still have {{$book->remaining}} Day in your lease</h6> 
+                        @elseif($book->remaining == 0) 
+                            <h6 class="copies text-danger" style="display:inline-block; width:16rem; margin-left:-1rem;">Your Lease ends today!!</h6> 
+                        @else 
+                            <h6 class="copies text-muted ml-3" style="display:inline-block;">You still have {{$book->remaining}} Days in your lease</h6>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @empty
+            <h3>You don't have any of our books in the mean time!</h3>
+        @endforelse
+        <div id="success_message" class="alert alert-success ajax_response fixed-top m-auto" ></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+
+            function handlingFav(book_id, event){
+                if(event.target.checked){                
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        url: "/favourites",
+                        data: { book: book_id },
+                        success: function(result) {
+                            $('#success_message').fadeIn().html(result);
+                            setTimeout(function() {
+                                $('#success_message').fadeOut("slow");
+                            }, 2000 );
+                        },
+                        error: function() {
+                        }
+                    })
+                }
+                else{
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'DELETE',
+                        url: "{{ route('removeFavourite') }}",
+                        data: { book: book_id },
+                        success: function(result) {
+                            $('#success_message').fadeIn().html(result);
+                            setTimeout(function() {
+                                $('#success_message').fadeOut("slow");
+                            }, 2000 );
+                        },
+                        error: function() {
+                        }
+                    })
+                }
+            }
+
+            function deleteLease(book_id){
+                if(! book_id){
+                    book_id=0;
+                }
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'DELETE',
+                        url: "{{ route('removeLease') }}",
+                        data: { 'book_id': book_id },
+                        success: function(result) {
+                            $('#success_message').fadeIn().html(result);
+                                setTimeout(function() {
+                                $('#success_message').fadeOut("slow");
+                            }, 5000 );
+                            document.querySelector(`#book-actions-${book_id}`).innerHTML = "<a href='{{route('leases.create.book'," + book_id + ")}}'><button class='btn btn-success' style='margin-left:-1rem; height:3rem; width:10rem;'> Lease </button></a>";
+                        },
+                        error: function() {
+                        }
+                    });
+            }
+        </script>
+    </div>
+    <div class="paginate">
+        {{$allBooks->links()}}
+    </div>
+</div>
+@endsection
