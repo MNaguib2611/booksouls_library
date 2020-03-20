@@ -40,9 +40,9 @@
                     <li class="nav-item">
                         @auth
                             @if (Route::has('admin'))
-                            <a class="nav-link js-scroll-trigger" href="{{ url('/home') }}">Home</a>
+                            <a class="nav-link js-scroll-trigger" href="{{ url('/home') }}">Dashboard</a>
                             @else
-                            <a class="nav-link js-scroll-trigger" href="{{ url('/books') }}">Home</a>
+                            <a class="nav-link js-scroll-trigger" href="{{ url('/books') }}">Our Books</a>
                             @endif
                         @else
                         <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Login</a>
@@ -63,6 +63,18 @@
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="#about">About Us</a>
                 </li>
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/logout"
+                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+                @endauth
                 </ul>
             </div>
             </div>

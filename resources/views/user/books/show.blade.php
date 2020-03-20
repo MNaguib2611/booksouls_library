@@ -376,7 +376,7 @@
           $('#error_message').fadeIn().html("Stop fooling around!, I'm WATCHING you!!");
           setTimeout(function() {
               $('#error_message').fadeOut("slow");
-          }, 2000 );
+          }, 4000 );
           return;
         }     
         $.ajax({

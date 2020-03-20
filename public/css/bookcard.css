@@ -40,6 +40,9 @@ body {
   .book-card {
     width: 100%;
  }
+ .cards{
+   margin-top: 5rem !important;
+ }
 }
 @media (max-width: 370px) {
   .book-card {
@@ -192,8 +195,7 @@ a.disabled {
 }
 
 .copies{
-  margin-bottom: 1rem;
-  margin-top: -1rem;
+  margin-top: 1rem;
 }
 .nocopies{
   margin-bottom: -.5rem !important;

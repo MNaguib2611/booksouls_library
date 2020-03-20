@@ -40,7 +40,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
             $request->validate([
-                'category_name'=>'required|unique:categories,name'
+                'category_name'=>
+                    array(
+                        'required',
+                        Rule::unique('categories', 'name')->where(function ($query) {
+                            return $query->whereNull('deleted_at');
+                        }),
+                    )
             ]);
             $Category = new Category([
                 'name' => $request->category_name

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" style="margin-top:5rem;">
     <div class="container justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -46,10 +46,10 @@
                             {!! Form::file('avatar',['class' => 'form-control']); !!}
                             <br>
                             {!! Form::label('password', 'Password'); !!}
-                            {!! Form::text('password', '', array_merge(['class' => 'form-control'])); !!}
+                            {!! Form::password('password', array_merge(['class' => 'form-control'])); !!}
                             <br>
                             {!! Form::label('password_confirmation', 'Password Confirm'); !!}
-                            {!! Form::text('password_confirmation', '', array_merge(['class' => 'form-control'])); !!}
+                            {!! Form::password('password_confirmation', array_merge(['class' => 'form-control'])); !!}
                             
                             
                             {!! Form::submit('Update',['class' => 'btn btn-info m-3 float-right']); !!}

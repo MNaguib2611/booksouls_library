@@ -24,7 +24,7 @@
 @endsection
 
 @section('content')
-<div class="limiter">
+<div class="limiter mt-5">
 		<div class="container-login100">
 			<div class="wrap-login100">
                 @if (session()->has('inActive'))
@@ -72,11 +72,10 @@
 					</div>
 					<div class="w-full text-center p-t-27 p-b-239">
                         @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="txt2">
                             <span class="txt1">
                                 Forgot
                             </span>
-
-                            <a href="{{ route('password.request') }}" class="txt2">
                                 your password?
                             </a>
                         @endif

@@ -54,6 +54,13 @@
                         </div>
                     </div>
                     <div class="card-bdy">
+                        <div class="rating rating-card mb-2 float-right"> 
+                            <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                            <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+                        </div>
                         <h3 class="card-text ml-3"> <strong>by</strong> <strong class="text-primary">{{$book->author}}</strong></h3>
                         <h3 class="card-text m-3">{!! Str::words($book->description, 20,'...') !!}</h3>
                     </div>
@@ -62,7 +69,7 @@
                 <div class="book-card-footer">
                     <div class="heart-btn">  
                         <div class="liked-button">
-                            <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
+                        <input type="checkbox" class="love-checkbox" id="{{$book->id}}" onclick="handlingFav({{$book->id}}, event)" @if (in_array($book->id, $favourites)) checked @endif/>
                             <label for="{{$book->id}}">
                                 <svg class="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
                                     <g class="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
@@ -108,20 +115,14 @@
                             </label>
                         </div>
                     </div>
-                    <div class="rating rating-card mb-2"> 
-                        <span class="fa fa-star @if($book->rate > 4 )@if($book->rate == 4.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-                        <span class="fa fa-star @if($book->rate > 3 )@if($book->rate == 3.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-                        <span class="fa fa-star @if($book->rate > 2 )@if($book->rate == 2.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-                        <span class="fa fa-star @if($book->rate > 1 )@if($book->rate == 1.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
-                        <span class="fa fa-star @if($book->rate > 0 )@if($book->rate == 0.5)fa-star-half-o @endif checked @else fa-star-o @endif"></span>
+
+                    <div class="copies text-muted">
+                        <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies text-center col-12">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
                     </div>
                     <div class="price">
                         <span class="currency">$</span>
                         <span class="value">{{$book->price}}</span>
                         <span class="duration">day</span>
-                    </div>
-                    <div class="copies text-muted">
-                        <h5>@if($book->quantity == 1) {{$book->quantity}} copy available @elseif($book->quantity == 0) <div class="alert alert-danger nocopies text-center col-12">No copies available </div> @else {{$book->quantity}} copies available @endif</h5>
                     </div>
                 </div>
             </div>
@@ -174,5 +175,4 @@
         {{$allBooks->links()}}
     </div>
 </div>
-
 @endsection

@@ -46,13 +46,14 @@
                             <br>
                             {!! Form::label('avatar', 'Avatar'); !!}
                             {!! Form::file('avatar',['class' => 'form-control']); !!}
-                            <br>
-                            {!! Form::label('password', 'Password'); !!}
-                            {!! Form::text('password', '', array_merge(['class' => 'form-control'])); !!}
-                            <br>
-                            {!! Form::label('password_confirmation', 'Password Confirm'); !!}
-                            {!! Form::text('password_confirmation', '', array_merge(['class' => 'form-control'])); !!}
-                            
+                            @if($admin->id == Auth::id())
+                                <br>
+                                {!! Form::label('password', 'Password'); !!}
+                                {!! Form::password('password', array_merge(['class' => 'form-control'])); !!}
+                                <br>
+                                {!! Form::label('password_confirmation', 'Password Confirm'); !!}
+                                {!! Form::password('password_confirmation', array_merge(['class' => 'form-control'])); !!}
+                            @endif
                             
                             {!! Form::submit('Update',['class' => 'btn btn-info m-3 float-right']); !!}
                             {!! Form::close() !!} 
