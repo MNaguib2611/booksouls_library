@@ -145,8 +145,8 @@ class BookController extends Controller
             'title' => 'required|min:3',
             'description' => 'required',
             'author' => 'required',
-            'quantity' => 'required',
-            'price' => 'required',
+            'quantity' => 'required|min:0',
+            'price' => 'required|min:0',
             'categories' => 'required',
             'cover' => 'required'
           ]);
@@ -193,7 +193,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-      $myBook = Book::find($book)->first();
+      $myBook = Book::find($book->id);
       $allCategories=Category::get();
       return view('admin.books.edit')->with(['myBook'=> $myBook,'allCategories'=>$allCategories]);
     }
@@ -213,11 +213,10 @@ class BookController extends Controller
             'author' => 'required',
             'quantity' => 'required',
             'price' => 'required',
-            'categories' => 'required',
-            'cover' => 'required'
+            'categories' => 'required'
           ]);
     
-          $book = Book::find($book)->first();
+          $book = Book::find($book->id);
           $book->title=request('title'); 
           $book->description=request('description'); 
           $book->author=request('author'); 
@@ -225,10 +224,18 @@ class BookController extends Controller
           $book->price=request('price');         
           $book->category_id=(Category::where('name',request('categories'))->pluck('id')->first()); 
         
-          $imageName = time().'.'.request('cover')->extension();  
-          request('cover')->move(public_path('imgs/books'), $imageName); 
-  
-          $book->cover = asset('/imgs/books').'/'.$imageName;
+      
+        
+
+          if(request('cover'))
+          {
+            $imageName = time().'.'.request('cover')->extension();  
+            request('cover')->move(public_path('imgs/books'), $imageName); 
+            $book->cover = asset('/imgs/books').'/'.$imageName;
+          }
+         
+        
+
           $book->save();   
   
           return redirect('admin/books')->with('success', ' Book updated successfully');                           

@@ -52,13 +52,13 @@
       <div class="form-group">
         <label class="col-lg-3 control-label">Quantity:</label>
         <div class="col-lg-8">
-          <input class="form-control"  type="number" name="quantity" >
+          <input class="form-control"  type="number" name="quantity" min="0">
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Price:</label>
         <div class="col-lg-8">
-          <input class="form-control" type="number" name="price" >
+          <input class="form-control" type="number" name="price" min="0">
         </div>
       </div>
       <div class="form-group">
