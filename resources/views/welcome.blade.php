@@ -39,7 +39,7 @@
                 @if (Route::has('login'))
                     <li class="nav-item">
                         @auth
-                            @if (Route::has('admin'))
+                            @if(Auth::user()->isAdmin == 1)
                             <a class="nav-link js-scroll-trigger" href="{{ url('/home') }}">Dashboard</a>
                             @else
                             <a class="nav-link js-scroll-trigger" href="{{ url('/books') }}">Our Books</a>
@@ -101,16 +101,16 @@
                 </div>
                 <div class="row text-center">
                 <div class="col-md-4">
-                <h4 class="service-heading">Digital Entertainment</h4>
-                <p class="text-muted">You can also check out CDs, DVDs, audiobooks, and video games from most public libraries.</p>
-                </div>
-                <div class="col-md-4">
                 <h4 class="service-heading">Leases</h4>
-                <p class="text-muted">Here you can borrow any books any time, but you have maximum of 1 month per book.</p>
+                <p class="text-muted">Here you can borrow any books any time, but you have maximum of 1 book per month.</p>
                 </div>
                 <div class="col-md-4">
                 <h4 class="service-heading">Academic & Research Support</h4>
                 <p class="text-muted">You can also turn to the public library if you or someone else in your family needs help on a school project or research paper.</p>
+                </div>
+                <div class="col-md-4">
+                <h4 class="service-heading">Digital Entertainment</h4>
+                <p class="text-muted">You can also check out CDs, DVDs, audiobooks, and video games from most public libraries.</p>
                 </div>
             </div>
             </div>
