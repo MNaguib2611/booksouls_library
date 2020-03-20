@@ -32,14 +32,14 @@
                     {{ session()->get('inActive') }}
                 </div>
                 @endif
-				<form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
+				<form class="login100-form validate-form m-auto" method="POST" action="{{ route('login') }}">
                 @csrf
 					<span class="login100-form-title p-b-34">
 						Account Login
 					</span>
 					
 					<div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
-                        <input id="username"  type="text" class="input100 @error('username') is-invalid @enderror "  name="username" value="{{ old('username') }}" required autocomplete="username" maxlength="191" autofocus placeholder="user Name">
+                        <input id="username"  type="text" class="input100 @error('username') is-invalid @enderror "  name="username" value="{{ old('username') }}" required autocomplete="username" maxlength="191" autofocus placeholder="Username">
                         <span class="focus-input100"></span>
                         @error('username')
                             <span class="invalid-feedback" role="alert">
@@ -73,9 +73,7 @@
 					<div class="w-full text-center p-t-27 p-b-239">
                         @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}" class="txt2">
-                            <span class="txt1">
                                 Forgot
-                            </span>
                                 your password?
                             </a>
                         @endif
@@ -94,7 +92,7 @@
 					</div>
 				</form>
 
-				<div class="login100-more" style="background-image: url({{asset('imgs/header-bg.jpg')}});"></div>
+				<!-- <div class="login100-more" style="background-image: url({{asset('imgs/header-bg.jpg')}});"></div> -->
 			</div>
 		</div>
 	</div>

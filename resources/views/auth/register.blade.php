@@ -9,18 +9,15 @@
 
 @section('content')
 <div class="main">
-        <div class="container">
+        <div class="container singup-container">
             <div class="signup-content">
-                <div class="signup-img" >
-                    <img style="height:95%;" src="{{asset('imgs/header-bg.jpg')}}" alt="">
-                </div>
                 <div class="signup-form">
                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" class="register-form" id="register-form">
                     @csrf   
-                    <h2 style="margin-left:150px;">Sign UP</h2>
+                    <h2 style="margin:auto; margin-bottom: 2rem; margin-left:40%">Sign UP</h2>
                         <div class="form-group">
-                            <label for="name">Name :</label>
-                            <input id="name" type="text" class="@error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                            <input id="name" type="text" placeholder="Name" class="@error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                            <span class="focus-input100"></span>
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -28,8 +25,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="username">User Name :</label>
-                            <input id="username" type="text" class="@error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username">
+                            <input id="username" type="text" placeholder="Username" class="@error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username">
+                            <span class="focus-input100"></span>
                             @error('username')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -37,8 +34,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="email">Email :</label>
-                            <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                            <input id="email" type="email" placeholder="Email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                            <span class="focus-input100"></span>
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -46,8 +43,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone :</label>
-                            <input id="phone" type="text" class="@error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}"   autocomplete="phone">
+                            <input id="phone" type="text" placeholder="Phone Number" class="@error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}"   autocomplete="phone">
+                            <span class="focus-input100"></span>
                             @error('phone')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -55,8 +52,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="address">Address :</label>
-                            <input id="address" type="text" class="@error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address">
+                            <input id="address" type="text" placeholder="Address" class="@error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address">
+                            <span class="focus-input100"></span>
                             @error('address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -72,9 +69,9 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="password">Password :</label>
-                            <input id="password" type="password" class=" @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                        <div class="form-group mt-5">
+                            <input id="password" type="password" placeholder="Password" class=" @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                            <span class="focus-input100"></span>
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -82,12 +79,12 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="papassword-confirmssword">Confirm Password :</label>
-                            <input id="password-confirm" type="password" name="password_confirmation" required autocomplete="new-password">
+                            <input id="password-confirm" type="password" placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password">
+                            <span class="focus-input100"></span>
                         </div>
                         <div class="form-submit">
+                            <input type="submit" value="Submit Form" class="submit mb-1" name="submit" id="submit" />
                             <input type="reset" value="Reset All" class="submit" name="reset" id="reset" />
-                            <input type="submit" value="Submit Form" class="submit" name="submit" id="submit" />
                         </div>
                     </form>
                 </div>

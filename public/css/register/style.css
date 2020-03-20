@@ -236,12 +236,15 @@ h2 {
   margin: 0;
   padding: 0;
   font-weight: 700;
-  color: #222;
+  color: #fed136;
   font-family: 'Montserrat';
-  font-size: 20px;
+  font-size: 20px;custom-file-input
   text-transform: uppercase;
-  margin-bottom: 32px; }
-
+  margin-bottom: 32px;
+ }
+label{
+  color: #fed136;
+}
 .clear {
   clear: both; }
 
@@ -254,16 +257,15 @@ body {
   padding: 90px 0; }
 
 .container {
-  width: 1400px;
-  position: relative;
+  width: 35% !important;
   margin: 0 auto;
-  background: #fff; }
+  background: #343a40;
+  margin: auto;
+ }
 
 .signup-img, .signup-form {
-  width: 50%; }
+  width: 100%; }
 
-.signup-img {
-  margin-bottom: -7px; }
 
 .register-form {
   padding: 50px 100px 50px 70px; }
@@ -281,14 +283,25 @@ body {
 input, select {
   display: block;
   width: 100%;
-  border: 1px solid #ebebeb;
   padding: 11px 20px;
   box-sizing: border-box;
+  border: 1px solid #e6e6e6;
+  border-width: 1px !important;
   font-family: 'Montserrat';
   font-weight: 500;
-  font-size: 13px; }
+  font-size: 13px; 
+  background-color: transparent;
+  color: white;
+}
   input:focus, select:focus {
-    border: 1px solid #ff6801; }
+    border: 1px solid #fed136;
+  }
+  input::placeholder{
+    color: #ffeba498;
+  }
+  input:focus::placeholder{
+    color: #666666;
+  }
 
 label {
   font-size: 14px;
@@ -410,47 +423,97 @@ select {
   padding-top: 27px; }
 
 .submit {
-  width: 140px;
-  height: 40px;
+  width: 40%;
   display: inline-block;
   font-family: 'Poppins';
   font-weight: 400;
-  font-size: 13px;
+  font-size: 1rem;
   padding: 10px;
   border: none;
-  cursor: pointer; }
+  cursor: pointer;
+ }
 
 #reset {
   background: #f8f8f8;
   color: #999;
-  margin-right: 8px; }
+  margin-right: 2rem !important;
+}
   #reset:hover {
-    background: #ff6801;
-    color: #fff; }
+    background: #fed136;
+    color: #212529; }
 
 #submit {
-  background: #ff6801;
-  color: #fff; }
+  background: #fed136;
+  color: #212529;
+  margin-right: 2rem !important;
+ }
   #submit:hover {
     background-color: #cd5300; }
 
+.focus-input100 {
+  position: absolute;
+  display: block;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  top: -1px;
+  left: -1px;
+  pointer-events: none;
+  border: 1px solid #fed136;
+
+  visibility: hidden;
+  opacity: 0;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+
+  -webkit-transform: scaleX(1.1) scaleY(1.3);
+  -moz-transform: scaleX(1.1) scaleY(1.3);
+  -ms-transform: scaleX(1.1) scaleY(1.3);
+  -o-transform: scaleX(1.1) scaleY(1.3);
+  transform: scaleX(1.1) scaleY(1.3);
+}
+    
+input:focus + .focus-input100 {
+  visibility: visible;
+  opacity: 1;
+
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+}
+
+
 @media screen and (max-width: 992px) {
-  .container {
-    width: calc(100% - 40px);
-    max-width: 100%; }
 
-  .signup-content {
-    flex-direction: column;
-    -moz-flex-direction: column;
-    -webkit-flex-direction: column;
-    -o-flex-direction: column;
-    -ms-flex-direction: column; }
+  .singup-container{
+    width: 50% !important;
+  }
 
-  .signup-img, .signup-form {
-    width: 100%; } }
+  .signup-form {
+    width: 100%;
+    margin: auto;
+  }
+  .submit {
+    width: 90%;
+    margin-left: .8rem !important;
+  }
+}
 @media screen and (max-width: 768px) {
   .register-form {
-    padding: 50px 40px 50px 40px; } }
+    padding: 50px 40px 50px 40px;
+   }
+   .signup-form {
+    width: 70%;
+    margin: auto;
+  }
+  .singup-container{
+    width: 80% !important;
+  }
+}
 @media screen and (max-width: 575px) {
   .form-row {
     flex-direction: column;
@@ -468,7 +531,13 @@ select {
     padding-right: 22px; }
 
   .form-radio-item {
-    margin-right: 25px; } }
+    margin-right: 25px; 
+  }
+  .signup-form {
+    width: 75%;
+    margin: auto;
+  }
+}
 @media screen and (max-width: 480px) {
   .form-radio {
     flex-direction: column;
@@ -482,6 +551,13 @@ select {
 
   #reset {
     margin-right: 0px;
-    margin-bottom: 10px; } }
+    margin-bottom: 10px; }
+  .container {
+    width: 100% !important;
+  }
+  .signup-form {
+    width: 100%;
+  }
+}
 
 /*# sourceMappingURL=style.css.map */
