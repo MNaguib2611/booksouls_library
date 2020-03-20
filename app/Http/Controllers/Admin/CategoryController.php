@@ -88,7 +88,10 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category_name'=> ['required',
-            Rule::unique('categories', 'name')->ignore($category->id)]
+            Rule::unique('categories', 'name')->ignore($category->id)->where(function ($query) {
+                return $query->whereNull('deleted_at');
+            }),
+            ]
         ]);
 
         $category->name =  $request->get('category_name');
