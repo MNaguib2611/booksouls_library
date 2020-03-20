@@ -16,6 +16,8 @@ class LeaseObserver
     public function created(Lease $lease)
     {
         Book::find($lease->book_id)->decrement('quantity');
+        $lease->end_date = now()->addDays($lease->duration);
+        $lease->save();
     }
 
     /**

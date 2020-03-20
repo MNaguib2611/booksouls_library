@@ -73,7 +73,6 @@ class LeaseController extends Controller
         $lease->user_id = Auth::id();
         $lease->book_id = $request->book;
         $lease->duration = $request->days;
-        $lease->end_date = now()->addDays($request->days);
         $lease->save();
         
         return redirect('books')->with('success','You have Leased this book successfully');;

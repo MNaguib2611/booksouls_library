@@ -89,14 +89,7 @@ class BookController extends Controller
         $selectedRows = DB::table('books')->leftJoin('reviews', 'books.id', '=','reviews.book_id' )
         ->select('books.*','books.id as myID','books.title as title', DB::raw('avg(reviews.rate) as avgRate '))
         ->where('books.category_id', '=', $myCategoryID)
-        // ->where(function ($query)
-        //  { 
-        //    $query-> where('title', 'like', '%'.$text.'%')
-        //    ->orwhere('author', 'like','%'.$text.'%');
-        //   })
         ->groupBy('books.id')->orderBy($myOrder,'asc')->get();
-
-       // $selectedRows = DB::table('books')->where('books.category_id', '=', 4)->get();
       }  
       else
       {  

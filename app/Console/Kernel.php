@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
         # to calculate the profits of the past day
         $schedule->call(function () {
             $profits = 0;
-            $leasesOfTheMonth = Lease::onlyTrashed()->whereDate('deleted_at', '>=', Carbon::now()->subDays(1))->get();
+            $leasesOfTheMonth = Lease::onlyTrashed()->whereDate('deleted_at', '>=', Carbon::now()->subDays(30))->get();
             foreach ($leasesOfTheMonth as $lease) {
                 $date1 = strtotime($lease->created_at); 
                 $date2 = strtotime($lease->deleted_at);
@@ -47,12 +47,7 @@ class Kernel extends ConsoleKernel
             $monthlyProfit = new Profit;
             $monthlyProfit->profit = $profits;
             $monthlyProfit->save();
-        })->dailyAt('22:00');   ## 12 AM in our timezone
-        
-        ##### ->monthlyOn(1, '22:00'); #to run on day 1 of each month at 12 AM
-        ##### this would be the case for production but since where are still in the development we will make it daily
-        ##### same as for subDays() in line 33:99, it would take 30 in production to get the results of the last month
-        ##### but to make our tests and imagine the whole picture we made it daily
+        })->monthlyOn(1, '22:00');   ## 12 AM in our timezone
 
 
         # to return the leased books when the period is over
