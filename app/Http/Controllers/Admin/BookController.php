@@ -208,11 +208,11 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $request->validate([
-            'title' => 'required',
+            'title' => 'required|min:3',
             'description' => 'required',
             'author' => 'required',
-            'quantity' => 'required',
-            'price' => 'required',
+            'quantity' => 'required|min:0',
+            'price' => 'required|min:0',  
             'categories' => 'required'
           ]);
     

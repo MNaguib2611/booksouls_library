@@ -69,13 +69,13 @@
                         <div class="form-group">
                           <label class="col-lg-3 control-label">Quantity:</label>
                           <div class="col-lg-8">
-                            <input class="form-control"  type="number" name="quantity" value="{{ $myBook->quantity }}">
+                            <input class="form-control"  type="number" name="quantity" min="0" value="{{ $myBook->quantity }}">
                           </div>
                         </div>
                         <div class="form-group">
                           <label class="col-lg-3 control-label">Price:</label>
                           <div class="col-lg-8">
-                            <input class="form-control" type="number" name="price" value="{{ $myBook->price }}">
+                            <input class="form-control" type="number" name="price" min="0" value="{{ $myBook->price }}">
                           </div>
                         </div>
                         <div class="form-group">
