@@ -23,7 +23,7 @@ class LeaseController extends Controller
                 $Leases = Lease::orderBy('created_at','desc')->paginate(18);
                 $byStart=1;
             }elseif ($request->orderBy =="endDate") {
-                $Leases = Lease::orderBy('end_date','desc')->paginate(18);
+                $Leases = Lease::orderBy('end_date','asc')->paginate(18);
                 $byStart=0;
             }
         }elseif ($request->has('search')) {

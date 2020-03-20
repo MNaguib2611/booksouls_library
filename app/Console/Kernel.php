@@ -61,7 +61,7 @@ class Kernel extends ConsoleKernel
         ##### but of course we won't do that because there is something called AUTOMATION
         ##### so now let do this, we need to edit the crobjob file so it can do it on our behalf
 
-        ##### { crontab -e } is the command that you need to run to open the cronjob file
+        ##### { ```crontab -e``` } is the command that you need to run to open the cronjob file
         ##### and then you just need to add the below line at the end of the file
         ##        00 00 * * * cd [the-path-to-the-project-directory] && php artisan schedule:run >> /dev/null 2>&1         ##
         ##### and make sure to replace "[the-path-to-the-project-directory]" with your own path
