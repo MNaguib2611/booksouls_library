@@ -31,7 +31,7 @@ What things you need to install the software and how to install them
 cmder will be refered as console
 
 #### Mac Os, Ubuntu and windows users continue here:
-- Create a database locally named `homestead` utf8_general_ci 
+- Create a database locally named `booksouls` utf8_general_ci 
 - Download composer https://getcomposer.org/download/
 - Pull Laravel/php project from git provider.
 - Rename `.env.example` file to `.env`inside your project root and fill the database information.
